@@ -12,7 +12,7 @@ public class Quiz {
 	private int default_id;
 	
 	public Quiz() {
-		
+		super();
 	}
 
 	public Quiz(int quiz_id, String title, int author_id, String date_created, String date_last_updated,
