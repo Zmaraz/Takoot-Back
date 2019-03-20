@@ -168,15 +168,5 @@ INSERT INTO Categories VALUES (4, 'Olympic Sports');
 INSERT INTO Categories VALUES (5, '2000s Throwback');
 INSERT INTO Categories VALUES (6, 'Geology');
 
-
-
-
-
-
-
-
-
-
-
-
-
+commit;
+select * from quiz_users;
