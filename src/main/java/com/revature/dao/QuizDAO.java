@@ -23,7 +23,18 @@ public class QuizDAO implements DAO<Quiz>{
 	}
 
 	public boolean delete(int id) {
+		
 		return false;
 	}
+	
+	
+	// getGuestQuiz
+	
+	// getQuizLeaderboard
+	
+	// addToLeaderboard
+	
+	// addFlagToQuiz
+	
 
 }
