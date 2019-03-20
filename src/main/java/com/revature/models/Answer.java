@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Answer {
 	
 	@Id
-	@Column(name="id")
+	@Column(name="answer_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
 	private int answerId;
 	
