@@ -12,5 +12,5 @@ phases:
       - mvn clean package
 artifacts:
   files:
-    - target/Takoot-Back-0.0.1-SNAPSHOT.war
+    - target/Takoot-Back-SNAPSHOT.war
     - .ebextensions/**/*
