@@ -10,3 +10,8 @@ phases:
     commands:
       - echo Build completed on `date`
       - mvn clean package
+      
+artifacts:
+  files:
+    - target/Takoot-Back1.0-SNAPSHOT.war
+    - .ebextensions/**/*
