@@ -71,19 +71,19 @@ CREATE TABLE quizzes (
     
     CONSTRAINT author_id_fk
     FOREIGN KEY (author_id)
-    REFERENCES quiz_users (user_id),
+    REFERENCES quiz_users (user_id) ON DELETE CASCADE,
     
     CONSTRAINT category_id_fk
     FOREIGN KEY (category_id)
-    REFERENCES categories (category_id),
+    REFERENCES categories (category_id) ON DELETE CASCADE,
     
     CONSTRAINT difficulty_id_fk 
     FOREIGN KEY (difficulty_id)
-    REFERENCES difficulty (difficulty_id),
+    REFERENCES difficulty (difficulty_id) ON DELETE CASCADE,
     
     CONSTRAINT default_id_fk 
     FOREIGN KEY (default_id) 
-    REFERENCES default_status (default_id)
+    REFERENCES default_status (default_id) ON DELETE CASCADE
 );
 
 CREATE TABLE high_scores (
@@ -97,11 +97,11 @@ CREATE TABLE high_scores (
     
     CONSTRAINT user_id_fk
     FOREIGN KEY (user_id)
-    REFERENCES quiz_users (user_id),
+    REFERENCES quiz_users (user_id) ON DELETE CASCADE,
     
     CONSTRAINT quiz_id_fk
     FOREIGN KEY (quiz_id)
-    REFERENCES quizzes (quiz_id)
+    REFERENCES quizzes (quiz_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Question (
@@ -114,7 +114,7 @@ CREATE TABLE Question (
     
     CONSTRAINT quiz_question_fk
     FOREIGN KEY (quiz_id) 
-    REFERENCES quizzes (quiz_id)
+    REFERENCES quizzes (quiz_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Answers (
@@ -128,7 +128,7 @@ CREATE TABLE Answers (
     
     CONSTRAINT question_fk
     FOREIGN KEY (question_id)
-    REFERENCES Question (question_id)
+    REFERENCES Question (question_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Flags (
@@ -141,7 +141,7 @@ CREATE TABLE Flags (
     
     CONSTRAINT ques_flag_fk 
     FOREIGN KEY (question_id) 
-    REFERENCES question (question_id) 
+    REFERENCES question (question_id) ON DELETE CASCADE 
 );
 
 
