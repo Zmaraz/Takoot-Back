@@ -128,7 +128,11 @@ CREATE TABLE Answers (
     
     CONSTRAINT question_fk
     FOREIGN KEY (question_id)
-    REFERENCES Question (question_id) ON DELETE CASCADE
+    REFERENCES Question (question_id) ON DELETE CASCADE,
+    
+    CONSTRAINT answer_value_fk
+    FOREIGN KEY (answer_value_id)
+    REFERENCES answer_value (answer_value_id)
 );
 
 CREATE TABLE Flags (
