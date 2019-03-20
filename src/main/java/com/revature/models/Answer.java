@@ -18,7 +18,7 @@ public class Answer {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
-	private int answer_id;
+	private int answerId;
 	
 	@ManyToOne
 	@JoinColumn(name="question_id")
@@ -29,18 +29,18 @@ public class Answer {
 	
 	@ManyToOne
 	@JoinColumn(name="answer_value_id")
-	private Answer answer_value;
+	private Answer answerValue;
 	
 	public Answer() {
 		super();
 	}
 
-	public int getAnswer_id() {
-		return answer_id;
+	public int getAnswerId() {
+		return answerId;
 	}
 
-	public void setAnswer_id(int answer_id) {
-		this.answer_id = answer_id;
+	public void setAnswerId(int answerId) {
+		this.answerId = answerId;
 	}
 
 	public Question getQuestion() {
@@ -59,12 +59,12 @@ public class Answer {
 		this.answer = answer;
 	}
 
-	public Answer getAnswer_value() {
-		return answer_value;
+	public Answer getAnswerValue() {
+		return answerValue;
 	}
 
-	public void setAnswer_value(Answer answer_value) {
-		this.answer_value = answer_value;
+	public void setAnswerValue(Answer answerValue) {
+		this.answerValue = answerValue;
 	}
 
 	@Override
@@ -72,8 +72,8 @@ public class Answer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
-		result = prime * result + answer_id;
-		result = prime * result + ((answer_value == null) ? 0 : answer_value.hashCode());
+		result = prime * result + answerId;
+		result = prime * result + ((answerValue == null) ? 0 : answerValue.hashCode());
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
@@ -92,12 +92,12 @@ public class Answer {
 				return false;
 		} else if (!answer.equals(other.answer))
 			return false;
-		if (answer_id != other.answer_id)
+		if (answerId != other.answerId)
 			return false;
-		if (answer_value == null) {
-			if (other.answer_value != null)
+		if (answerValue == null) {
+			if (other.answerValue != null)
 				return false;
-		} else if (!answer_value.equals(other.answer_value))
+		} else if (!answerValue.equals(other.answerValue))
 			return false;
 		if (question == null) {
 			if (other.question != null)
@@ -109,11 +109,10 @@ public class Answer {
 
 	@Override
 	public String toString() {
-		return "Answer [answer_id=" + answer_id + ", question=" + question + ", answer=" + answer + ", answer_value="
-				+ answer_value + "]";
+		return "Answer [answerId=" + answerId + ", question=" + question + ", answer=" + answer + ", answerValue="
+				+ answerValue + "]";
 	}
 
-	
 	
 
 }
