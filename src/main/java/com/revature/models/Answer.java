@@ -1,22 +1,38 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="ANSWERS")
+@SequenceGenerator(name="answers_seq", sequenceName="answers_seq", allocationSize=1)
 public class Answer {
 	
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
 	private int answer_id;
-	private int question_id;
+	
+	@ManyToOne
+	@JoinColumn(name="question_id")
+	private Question question;
+	
+	@Column(name="answer")
 	private String answer;
-	private int answer_value_id;
+	
+	@ManyToOne
+	@JoinColumn(name="answer_value_id")
+	private Answer answer_value;
 	
 	public Answer() {
 		super();
-	}
-
-	public Answer(int answer_id, int question_id, String answer, int answer_value_id) {
-		super();
-		this.answer_id = answer_id;
-		this.question_id = question_id;
-		this.answer = answer;
-		this.answer_value_id = answer_value_id;
 	}
 
 	public int getAnswer_id() {
@@ -27,12 +43,12 @@ public class Answer {
 		this.answer_id = answer_id;
 	}
 
-	public int getQuestion_id() {
-		return question_id;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestion_id(int question_id) {
-		this.question_id = question_id;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public String getAnswer() {
@@ -43,12 +59,12 @@ public class Answer {
 		this.answer = answer;
 	}
 
-	public int getAnswer_value_id() {
-		return answer_value_id;
+	public Answer getAnswer_value() {
+		return answer_value;
 	}
 
-	public void setAnswer_value_id(int answer_value_id) {
-		this.answer_value_id = answer_value_id;
+	public void setAnswer_value(Answer answer_value) {
+		this.answer_value = answer_value;
 	}
 
 	@Override
@@ -57,8 +73,8 @@ public class Answer {
 		int result = 1;
 		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
 		result = prime * result + answer_id;
-		result = prime * result + answer_value_id;
-		result = prime * result + question_id;
+		result = prime * result + ((answer_value == null) ? 0 : answer_value.hashCode());
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -78,18 +94,25 @@ public class Answer {
 			return false;
 		if (answer_id != other.answer_id)
 			return false;
-		if (answer_value_id != other.answer_value_id)
+		if (answer_value == null) {
+			if (other.answer_value != null)
+				return false;
+		} else if (!answer_value.equals(other.answer_value))
 			return false;
-		if (question_id != other.question_id)
+		if (question == null) {
+			if (other.question != null)
+				return false;
+		} else if (!question.equals(other.question))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Answer [answer_id=" + answer_id + ", question_id=" + question_id + ", answer=" + answer
-				+ ", answer_value_id=" + answer_value_id + "]";
+		return "Answer [answer_id=" + answer_id + ", question=" + question + ", answer=" + answer + ", answer_value="
+				+ answer_value + "]";
 	}
+
 	
 	
 
