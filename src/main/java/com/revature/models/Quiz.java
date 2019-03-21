@@ -1,11 +1,14 @@
 package com.revature.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,15 +19,15 @@ import javax.persistence.Table;
 public class Quiz {
 	
 	@Id
-	@Column(name="QUIZ_ID")
-	@JoinColumn(name="quizId")
+	@JoinColumn(name="QUIZ_ID")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="quiz_seq")
 	private int quizId;
 	
 	@Column(name="TITLE")
 	private String title;
 	
-	@Column(name="AUTHOR_ID")
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="USER_ID")
 	private int authorId;
 	
 	@Column(name="DATE_CREATED")
@@ -33,13 +36,16 @@ public class Quiz {
 	@Column(name="DATE_LAST_UPDATED")
 	private String dateLastUpdated;
 	
-	@Column(name="CATEGORY_ID")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="CATEGORY_ID")
 	private int categoryId;
 	
-	@Column(name="DIFFICULTY_ID")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="DIFFICULTY_ID")
 	private int difficultyId;
 	
-	@Column(name="DEFAULT_ID")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="DEFAULT_ID")
 	private int defaultId;
 	
 	public Quiz() {
