@@ -1,26 +1,31 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="categories")
 public class Category {
 	
-	private int category_id;
+	@Id
+	@Column(name="category_id")
+	private int categoryId;
+	
+	@Column(name="quiz_category")
 	private String category;
 	
 	public Category() {
 		super();
 	}
 
-	public Category(int category_id, String category) {
-		super();
-		this.category_id = category_id;
-		this.category = category;
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public int getCategory_id() {
-		return category_id;
-	}
-
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getCategory() {
@@ -36,7 +41,7 @@ public class Category {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + category_id;
+		result = prime * result + categoryId;
 		return result;
 	}
 
@@ -54,16 +59,15 @@ public class Category {
 				return false;
 		} else if (!category.equals(other.category))
 			return false;
-		if (category_id != other.category_id)
+		if (categoryId != other.categoryId)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [category_id=" + category_id + ", category=" + category + "]";
+		return "Category [categoryId=" + categoryId + ", category=" + category + "]";
 	}
-	
-	
+
 
 }

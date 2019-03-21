@@ -1,26 +1,39 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Answer_Value")
+
 public class AnswerValue {
 	
-	private int answer_value_id;
+	@Id
+	@Column(name="ANSWER_VALUE_ID")
+	private int answerValueId;
+
+	@Column(name="ANSWER_VALUE")
 	private String value;
 	
+
 	public AnswerValue() {
 		super();
 	}
 
-	public AnswerValue(int answer_value_id, String value) {
+	public AnswerValue(int answerValueId, String value) {
 		super();
-		this.answer_value_id = answer_value_id;
+		this.answerValueId = answerValueId;
 		this.value = value;
 	}
 
-	public int getAnswer_value_id() {
-		return answer_value_id;
+	public int getAnswerValueId() {
+		return answerValueId;
 	}
 
-	public void setAnswer_value_id(int answer_value_id) {
-		this.answer_value_id = answer_value_id;
+	public void setAnswerValueId(int answerValueId) {
+		this.answerValueId = answerValueId;
 	}
 
 	public String getValue() {
@@ -35,7 +48,7 @@ public class AnswerValue {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + answer_value_id;
+		result = prime * result + answerValueId;
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
@@ -49,7 +62,7 @@ public class AnswerValue {
 		if (getClass() != obj.getClass())
 			return false;
 		AnswerValue other = (AnswerValue) obj;
-		if (answer_value_id != other.answer_value_id)
+		if (answerValueId != other.answerValueId)
 			return false;
 		if (value == null) {
 			if (other.value != null)
@@ -61,7 +74,7 @@ public class AnswerValue {
 
 	@Override
 	public String toString() {
-		return "AnswerValue [answer_value_id=" + answer_value_id + ", value=" + value + "]";
+		return "AnswerValue [answer_value_id=" + answerValueId + ", value=" + value + "]";
 	}
 	
 	

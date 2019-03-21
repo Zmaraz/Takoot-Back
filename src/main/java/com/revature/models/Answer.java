@@ -1,38 +1,54 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="ANSWERS")
+@SequenceGenerator(name="answers_seq", sequenceName="answers_seq", allocationSize=1)
 public class Answer {
 	
-	private int answer_id;
-	private int question_id;
+	@Id
+	@Column(name="answer_id")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
+	private int answerId;
+	
+	@ManyToOne
+	@JoinColumn(name="question_id")
+	private Question question;
+	
+	@Column(name="answer")
 	private String answer;
-	private int answer_value_id;
+	
+	@ManyToOne
+	@JoinColumn(name="answer_value_id")
+	private Answer answerValue;
 	
 	public Answer() {
 		super();
 	}
 
-	public Answer(int answer_id, int question_id, String answer, int answer_value_id) {
-		super();
-		this.answer_id = answer_id;
-		this.question_id = question_id;
-		this.answer = answer;
-		this.answer_value_id = answer_value_id;
+	public int getAnswerId() {
+		return answerId;
 	}
 
-	public int getAnswer_id() {
-		return answer_id;
+	public void setAnswerId(int answerId) {
+		this.answerId = answerId;
 	}
 
-	public void setAnswer_id(int answer_id) {
-		this.answer_id = answer_id;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public int getQuestion_id() {
-		return question_id;
-	}
-
-	public void setQuestion_id(int question_id) {
-		this.question_id = question_id;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public String getAnswer() {
@@ -43,12 +59,12 @@ public class Answer {
 		this.answer = answer;
 	}
 
-	public int getAnswer_value_id() {
-		return answer_value_id;
+	public Answer getAnswerValue() {
+		return answerValue;
 	}
 
-	public void setAnswer_value_id(int answer_value_id) {
-		this.answer_value_id = answer_value_id;
+	public void setAnswerValue(Answer answerValue) {
+		this.answerValue = answerValue;
 	}
 
 	@Override
@@ -56,9 +72,9 @@ public class Answer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
-		result = prime * result + answer_id;
-		result = prime * result + answer_value_id;
-		result = prime * result + question_id;
+		result = prime * result + answerId;
+		result = prime * result + ((answerValue == null) ? 0 : answerValue.hashCode());
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -76,21 +92,27 @@ public class Answer {
 				return false;
 		} else if (!answer.equals(other.answer))
 			return false;
-		if (answer_id != other.answer_id)
+		if (answerId != other.answerId)
 			return false;
-		if (answer_value_id != other.answer_value_id)
+		if (answerValue == null) {
+			if (other.answerValue != null)
+				return false;
+		} else if (!answerValue.equals(other.answerValue))
 			return false;
-		if (question_id != other.question_id)
+		if (question == null) {
+			if (other.question != null)
+				return false;
+		} else if (!question.equals(other.question))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Answer [answer_id=" + answer_id + ", question_id=" + question_id + ", answer=" + answer
-				+ ", answer_value_id=" + answer_value_id + "]";
+		return "Answer [answerId=" + answerId + ", question=" + question + ", answer=" + answer + ", answerValue="
+				+ answerValue + "]";
 	}
-	
+
 	
 
 }

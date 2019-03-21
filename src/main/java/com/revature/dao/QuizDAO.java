@@ -10,7 +10,7 @@ public class QuizDAO implements DAO<Quiz>{
 		return null;
 	}
 
-	public Quiz getById(int id) {
+	public List<Quiz> getById(int id) {
 		return null;
 	}
 
