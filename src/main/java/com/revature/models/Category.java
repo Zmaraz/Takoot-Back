@@ -16,7 +16,7 @@ public class Category {
 	
 	@Column(name="quiz_category")
 	private String category;
-	
+	//l
 	public Category() {
 		super();
 	}
