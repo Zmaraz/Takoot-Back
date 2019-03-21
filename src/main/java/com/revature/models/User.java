@@ -1,12 +1,46 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@NamedQueries({
+	@NamedQuery(name="getAllUsers", query="from Quiz_Users"),
+	@NamedQuery(name="getUsersById", query="from Quiz_Users u where u.user_id = :user_id"),
+	@NamedQuery(name="getUserByUsername", query="from Quiz_Users u where u.username like :username"),
+	@NamedQuery(name="getUserByCredentials", query="from Quiz_Users u where u.username like :username AND u.password like :user_password")
+})
+
+
+@Entity
+@Table(name="Quiz_Users")
+@SequenceGenerator(name="user_seq", sequenceName="user_seq", allocationSize=1, initialValue=6)
 public class User {
-	 
+	
+	@Id
+	@Column(name="user_id")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
 	private int user_id;
+	
+	@Column(name="first_name")
 	private String first_name;
+	
+	@Column(name="last_name")
 	private String last_name;
+	
+	@Column(name="username")
 	private String username;
+	
+	@Column(name="user_password")
 	private String password;
+	
+	@Column(name="email")
 	private String email;
 	
 	public User() {
