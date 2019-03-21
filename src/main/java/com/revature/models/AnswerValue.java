@@ -1,10 +1,20 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Answer_Value")
 public class AnswerValue {
 	
+	@Id
+	@Column(name="ANSWER_VALUE_ID")
 	private int answer_value_id;
-	private String value;
 	
+	@Column(name="ANSWER_VALUE")
+	private String value;
 	public AnswerValue() {
 		super();
 	}
