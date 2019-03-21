@@ -2,15 +2,20 @@ package com.revature.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="HIGH_SCORES")
+@SequenceGenerator(name="highscore_seq", allocationSize=1)
 public class HighScore {
 	
 	@Id
 	@Column(name="score_id")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="highscore_seq")
 	private int scoreId;
 	
 	@Column(name="user_id")
