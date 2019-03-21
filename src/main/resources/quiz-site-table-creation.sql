@@ -7,7 +7,6 @@ DROP TABLE High_Scores;
 DROP TABLE Quizzes;
 DROP TABLE Quiz_Users;
 DROP TABLE Default_Status;
-DROP TABLE Answer_Value;
 DROP TABLE Difficulty;
 DROP TABLE Categories;
 
@@ -26,14 +25,6 @@ CREATE TABLE Difficulty (
     
     CONSTRAINT difficulty_pk
     PRIMARY KEY (difficulty_id)
-);
-
-CREATE TABLE Answer_Value (
-    answer_value_id     NUMBER,
-    answer_value        VARCHAR2 (10),
-    
-    CONSTRAINT answer_value_pk
-    PRIMARY KEY (answer_value_id)
 );
 
 CREATE TABLE Default_Status (
@@ -121,18 +112,14 @@ CREATE TABLE Answers (
     answer_id       NUMBER,
     question_id     NUMBER,
     answer          VARCHAR2 (500),
-    answer_value_id NUMBER,
+    answer_value    NUMBER,
     
     CONSTRAINT answer_pk
     PRIMARY KEY (answer_id),
     
     CONSTRAINT question_fk
     FOREIGN KEY (question_id)
-    REFERENCES Question (question_id) ON DELETE CASCADE,
-    
-    CONSTRAINT answer_value_fk
-    FOREIGN KEY (answer_value_id)
-    REFERENCES answer_value (answer_value_id)
+    REFERENCES Question (question_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Flags (
@@ -161,9 +148,6 @@ INSERT INTO Difficulty VALUES (3, 'hard');
 
 INSERT INTO Default_Status VALUES (1, 'default');
 INSERT INTO Default_Status VALUES (2, 'user created');
-
-INSERT INTO Answer_Value VALUES (1, 'correct');
-INSERT INTO Answer_Value VALUES (2, 'incorrect');
 
 INSERT INTO Categories VALUES (1, 'Movies');
 INSERT INTO Categories VALUES (2, 'Television');
