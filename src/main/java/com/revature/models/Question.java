@@ -18,7 +18,7 @@ public class Question {
 	@Id
 	@Column(name="question_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="question_seq")
-	private int question_id;
+	private int questionId;
 	
 	@Column(name="question")
 	private String question;
@@ -31,12 +31,12 @@ public class Question {
 		super();
 	}
 
-	public int getQuestion_id() {
-		return question_id;
+	public int getQuestionId() {
+		return questionId;
 	}
 
-	public void setQuestion_id(int question_id) {
-		this.question_id = question_id;
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
 	}
 
 	public String getQuestion() {
@@ -60,7 +60,7 @@ public class Question {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
-		result = prime * result + question_id;
+		result = prime * result + questionId;
 		result = prime * result + ((quizId == null) ? 0 : quizId.hashCode());
 		return result;
 	}
@@ -79,7 +79,7 @@ public class Question {
 				return false;
 		} else if (!question.equals(other.question))
 			return false;
-		if (question_id != other.question_id)
+		if (questionId != other.questionId)
 			return false;
 		if (quizId == null) {
 			if (other.quizId != null)
@@ -91,9 +91,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [question_id=" + question_id + ", question=" + question + ", quizId=" + quizId + "]";
+		return "Question [questionId=" + questionId + ", question=" + question + ", quizId=" + quizId + "]";
 	}
-
-	
 
 }
