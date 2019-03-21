@@ -1,26 +1,37 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="DIFFICULTY")
 public class Difficulty {
 	
-	private int difficulty_id;
+	@Id
+	@Column(name="DIFFICULTY_ID")
+	private int difficultyId;
+	
+	@Column(name="DIFFICULTY")
 	private String difficulty;
 	
 	public Difficulty() {
 		super();
 	}
 
-	public Difficulty(int difficulty_id, String difficulty) {
+	public Difficulty(int difficultyId, String difficulty) {
 		super();
-		this.difficulty_id = difficulty_id;
+		this.difficultyId = difficultyId;
 		this.difficulty = difficulty;
 	}
 
-	public int getDifficulty_id() {
-		return difficulty_id;
+	public int getDifficultyId() {
+		return difficultyId;
 	}
 
-	public void setDifficulty_id(int difficulty_id) {
-		this.difficulty_id = difficulty_id;
+	public void setDifficulty_id(int difficultyId) {
+		this.difficultyId = difficultyId;
 	}
 
 	public String getDifficulty() {
@@ -36,7 +47,7 @@ public class Difficulty {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((difficulty == null) ? 0 : difficulty.hashCode());
-		result = prime * result + difficulty_id;
+		result = prime * result + difficultyId;
 		return result;
 	}
 
@@ -54,14 +65,14 @@ public class Difficulty {
 				return false;
 		} else if (!difficulty.equals(other.difficulty))
 			return false;
-		if (difficulty_id != other.difficulty_id)
+		if (difficultyId != other.difficultyId)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Difficulty [difficulty_id=" + difficulty_id + ", difficulty=" + difficulty + "]";
+		return "Difficulty [difficulty_id=" + difficultyId + ", difficulty=" + difficulty + "]";
 	}
 	
 	
