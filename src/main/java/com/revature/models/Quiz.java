@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -16,6 +17,7 @@ public class Quiz {
 	
 	@Id
 	@Column(name="QUIZ_ID")
+	@JoinColumn(name="quizId")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="quiz_seq")
 	private int quizId;
 	
