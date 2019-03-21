@@ -1,9 +1,27 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="FLAGS")
+@SequenceGenerator(name="flags_seq", allocationSize=1)
 public class Flag {
-	
+
+	@Id
+	@Column(name="FLAG_ID")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="flags_seq")
 	private int flag_id;
+	
+	@Column(name="QUESTION_ID")
 	private int question_id;
+	
+	@Column(name="FLAG_DESCRIPTION")
 	private String description;
 	
 	public Flag() {

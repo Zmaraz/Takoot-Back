@@ -1,46 +1,58 @@
 package com.revature.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="HIGH_SCORES")
+@SequenceGenerator(name="highscore_seq", allocationSize=1)
 public class HighScore {
 	
-	private int score_id;
-	private int user_id;
-	private int quiz_id;
+	@Id
+	@Column(name="score_id")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="highscore_seq")
+	private int scoreId;
+	
+	@Column(name="user_id")
+	private int userId;
+	
+	@Column(name="quiz_id")
+	private int quizId;
+	
+	@Column(name="score")
 	private int score;
 	
 	public HighScore() {
 		super();
 	}
 
-	public HighScore(int score_id, int user_id, int quiz_id, int score) {
-		super();
-		this.score_id = score_id;
-		this.user_id = user_id;
-		this.quiz_id = quiz_id;
-		this.score = score;
+	public int getScoreId() {
+		return scoreId;
 	}
 
-	public int getScore_id() {
-		return score_id;
+	public void setScoreId(int scoreId) {
+		this.scoreId = scoreId;
 	}
 
-	public void setScore_id(int score_id) {
-		this.score_id = score_id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public int getQuizId() {
+		return quizId;
 	}
 
-	public int getQuiz_id() {
-		return quiz_id;
-	}
-
-	public void setQuiz_id(int quiz_id) {
-		this.quiz_id = quiz_id;
+	public void setQuizId(int quizId) {
+		this.quizId = quizId;
 	}
 
 	public int getScore() {
@@ -55,10 +67,10 @@ public class HighScore {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + quiz_id;
+		result = prime * result + quizId;
 		result = prime * result + score;
-		result = prime * result + score_id;
-		result = prime * result + user_id;
+		result = prime * result + scoreId;
+		result = prime * result + userId;
 		return result;
 	}
 
@@ -71,23 +83,21 @@ public class HighScore {
 		if (getClass() != obj.getClass())
 			return false;
 		HighScore other = (HighScore) obj;
-		if (quiz_id != other.quiz_id)
+		if (quizId != other.quizId)
 			return false;
 		if (score != other.score)
 			return false;
-		if (score_id != other.score_id)
+		if (scoreId != other.scoreId)
 			return false;
-		if (user_id != other.user_id)
+		if (userId != other.userId)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "HighScore [score_id=" + score_id + ", user_id=" + user_id + ", quiz_id=" + quiz_id + ", score=" + score
-				+ "]";
+		return "HighScore [scoreId=" + scoreId + ", userId=" + userId + ", quizId=" + quizId + ", score=" + score + "]";
 	}
-	
-	
+
 
 }
