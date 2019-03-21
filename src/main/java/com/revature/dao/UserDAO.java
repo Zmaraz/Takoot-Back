@@ -34,7 +34,6 @@ public class UserDAO implements DAO<User>{
 			}
 			
 			return users;
-			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
 			session.getTransaction().rollback();

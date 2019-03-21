@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="QUIZZES")
 @SequenceGenerator(name="quiz_seq", sequenceName="quiz_seq", allocationSize=1)
+
 public class Quiz {
 	
 	@Id
