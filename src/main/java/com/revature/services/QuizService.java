@@ -19,7 +19,7 @@ public class QuizService {
 		return quizDao.add(newQuiz);
 	}
 	
-	public Quiz getQuizById(int id) {
+	public List<Quiz> getQuizById(int id) {
 		return quizDao.getById(id);
 	}
 	

@@ -10,7 +10,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="HIGH_SCORES")
-@SequenceGenerator(name="highscore_seq", allocationSize=1)
+@SequenceGenerator(name="highscore_seq", sequenceName="highscore_seq", allocationSize=1)
+
 public class HighScore {
 	
 	@Id
@@ -98,6 +99,7 @@ public class HighScore {
 	public String toString() {
 		return "HighScore [scoreId=" + scoreId + ", userId=" + userId + ", quizId=" + quizId + ", score=" + score + "]";
 	}
+
 
 
 }

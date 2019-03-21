@@ -11,16 +11,18 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @NamedQueries({
-	@NamedQuery(name="getAllUsers", query="from Quiz_Users"),
-	@NamedQuery(name="getUsersById", query="from Quiz_Users u where u.user_id = :user_id"),
-	@NamedQuery(name="getUserByUsername", query="from Quiz_Users u where u.username like :username"),
-	@NamedQuery(name="getUserByCredentials", query="from Quiz_Users u where u.username like :username AND u.password like :user_password")
+	@NamedQuery(name="getAllUsers", query="from User"),
+	@NamedQuery(name="getUserById", query="from User u where u.user_id = :user_id"),
+	@NamedQuery(name="getUserByUsername", query="from User u where u.username like :username"),
+	@NamedQuery(name="getUserByCredentials", query="from User u where u.username like :username AND u.password like :user_password")
+
 })
 
 
 @Entity
 @Table(name="Quiz_Users")
-@SequenceGenerator(name="user_seq", sequenceName="user_seq", allocationSize=1, initialValue=6)
+@SequenceGenerator(name="user_seq", sequenceName="user_sequence", allocationSize=1, initialValue=6)
+
 public class User {
 	
 	@Id

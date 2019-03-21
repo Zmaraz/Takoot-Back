@@ -10,7 +10,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="FLAGS")
-@SequenceGenerator(name="flags_seq", allocationSize=1)
+@SequenceGenerator(name="flags_seq", sequenceName="flags_seq", allocationSize=1)
+
 public class Flag {
 
 	@Id

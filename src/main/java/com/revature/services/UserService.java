@@ -13,7 +13,7 @@ public class UserService {
 		return userDao.getAll();
 	}
 	
-	public User getUserById (int id) {
+	public List<User> getUserById (int id) {
 		return userDao.getById(id);
 	}
 	
@@ -45,14 +45,14 @@ public class UserService {
 		return userDao.delete(id);
 	}
 	
-	public User getUserByCredentials(String username, String password) {
+	public List<User> getUserByCredentials(String username, String password) {
 		if (!username.equals("") && !password.equals("")) {
 			return userDao.getByCredentials(username, password);
 		}
 		return null;
 	}
 	
-	public User getUserByUsername(String username) {
+	public List<User> getUserByUsername(String username) {
 		if (!username.equals("")) {
 			return userDao.getByUsername(username);
 		}
