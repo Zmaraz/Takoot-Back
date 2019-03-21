@@ -17,8 +17,6 @@ public class AnswerValue {
 	@Column(name="ANSWER_VALUE")
 	private String value;
 	
-	@Column(name="ANSWER_VALUE")
-	private String value;
 	public AnswerValue() {
 		super();
 	}
