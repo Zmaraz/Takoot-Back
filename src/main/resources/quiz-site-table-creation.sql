@@ -158,8 +158,6 @@ INSERT INTO Categories VALUES (6, 'Geology');
 
 INSERT INTO Quizzes VALUES (1, 'Blah', 1, 'poop', 'peep', 1, 1, 1);
 
-INSERT INTO High_Scores VALUES (0, 2, 1, 60); 
-
 
 DROP SEQUENCE quiz_seq;
 CREATE SEQUENCE quiz_seq

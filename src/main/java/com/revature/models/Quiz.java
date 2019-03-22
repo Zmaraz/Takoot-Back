@@ -221,10 +221,8 @@ public class Quiz {
 	public String toString() {
 		return "Quiz [quizId=" + quizId + ", title=" + title + ", dateCreated=" + dateCreated + ", dateLastUpdated="
 				+ dateLastUpdated + ", categoryId=" + categoryId + ", difficultyId=" + difficultyId + ", defaultId="
-				+ defaultId + "]";
+				+ defaultId + ", highScores=" + highScores + ", user=" + user + "]";
 	}
-
-	
 
 	
 	

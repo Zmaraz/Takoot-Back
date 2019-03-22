@@ -8,8 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.revature.models.HighScore;
-import com.revature.models.Quiz;
 import com.revature.models.User;
 
 public class UserDAO implements DAO<User>{
@@ -19,8 +17,6 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(HighScore.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -53,8 +49,6 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(HighScore.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -90,8 +84,6 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(HighScore.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -121,8 +113,6 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(HighScore.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -165,8 +155,6 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(HighScore.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -204,8 +192,6 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(HighScore.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();

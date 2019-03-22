@@ -25,13 +25,12 @@ public class TestDriver {
 		
 		HighScoreDAO highScoreDao = new HighScoreDAO();
 		
-//		HighScore highScore = new HighScore(0, 60);
-//		
+//		HighScore highScore = new HighScore(0, 2, 1, 60);
+		
 //		highScoreDao.add(highScore);
 		
 		
-//		highScoreDao.getByUserId(2);
-		highScoreDao.getByQuizId(1);
+		highScoreDao.getByUserId(2);
 		
 	}
 }

@@ -14,7 +14,11 @@ public class UserService {
 	}
 	
 	public List<User> getUserById (int id) {
-		return userDao.getById(id);
+		
+		if(id > 0)
+			return userDao.getById(id);
+		
+		return null;
 	}
 	
 	public User addUser(User newUser) {
