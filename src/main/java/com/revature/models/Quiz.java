@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,18 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@NamedQueries({
-	@NamedQuery(name="getAllQuizzes", query="from QUIZZES"),
-	@NamedQuery(name="getQuizzesByAuthorId", query="from QUIZZES q where q.AUTHOR_ID = :AUTHOR_ID"),
-	@NamedQuery(name="getQuizzesByCategory", query="from QUIZZES q where q.CATEGORY_ID = :CATEGORY_ID"),
-	@NamedQuery(name="getQuizzesByDifficulty", query="from QUIZZES q where q.DIFFICULTY_ID = :DIFFICULTY_ID"),
-	//@NamedQuery(name="getQuizzesByLastUpdate", query="from QUIZZES q where q.username like :username"),
-	@NamedQuery(name="getQuizzesByDefaultStatus", query="from QUIZZES q where q.DEFAULT_ID like :DEFAULT_ID")
-})
+//@NamedQueries({
+//	@NamedQuery(name="getAllQuizzes", query="from QUIZZES"),
+//	@NamedQuery(name="getQuizzesByAuthorId", query="from QUIZZES q where q.AUTHOR_ID = :AUTHOR_ID"),
+//	@NamedQuery(name="getQuizzesByCategory", query="from QUIZZES q where q.CATEGORY_ID = :CATEGORY_ID"),
+//	@NamedQuery(name="getQuizzesByDifficulty", query="from QUIZZES q where q.DIFFICULTY_ID = :DIFFICULTY_ID"),
+//	//@NamedQuery(name="getQuizzesByLastUpdate", query="from QUIZZES q where q.username like :username"),
+//	@NamedQuery(name="getQuizzesByDefaultStatus", query="from QUIZZES q where q.DEFAULT_ID like :DEFAULT_ID")
+//})
 
 
 @Entity
@@ -31,16 +34,12 @@ import javax.persistence.Table;
 public class Quiz {
 	
 	@Id
-	@JoinColumn(name="QUIZ_ID")
+	@Column(name="QUIZ_ID")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="quiz_seq")
 	private int quizId;
 	
 	@Column(name="TITLE")
 	private String title;
-	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="USER_ID")
-	private int authorId;
 	
 	@Column(name="DATE_CREATED")
 	private String dateCreated;
@@ -48,33 +47,41 @@ public class Quiz {
 	@Column(name="DATE_LAST_UPDATED")
 	private String dateLastUpdated;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="CATEGORY_ID")
+	@Column(name="CATEGORY_ID")
 	private int categoryId;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="DIFFICULTY_ID")
+	@Column(name="DIFFICULTY_ID")
 	private int difficultyId;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="DEFAULT_ID")
+	@Column(name="DEFAULT_ID")
 	private int defaultId;
+	
+	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL)
+	private List<HighScore> highScores;
+	
+	@ManyToOne(cascade={
+			CascadeType.PERSIST, CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.REFRESH
+	})
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	public Quiz() {
 		super();
 	}
 
-	public Quiz(int quizId, String title, int authorId, String dateCreated, String dateLastUpdated,
-			int categoryId, int difficultyId, int defaultId) {
+	public Quiz(int quizId, String title, String dateCreated, String dateLastUpdated, int categoryId, int difficultyId,
+			int defaultId, List<HighScore> highScores, User user) {
 		super();
 		this.quizId = quizId;
 		this.title = title;
-		this.authorId = authorId;
 		this.dateCreated = dateCreated;
 		this.dateLastUpdated = dateLastUpdated;
 		this.categoryId = categoryId;
 		this.difficultyId = difficultyId;
 		this.defaultId = defaultId;
+		this.highScores = highScores;
+		this.user = user;
 	}
 
 	public int getQuizId() {
@@ -91,14 +98,6 @@ public class Quiz {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public int getAuthorId() {
-		return authorId;
-	}
-
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
 	}
 
 	public String getDateCreated() {
@@ -141,18 +140,35 @@ public class Quiz {
 		this.defaultId = defaultId;
 	}
 
+	public List<HighScore> getHighScores() {
+		return highScores;
+	}
+
+	public void setHighScores(List<HighScore> highScores) {
+		this.highScores = highScores;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + authorId;
 		result = prime * result + categoryId;
 		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result + ((dateLastUpdated == null) ? 0 : dateLastUpdated.hashCode());
 		result = prime * result + defaultId;
 		result = prime * result + difficultyId;
+		result = prime * result + ((highScores == null) ? 0 : highScores.hashCode());
 		result = prime * result + quizId;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -165,8 +181,6 @@ public class Quiz {
 		if (getClass() != obj.getClass())
 			return false;
 		Quiz other = (Quiz) obj;
-		if (authorId != other.authorId)
-			return false;
 		if (categoryId != other.categoryId)
 			return false;
 		if (dateCreated == null) {
@@ -183,6 +197,11 @@ public class Quiz {
 			return false;
 		if (difficultyId != other.difficultyId)
 			return false;
+		if (highScores == null) {
+			if (other.highScores != null)
+				return false;
+		} else if (!highScores.equals(other.highScores))
+			return false;
 		if (quizId != other.quizId)
 			return false;
 		if (title == null) {
@@ -190,15 +209,21 @@ public class Quiz {
 				return false;
 		} else if (!title.equals(other.title))
 			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Quiz [quiz_id=" + quizId + ", title=" + title + ", author_id=" + authorId + ", date_created="
-				+ dateCreated + ", date_last_updated=" + dateLastUpdated + ", category_id=" + categoryId
-				+ ", difficulty_id=" + difficultyId + ", default_id=" + defaultId + "]";
+		return "Quiz [quizId=" + quizId + ", title=" + title + ", dateCreated=" + dateCreated + ", dateLastUpdated="
+				+ dateLastUpdated + ", categoryId=" + categoryId + ", difficultyId=" + difficultyId + ", defaultId="
+				+ defaultId + ", highScores=" + highScores + ", user=" + user + "]";
 	}
+
 	
 	
 	

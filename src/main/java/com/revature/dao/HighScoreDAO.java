@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.revature.models.HighScore;
+import com.revature.models.Quiz;
 import com.revature.models.User;
 
 public class HighScoreDAO implements DAO<HighScore>{
@@ -26,6 +27,7 @@ public class HighScoreDAO implements DAO<HighScore>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(User.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -34,15 +36,13 @@ public class HighScoreDAO implements DAO<HighScore>{
 			
 			session.beginTransaction();
 			
-			Query highScoreQuery = session.getNamedQuery("getByUserId");
+			User user = session.get(User.class, userId);
+			System.out.println(user);
 			
-			highScoreQuery.setParameter("userId", userId);
+			List<HighScore> highScores = user.getHighScores();
+			for(HighScore highScore : highScores) System.out.println("\t" + highScore);
 			
-			List<HighScore> highScores = highScoreQuery.getResultList();
-			
-			for(HighScore h: highScores) {
-				System.out.println(h);
-			}
+			session.getTransaction().commit();
 			
 			return highScores;
 			

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -52,6 +53,9 @@ public class User {
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
 	private List<Quiz> quizzes; 
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private List<HighScore> highScores;
 	
 	public User() {
 		super();
@@ -113,6 +117,22 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+//	public List<Quiz> getQuizzes() {
+//		return quizzes;
+//	}
+//
+//	public void setQuizzes(List<Quiz> quizzes) {
+//		this.quizzes = quizzes;
+//	}
+//	
+	public List<HighScore> getHighScores() {
+		return highScores;
+	}
+
+	public void setHighScores(List<HighScore> highScores) {
+		this.highScores = highScores;
 	}
 
 	@Override
