@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,9 +8,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
+@NamedQueries({
+	@NamedQuery(name="allQuestions", query="from Question"),
+	@NamedQuery(name="questionById", query="from Question q WHERE q.questionId like :question_id")
+})
 @Entity
 @Table(name="QUESTION")
 @SequenceGenerator(name="question_seq", sequenceName="question_seq", allocationSize=1)
@@ -23,7 +31,7 @@ public class Question {
 	@Column(name="question")
 	private String question;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="quiz_id")
 	private Quiz quizId;
 	

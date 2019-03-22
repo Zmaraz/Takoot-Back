@@ -8,9 +8,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+@NamedQueries({
+	@NamedQuery(name="getAllQuizzes", query="from QUIZZES"),
+	@NamedQuery(name="getQuizzesByAuthorId", query="from QUIZZES q where q.AUTHOR_ID = :AUTHOR_ID"),
+	@NamedQuery(name="getQuizzesByCategory", query="from QUIZZES q where q.CATEGORY_ID = :CATEGORY_ID"),
+	@NamedQuery(name="getQuizzesByDifficulty", query="from QUIZZES q where q.DIFFICULTY_ID = :DIFFICULTY_ID"),
+	//@NamedQuery(name="getQuizzesByLastUpdate", query="from QUIZZES q where q.username like :username"),
+	@NamedQuery(name="getQuizzesByDefaultStatus", query="from QUIZZES q where q.DEFAULT_ID like :DEFAULT_ID")
+})
+
 
 @Entity
 @Table(name="QUIZZES")

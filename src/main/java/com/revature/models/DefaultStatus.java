@@ -3,6 +3,7 @@ package com.revature.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 public class DefaultStatus {
 	
 	@Id
-	@Column(name="DEFAULT_ID")
+	@JoinColumn(name="DEFAULT_ID")
 	private int defaultId;
 	
 	@Column(name="DEFAULT_VALUE")
