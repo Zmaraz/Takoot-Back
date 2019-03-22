@@ -1,12 +1,26 @@
 package com.revature.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+
+@NamedQueries({
+	@NamedQuery(name="getAllHighScores", query="from HighScore"),
+	@NamedQuery(name="getByUserId", query="from HighScore h where h.userId = :user_id"),
+	@NamedQuery(name="getByQuizId", query="from HighScore h where h.quizId = :quiz_id"),
+	@NamedQuery(name="getById", query="from HighScore h where h.scoreId = :score_id")
+
+})
 
 @Entity
 @Table(name="HIGH_SCORES")
@@ -19,7 +33,11 @@ public class HighScore {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="highscore_seq")
 	private int scoreId;
 	
-	@Column(name="user_id")
+	@ManyToOne(cascade={
+			CascadeType.PERSIST, CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.REFRESH
+	})
+	@JoinColumn(name="user_id")
 	private int userId;
 	
 	@Column(name="quiz_id")
