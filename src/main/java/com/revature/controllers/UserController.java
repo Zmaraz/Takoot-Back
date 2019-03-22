@@ -40,11 +40,40 @@ public class UserController {
 	}
 	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public User getUserById(@PathVariable int Id) {
-		List<User> users = uService.getUserById(Id);
-		Optional<User> user = users.stream().filter(u -> u.getUser_id() == Id).findFirst();
-		if(user.isPresent())return user.get();
-		else throw new UserNotFoundException("No flash card with id " + Id + " found");
+	public User getUserById(@PathVariable int id) {
+		List<User> users = uService.getUserById(id);
+		Optional<User> user = users.stream().filter(u -> u.getUser_id() == id).findFirst();
+		if(user.isPresent()){
+			System.out.println(user);
+			return user.get();
+			}
+		else throw new UserNotFoundException("No user with id: " + id + " found");
+	}
+	
+	@GetMapping(value="/uname/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public User getUserByUsername(@PathVariable String username) {
+		List<User> users = uService.getUserByUsername(username);
+		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
+		if(user.isPresent()){
+			System.out.println(user);
+			return user.get();
+			}
+		else throw new UserNotFoundException("No username: " + username + " found");
+	}
+	
+	@PostMapping(value="/creds", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public User getUserByCredentials(@RequestBody User credentials) {
+		
+		String username = credentials.getUsername();
+		String password = credentials.getPassword();
+	
+		List<User> users = uService.getUserByCredentials(username, password);
+		
+		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
+		if(user.isPresent()){
+			return user.get();
+			}
+		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
