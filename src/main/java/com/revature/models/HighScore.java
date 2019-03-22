@@ -141,12 +141,10 @@ public class HighScore {
 		return true;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "HighScore [scoreId=" + scoreId + ", score=" + score + ", user=" + user + ", quiz=" + quiz + "]";
 	}
-
+		
 }
 

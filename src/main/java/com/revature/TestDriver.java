@@ -1,8 +1,11 @@
 package com.revature;
 
 import com.revature.dao.HighScoreDAO;
+import com.revature.dao.QuestionDAO;
+import com.revature.dao.QuizDAO;
 import com.revature.dao.UserDAO;
 import com.revature.models.HighScore;
+import com.revature.models.Quiz;
 import com.revature.models.User;
 
 public class TestDriver {
@@ -23,7 +26,7 @@ public class TestDriver {
 		
 		//--------------------------------------------------------------
 		
-		HighScoreDAO highScoreDao = new HighScoreDAO();
+//		HighScoreDAO highScoreDao = new HighScoreDAO();
 		
 //		HighScore highScore = new HighScore(0, 60);
 //		
@@ -31,7 +34,24 @@ public class TestDriver {
 		
 		
 //		highScoreDao.getByUserId(2);
-		highScoreDao.getByQuizId(1);
+//		highScoreDao.getByQuizId(1);
+		
+		//-----------------------------------------------------------------
+		
+		QuizDAO quizDao = new QuizDAO();
+//		quizDao.getAll();
+//		quizDao.getByDifficulty(1);
+//		quizDao.getByDefaultStatus(1);
+		
+//		Quiz quiz = new Quiz(0, "Rah", "akhsdg", "iasdgh", 1, 1);
+//		quizDao.add(quiz);
+		
+		quizDao.getByAuthorId(1);
+		
+		//-------------------------------------------------------------------
+		
+//		QuestionDAO questionDao = new QuestionDAO();
+//		questionDao.getAll();
 		
 	}
 }

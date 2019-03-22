@@ -2,27 +2,30 @@ package com.revature.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.revature.models.Answer;
-import com.revature.models.Flag;
 import com.revature.models.Question;
-import com.revature.models.Quiz;
 
-public class QuestionDAO implements DAO<Question>{
+
+public class AnswerDAO implements DAO<Answer>{
 	
-	public List<Question> getAll() {
+	public List<Answer> getAll(){
+		return null;
+	}
+	
+	public List<Answer> getById(int id){
+		return null;
+	}
+	
+	public List<Answer> getByQuestionId(int questionId){
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Flag.class)
+				.addAnnotatedClass(Question.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -31,15 +34,16 @@ public class QuestionDAO implements DAO<Question>{
 			
 			session.beginTransaction();
 			
-			Query questionQuery = session.getNamedQuery("getAllQuestions");
+			Question question = session.get(Question.class, questionId);
+			System.out.println(question);
 			
-			List<Question> questions = questionQuery.getResultList();
+			List<Answer> answers = question.getAnswers();
+			for(Answer answer : answers) System.out.println("\t" + answer);
 			
-			for(Question q: questions) {
-				System.out.println(q);
-			}
+			session.getTransaction().commit();
 			
-			return questions;
+			return answers;
+			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
 			session.getTransaction().rollback();
@@ -50,15 +54,11 @@ public class QuestionDAO implements DAO<Question>{
 		}
 	}
 	
-	public List<Question> getById(int id){
+	public Answer add(Answer newAnswer) {
 		return null;
 	}
 	
-	public Question add(Question newQuestion) {
-		return null;
-	}
-	
-	public Question update(Question updatedQuestion) {
+	public Answer update(Answer updatedAnswer) {
 		return null;
 	}
 	
