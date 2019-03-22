@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.exceptions.UserErrorResponse;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
@@ -57,5 +61,19 @@ public class UserController {
 		else return new ResponseEntity<>(newUser, HttpStatus.OK);
 	}
 	
+	@DeleteMapping(value="/{Id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteUser(@PathVariable int Id) {
+		uService.deleteUser(Id);
+	}
 	
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public UserErrorResponse handleException(UserNotFoundException e) {
+		UserErrorResponse error = new UserErrorResponse();
+		error.setStatus(HttpStatus.NOT_FOUND.value());
+		error.setMessage(e.getMessage());
+		error.setTimestamp(System.currentTimeMillis());
+		return error;
+	}
 }
