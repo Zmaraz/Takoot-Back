@@ -8,143 +8,65 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.revature.models.Answer;
+import com.revature.models.Flag;
 import com.revature.models.Question;
+import com.revature.models.Quiz;
 
 public class QuestionDAO implements DAO<Question>{
 
 	
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Question> getAll() {
+		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Flag.class)
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
-		
-		session.beginTransaction();
+
 		try {
-		
-		Query questionQuery = session.getNamedQuery("allQuestions");
-		List<Question> allQ = questionQuery.getResultList();
-		
-		
-		return allQ;
+			
+			session.beginTransaction();
+			
+			Query questionQuery = session.getNamedQuery("getAllQuestions");
+			
+			List<Question> questions = questionQuery.getResultList();
+			
+			for(Question q: questions) {
+				System.out.println(q);
+			}
+			
+			return questions;
+
 		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
 			session.getTransaction().rollback();
-			factory.close();
+			e.printStackTrace();
 			return null;
+		} finally {
+			factory.close();
 		}
 	}
-
-	@SuppressWarnings("unused")
-	@Override
-	public List<Question> getById(int id) {
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Question.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		Query questionQuery = session.getNamedQuery("questionById");
-		questionQuery.setParameter("question_id", id);
-		
-		factory.close();
+	
+	public List<Question> getById(int id){
 		return null;
 	}
-
-	@Override
-	public Question add(Question newQ) {
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Question.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-try {
-			
-			session.beginTransaction();
-			
-			session.save(newQ);
-			
-			session.getTransaction().commit();
-			
-			return newQ;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-		
+	
+	public Question add(Question newQuestion) {
+		return null;
 	}
-
-	@Override
-	public Question update(Question updatedQ) {
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Question.class)
-				.buildSessionFactory();
-		
-Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			int questionId = updatedQ.getQuestionId();
-			
-			Question question = session.get(Question.class, questionId);
-			
-			question.setQuestion(updatedQ.getQuestion());
-			question.setQuizId(updatedQ.getQuizId());
-			
-			session.getTransaction().commit();
-			
-			return updatedQ;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
+	
+	public Question update(Question updatedQuestion) {
+		return null;
 	}
-
-	@Override
+	
 	public boolean delete(int id) {
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Question.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			session.beginTransaction();
-			Question selectedQ = session.get(Question.class, id);
-			
-			session.delete(selectedQ);
-			
-			session.getTransaction().commit();
-			
-			return true;
-		}catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-		} finally {
-			factory.close();
-		}
 		return false;
-		
 	}
 
 }

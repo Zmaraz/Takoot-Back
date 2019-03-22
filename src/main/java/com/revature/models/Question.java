@@ -15,8 +15,8 @@ import javax.persistence.Table;
 
 
 @NamedQueries({
-	@NamedQuery(name="allQuestions", query="from Question"),
-	@NamedQuery(name="questionById", query="from Question q WHERE q.questionId like :question_id")
+	@NamedQuery(name="getAllQuestions", query="from Question"),
+	@NamedQuery(name="getQuestionById", query="from Question q WHERE q.questionId like :question_id")
 })
 @Entity
 @Table(name="QUESTION")
@@ -99,7 +99,10 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", question=" + question + ", quizId=" + quizId + "]";
+		return "Question [questionId=" + questionId + ", question=" + question + ", quiz=" + quiz + "]";
 	}
+
+}
+
 
 }
