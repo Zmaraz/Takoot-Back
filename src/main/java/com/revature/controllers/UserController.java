@@ -47,7 +47,18 @@ public class UserController {
 			System.out.println(user);
 			return user.get();
 			}
-		else throw new UserNotFoundException("No flash card with id " + id + " found");
+		else throw new UserNotFoundException("No user with id: " + id + " found");
+	}
+	
+	@GetMapping(value="/uname/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public User getUserByUsername(@PathVariable String username) {
+		List<User> users = uService.getUserByUsername(username);
+		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
+		if(user.isPresent()){
+			System.out.println(user);
+			return user.get();
+			}
+		else throw new UserNotFoundException("No username: " + username + " found");
 	}
 	
 	@PostMapping(value="/creds", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -55,15 +66,14 @@ public class UserController {
 		
 		String username = credentials.getUsername();
 		String password = credentials.getPassword();
-		
+	
 		List<User> users = uService.getUserByCredentials(username, password);
 		
-		Optional<User> user = users.stream().filter(u -> u.getUsername() == username).findFirst();
+		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
 		if(user.isPresent()){
-			System.out.println(user);
 			return user.get();
 			}
-		else throw new UserNotFoundException("No flash card with id " + username + "and" + password + " found");
+		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)

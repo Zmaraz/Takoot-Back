@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @NamedQueries({
 	@NamedQuery(name="getAllUsers", query="from User"),
@@ -51,11 +52,14 @@ public class User {
 	@Column(name="email")
 	private String email;
 	
+	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+//	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@JsonIgnore
 	private List<Quiz> quizzes; 
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+//	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@JsonIgnore
 	private List<HighScore> highScores;
 	
