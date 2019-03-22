@@ -33,11 +33,7 @@ public class HighScore {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="highscore_seq")
 	private int scoreId;
 	
-	@ManyToOne(cascade={
-			CascadeType.PERSIST, CascadeType.DETACH,
-			CascadeType.MERGE, CascadeType.REFRESH
-	})
-	@JoinColumn(name="user_id")
+	@Column(name="user_id")
 	private int userId;
 	
 	@Column(name="quiz_id")
@@ -46,9 +42,28 @@ public class HighScore {
 	@Column(name="score")
 	private int score;
 	
+	@ManyToOne(cascade={
+			CascadeType.PERSIST, CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.REFRESH
+	})
+	@JoinColumn(name="user_id")
+	private User user;
+	
 	public HighScore() {
 		super();
 	}
+	
+	
+	
+	public HighScore(int scoreId, int userId, int quizId, int score) {
+		super();
+		this.scoreId = scoreId;
+		this.userId = userId;
+		this.quizId = quizId;
+		this.score = score;
+	}
+
+
 
 	public int getScoreId() {
 		return scoreId;

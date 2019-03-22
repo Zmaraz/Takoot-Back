@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,12 +32,8 @@ import javax.persistence.Table;
 public class User {
 	
 	@Id
-	//@Column(name="user_id")
+	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
-	@JoinColumns({
-        @JoinColumn(name="quizId"),
-        @JoinColumn(name="userId")
-	})
 	private int user_id;
 	
 	@Column(name="first_name")
@@ -52,6 +50,9 @@ public class User {
 	
 	@Column(name="email")
 	private String email;
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private List<Quiz> quizzes; 
 	
 	public User() {
 		super();

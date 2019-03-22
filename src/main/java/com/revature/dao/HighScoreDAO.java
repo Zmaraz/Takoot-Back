@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.revature.models.HighScore;
+import com.revature.models.User;
 
 public class HighScoreDAO implements DAO<HighScore>{
 	
@@ -60,7 +61,32 @@ public class HighScoreDAO implements DAO<HighScore>{
 	}
 	
 	public HighScore add(HighScore newHighScore) {
-		return null;
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(HighScore.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			session.save(newHighScore);
+			
+			session.getTransaction().commit();
+			
+			return newHighScore;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
 	}
 	
 	public HighScore update(HighScore updatedHighScore) {
