@@ -9,55 +9,26 @@ public class QuizService {
 	
 	private QuizDAO quizDao = new QuizDAO();
 	
-	// Get all Quizzes
 	public List<Quiz> getAllQuizzes() {
-		
-		System.out.println("In getAllQuizzes() inside QuizService");
 		return quizDao.getAll();
-		
 	}
 	
-	
-	// Add a new quiz
 	public Quiz addQuiz(Quiz newQuiz) {
+//		Quiz oldQuiz = new Quiz();
 		
-		System.out.println("In addQuiz() inside QuizService");
-		if (newQuiz.getCategory().equals("") || newQuiz.getTitle().equals("") ||
-				newQuiz.getQuestions() != null || newQuiz.getDifficultyId() <= 3 || newQuiz.getDefaultId() <= 2)
-			return quizDao.add(newQuiz);
-		
-		return null;
+		return quizDao.add(newQuiz);
 	}
 	
-	
-	// Get quiz by id
 	public List<Quiz> getQuizById(int id) {
-		
-		System.out.println("In getQuizById() inside QuizService");
-		if (id > 0)
-			return quizDao.getById(id);
-		
-		return null;
+		return quizDao.getById(id);
 	}
 	
-	
-	// update quiz
 	public Quiz updateQuiz(Quiz updatedQuiz) {
-		
-		System.out.println("In updateQuiz() inside QuizService");
-		if (updatedQuiz != null)
-			return quizDao.update(updatedQuiz);
-		
-		return null;
+		return quizDao.update(updatedQuiz);
 	}
 	
 	public boolean delete (int id) {
-		
-		System.out.println("In delete() inside QuizService");
-		if (id > 0)
-			return quizDao.delete(id);
-		
-		return false;
+		return quizDao.delete(id);
 	}
 	
 	// getGuestQuiz
