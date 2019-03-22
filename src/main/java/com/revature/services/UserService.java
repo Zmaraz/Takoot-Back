@@ -2,9 +2,12 @@ package com.revature.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.revature.dao.UserDAO;
 import com.revature.models.User;
 
+@Service
 public class UserService {
 	
 	private UserDAO userDao = new UserDAO();
