@@ -58,7 +58,38 @@ public class HighScoreDAO implements DAO<HighScore>{
 	}
 	
 	public List<HighScore> getByQuizId(int quizId) {
-		return null;
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(Quiz.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Quiz quiz = session.get(Quiz.class, quizId);
+			System.out.println(quiz);
+			
+			List<HighScore> highScores = quiz.getHighScores();
+			for(HighScore highScore : highScores) System.out.println("\t" + highScore);
+			
+			session.getTransaction().commit();
+			
+			return highScores;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
 	}
 	
 	public HighScore add(HighScore newHighScore) {
@@ -66,6 +97,8 @@ public class HighScoreDAO implements DAO<HighScore>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(Quiz.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
