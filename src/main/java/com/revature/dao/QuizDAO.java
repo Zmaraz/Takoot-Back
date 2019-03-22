@@ -13,8 +13,8 @@ import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
 import com.revature.models.Question;
-
 import com.revature.models.Quiz;
+import com.revature.models.User;
 
 public class QuizDAO implements DAO<Quiz>{
 

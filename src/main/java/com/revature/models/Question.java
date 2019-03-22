@@ -99,10 +99,9 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", question=" + question + ", quiz=" + quiz + "]";
+		return "Question [questionId=" + questionId + ", question=" + question + ", quiz=" + quizId + "]";
 	}
 
 }
 
 
-}
