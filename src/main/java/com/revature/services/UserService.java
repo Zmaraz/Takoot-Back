@@ -9,19 +9,31 @@ public class UserService {
 	
 	private UserDAO userDao = new UserDAO();
 	
+	// get all users
 	public List<User> getAllUsers() {
+		
+		System.out.println("In getAllUsers() inside UserService");
 		return userDao.getAll();
+		
 	}
 	
+	
+	// Get user by Id
 	public List<User> getUserById (int id) {
 		
-		if(id > 0)
+		System.out.println("In getUserById() inside UserService");
+		if (id > 0)
 			return userDao.getById(id);
 		
 		return null;
+		
 	}
 	
+	
+	// add a new user if fields arent blank
 	public User addUser(User newUser) {
+		
+		System.out.println("In addUser() inside UserService");
 		User oldUser = new User();
 		
 		String oldUsername = oldUser.getUsername();
@@ -39,27 +51,50 @@ public class UserService {
 		}
 		
 		return userDao.add(newUser);
+		
 	}
 		
+	
+	// update a user
 	public User updateUser(User updatedUser) {
+		
+		System.out.println("In updateUser() inside UserService");
 		return userDao.update(updatedUser);
+		
 	}
 	
+	
+	// delete a user
 	public boolean deleteUser (int id) {
+		
+		System.out.println("In deleteUser() inside UserService");
 		return userDao.delete(id);
+		
 	}
 	
+	
+	// get user by their credentials (username/password)
 	public List<User> getUserByCredentials(String username, String password) {
-		if (!username.equals("") && !password.equals("")) {
+		
+		System.out.println("In getUserByCredentials() inside UserService");
+		if (!username.equals("") && !password.equals("")) 
 			return userDao.getByCredentials(username, password);
-		}
+		
 		return null;
+		
 	}
 	
+	
+	// get a user by their username
 	public List<User> getUserByUsername(String username) {
-		if (!username.equals("")) {
+		
+		System.out.println("In getUserByUsername() inside UserService");
+		if (!username.equals("")) 
 			return userDao.getByUsername(username);
-		}
+			
 		return null;
+		
 	}
+	
+	
 }
