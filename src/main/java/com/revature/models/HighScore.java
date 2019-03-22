@@ -135,8 +135,11 @@ public class HighScore {
 
 	@Override
 	public String toString() {
-		return "HighScore [scoreId=" + scoreId + ", score=" + score + ", user=" + user + ", quiz=" + quiz + "]";
+		return "HighScore [scoreId=" + scoreId + ", score=" + score + "]";
 	}
+
+
+	
 	
 	
 	

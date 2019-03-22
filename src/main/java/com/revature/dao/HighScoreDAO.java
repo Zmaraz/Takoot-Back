@@ -28,6 +28,7 @@ public class HighScoreDAO implements DAO<HighScore>{
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(HighScore.class)
 				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(Quiz.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();

@@ -63,7 +63,7 @@ public class Quiz {
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
 	})
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="author_id")
 	private User user;
 	
 	public Quiz() {
