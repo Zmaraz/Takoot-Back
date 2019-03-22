@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -125,13 +127,13 @@ public class User {
 		this.email = email;
 	}
 	
-	public List<Quiz> getQuizzes() {
-		return quizzes;
-	}
-
-	public void setQuizzes(List<Quiz> quizzes) {
-		this.quizzes = quizzes;
-	}
+//	public List<Quiz> getQuizzes() {
+//		return quizzes;
+//	}
+//
+//	public void setQuizzes(List<Quiz> quizzes) {
+//		this.quizzes = quizzes;
+//	}
 //	
 	public List<HighScore> getHighScores() {
 		return highScores;
@@ -198,5 +200,6 @@ public class User {
 		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", username="
 				+ username + ", password=" + password + ", email=" + email + "]";
 	}
+
 
 }
