@@ -1,15 +1,16 @@
 package com.revature.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="categories")
+@Table(name="CATEGORIES")
 public class Category {
 	
 	@Id
@@ -19,19 +20,18 @@ public class Category {
 	@Column(name="quiz_category")
 	private String category;
 	
-	@OneToOne(cascade=CascadeType.ALL) 
-	@JoinColumn(name="category_id")
-	private Quiz quiz;
+	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+	private List<Quiz> quizzes;
 	
 	public Category() {
 		super();
 	}
 
-	public Category(int categoryId, String category, Quiz quiz) {
+	public Category(int categoryId, String category, List<Quiz> quizzes) {
 		super();
 		this.categoryId = categoryId;
 		this.category = category;
-		this.quiz = quiz;
+		this.quizzes = quizzes;
 	}
 
 	public int getCategoryId() {
@@ -50,12 +50,12 @@ public class Category {
 		this.category = category;
 	}
 
-	public Quiz getQuiz() {
-		return quiz;
+	public List<Quiz> getQuizzes() {
+		return quizzes;
 	}
 
-	public void setQuiz(Quiz quiz) {
-		this.quiz = quiz;
+	public void setQuizzes(List<Quiz> quizzes) {
+		this.quizzes = quizzes;
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class Category {
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + categoryId;
-		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
+		result = prime * result + ((quizzes == null) ? 0 : quizzes.hashCode());
 		return result;
 	}
 
@@ -84,17 +84,17 @@ public class Category {
 			return false;
 		if (categoryId != other.categoryId)
 			return false;
-		if (quiz == null) {
-			if (other.quiz != null)
+		if (quizzes == null) {
+			if (other.quizzes != null)
 				return false;
-		} else if (!quiz.equals(other.quiz))
+		} else if (!quizzes.equals(other.quizzes))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", category=" + category + "]";
+		return "Category [categoryId=" + categoryId + ", category=" + category + ", quizzes=" + quizzes + "]";
 	}
 
 }

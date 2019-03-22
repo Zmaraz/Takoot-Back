@@ -13,16 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @NamedQueries({
-	@NamedQuery(name="getAllQuizzes", query="from QUIZZES"),
-	@NamedQuery(name="getQuizzesByAuthorId", query="from QUIZZES q where q.AUTHOR_ID = :AUTHOR_ID"),
-	@NamedQuery(name="getQuizzesByCategory", query="from QUIZZES q where q.CATEGORY_ID = :CATEGORY_ID"),
-	@NamedQuery(name="getQuizzesByDifficulty", query="from QUIZZES q where q.DIFFICULTY_ID = :DIFFICULTY_ID"),
-	@NamedQuery(name="getQuizzesByDefaultStatus", query="from QUIZZES q where q.DEFAULT_ID like :DEFAULT_ID")
+	@NamedQuery(name="getAllQuizzes", query="from Quiz"),
+	@NamedQuery(name="getQuizzesByDifficulty", query="from Quiz q where q.difficultyId = :difficulty_id"),
+	@NamedQuery(name="getQuizzesByDefaultStatus", query="from Quiz q where q.defaultId = :default_id")
 })
 
 
@@ -46,7 +43,11 @@ public class Quiz {
 	@Column(name="DATE_LAST_UPDATED")
 	private String dateLastUpdated;
 	
-	@OneToOne(mappedBy="quiz", cascade=CascadeType.ALL)
+	@ManyToOne(cascade={
+			CascadeType.PERSIST, CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.REFRESH
+	})
+	@JoinColumn(name="category_id")
 	private Category category;
 	
 	@Column(name="DIFFICULTY_ID")
@@ -85,6 +86,16 @@ public class Quiz {
 		this.highScores = highScores;
 		this.user = user;
 		this.questions = questions;
+	}
+
+	public Quiz(int quizId, String title, String dateCreated, String dateLastUpdated, int difficultyId, int defaultId) {
+		super();
+		this.quizId = quizId;
+		this.title = title;
+		this.dateCreated = dateCreated;
+		this.dateLastUpdated = dateLastUpdated;
+		this.difficultyId = difficultyId;
+		this.defaultId = defaultId;
 	}
 
 	public int getQuizId() {
@@ -240,9 +251,10 @@ public class Quiz {
 	@Override
 	public String toString() {
 		return "Quiz [quizId=" + quizId + ", title=" + title + ", dateCreated=" + dateCreated + ", dateLastUpdated="
-				+ dateLastUpdated + ", category=" + category + ", difficultyId=" + difficultyId + ", defaultId="
-				+ defaultId + ", user=" + user + ", questions=" + questions + "]";
+				+ dateLastUpdated + ", difficultyId=" + difficultyId + ", defaultId=" + defaultId + ", user=" + user
+				+ "]";
 	}
 
+	
 }
 
