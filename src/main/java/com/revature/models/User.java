@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @NamedQueries({
 	@NamedQuery(name="getAllUsers", query="from User"),
 	@NamedQuery(name="getUserById", query="from User u where u.user_id = :user_id"),
@@ -50,9 +52,11 @@ public class User {
 	private String email;
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<Quiz> quizzes; 
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<HighScore> highScores;
 	
 	public User() {
