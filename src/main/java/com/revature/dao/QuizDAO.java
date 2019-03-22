@@ -13,12 +13,13 @@ import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
 import com.revature.models.Question;
+
 import com.revature.models.Quiz;
-import com.revature.models.User;
 
 public class QuizDAO implements DAO<Quiz>{
 
 	public List<Quiz> getAll() {
+
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -54,6 +55,7 @@ public class QuizDAO implements DAO<Quiz>{
 		} finally {
 			factory.close();
 		}
+
 	}
 
 	public List<Quiz> getById(int id) {
@@ -258,4 +260,5 @@ public class QuizDAO implements DAO<Quiz>{
 		
 		return false;
 	}
+
 }

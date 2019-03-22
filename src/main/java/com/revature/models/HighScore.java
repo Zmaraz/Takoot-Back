@@ -43,15 +43,6 @@ public class HighScore {
 	public HighScore() {
 		super();
 	}
-	
-	
-	
-	public HighScore(int scoreId, int score) {
-		super();
-		this.scoreId = scoreId;
-		this.score = score;
-	}
-
 
 
 	public HighScore(int scoreId, int score, User user, Quiz quiz) {
@@ -141,10 +132,21 @@ public class HighScore {
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
-		return "HighScore [scoreId=" + scoreId + ", score=" + score + ", user=" + user + ", quiz=" + quiz + "]";
+		return "HighScore [scoreId=" + scoreId + ", score=" + score + "]";
 	}
+
 		
 }
 
+
+	
+	
+	
+	
+	
+
+
+}

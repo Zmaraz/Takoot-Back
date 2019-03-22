@@ -2,6 +2,8 @@ package com.revature.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -64,6 +66,7 @@ public class HighScoreDAO implements DAO<HighScore>{
 	}
 	
 	public List<HighScore> getByQuizId(int quizId) {
+
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -100,12 +103,14 @@ public class HighScoreDAO implements DAO<HighScore>{
 		} finally {
 			factory.close();
 		}
+
 	}
 	
 	public HighScore add(HighScore newHighScore) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
+
 				.addAnnotatedClass(User.class)
 				.addAnnotatedClass(HighScore.class)
 				.addAnnotatedClass(Quiz.class)
@@ -113,6 +118,7 @@ public class HighScoreDAO implements DAO<HighScore>{
 				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Category.class)
 				.addAnnotatedClass(Flag.class)
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();

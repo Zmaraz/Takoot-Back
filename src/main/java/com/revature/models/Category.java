@@ -1,5 +1,6 @@
 package com.revature.models;
 
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -7,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 
 @Entity
@@ -14,18 +16,21 @@ import javax.persistence.Table;
 public class Category {
 	
 	@Id
-	@Column(name="CATEGORY_ID")
+	@JoinColumn(name="CATEGORY_ID")
 	private int categoryId;
 	
 	@Column(name="quiz_category")
 	private String category;
+
 	
 	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
 	private List<Quiz> quizzes;
 	
+
 	public Category() {
 		super();
 	}
+
 
 	public Category(int categoryId, String category, List<Quiz> quizzes) {
 		super();
@@ -50,6 +55,7 @@ public class Category {
 		this.category = category;
 	}
 
+
 	public List<Quiz> getQuizzes() {
 		return quizzes;
 	}
@@ -58,13 +64,16 @@ public class Category {
 		this.quizzes = quizzes;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + categoryId;
+
 		result = prime * result + ((quizzes == null) ? 0 : quizzes.hashCode());
+
 		return result;
 	}
 
@@ -84,11 +93,13 @@ public class Category {
 			return false;
 		if (categoryId != other.categoryId)
 			return false;
+
 		if (quizzes == null) {
 			if (other.quizzes != null)
 				return false;
 		} else if (!quizzes.equals(other.quizzes))
 			return false;
+
 		return true;
 	}
 
@@ -96,6 +107,4 @@ public class Category {
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", category=" + category + ", quizzes=" + quizzes + "]";
 	}
-
 }
-

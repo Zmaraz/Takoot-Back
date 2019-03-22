@@ -14,6 +14,7 @@ import com.revature.models.Question;
 import com.revature.models.Quiz;
 
 public class QuestionDAO implements DAO<Question>{
+
 	
 	public List<Question> getAll() {
 		
@@ -23,10 +24,11 @@ public class QuestionDAO implements DAO<Question>{
 				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Flag.class)
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
-		
+
 		try {
 			
 			session.beginTransaction();
@@ -40,6 +42,7 @@ public class QuestionDAO implements DAO<Question>{
 			}
 			
 			return questions;
+
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
 			session.getTransaction().rollback();
@@ -65,4 +68,5 @@ public class QuestionDAO implements DAO<Question>{
 	public boolean delete(int id) {
 		return false;
 	}
+
 }
