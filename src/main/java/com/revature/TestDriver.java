@@ -1,6 +1,7 @@
 package com.revature;
 
 import com.revature.dao.HighScoreDAO;
+import com.revature.dao.QuizDAO;
 import com.revature.dao.UserDAO;
 import com.revature.models.HighScore;
 import com.revature.models.User;
@@ -31,6 +32,12 @@ public class TestDriver {
 		
 		
 		highScoreDao.getByUserId(2);
+		
+		//-----------------------------------------------------------------
+		
+		QuizDAO quizDao = new QuizDAO();
+		quizDao.getAll();
+		
 		
 	}
 }
