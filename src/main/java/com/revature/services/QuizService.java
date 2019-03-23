@@ -9,14 +9,25 @@ public class QuizService {
 	
 	private QuizDAO quizDao = new QuizDAO();
 	
+	
+	// get all quizzes
 	public List<Quiz> getAllQuizzes() {
+		
+		System.out.println("inside of getAllQuizzes() in QuizService");
 		return quizDao.getAll();
+		
 	}
 	
+	
+	// add a new quiz
 	public Quiz addQuiz(Quiz newQuiz) {
-//		Quiz oldQuiz = new Quiz();
+
+		System.out.println("inside of addQuiz() in QuizService");
+		if (newQuiz != null)
+			return quizDao.add(newQuiz);
 		
-		return quizDao.add(newQuiz);
+		return null;
+		
 	}
 	
 	public List<Quiz> getQuizById(int id) {
