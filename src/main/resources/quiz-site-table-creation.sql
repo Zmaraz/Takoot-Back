@@ -156,9 +156,13 @@ INSERT INTO Categories VALUES (4, 'Olympic Sports');
 INSERT INTO Categories VALUES (5, '2000s Throwback');
 INSERT INTO Categories VALUES (6, 'Geology');
 
-INSERT INTO Quizzes VALUES (1, 'Blah', 1, 'poop', 'peep', 1, 1, 1);
+INSERT INTO Quizzes VALUES (1, 'Blah', 1, 'poop', 'peep', 1, 1, 2);
 
 INSERT INTO Question VALUES (1, 'Hello?', 1);
+
+INSERT INTO Answers VALUES (1, 1, 'Test answer', 0);
+
+INSERT INTO Flags VALUES (1, 1, 'This question sucked!');
 
 INSERT INTO High_Scores VALUES (1, 2, 1, 60); 
 

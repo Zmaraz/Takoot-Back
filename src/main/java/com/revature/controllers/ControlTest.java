@@ -9,7 +9,9 @@ public class ControlTest {
 		UserService uService = new UserService();
 		UserController uc = new UserController(uService);
 		System.out.println("Control test");
+
 //		System.out.println(uc.getAllUsers());
+
 		
 	}
 

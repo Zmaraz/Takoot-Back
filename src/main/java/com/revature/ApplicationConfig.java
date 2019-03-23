@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.WebApplicationInitializer;
@@ -13,7 +14,9 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 import com.revature.filters.Filter;
+
 
 @EnableWebMvc
 @ComponentScan
@@ -33,8 +36,10 @@ public class ApplicationConfig implements WebMvcConfigurer, WebApplicationInitia
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
 		
+
 		servletContext.addFilter("filter", Filter.class).addMappingForServletNames(null, false, "DispatcherServlet");
 		
+
 	}
 
 	

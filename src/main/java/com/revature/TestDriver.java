@@ -1,5 +1,8 @@
 package com.revature;
 
+import com.revature.dao.AnswerDAO;
+import com.revature.dao.CategoryDAO;
+import com.revature.dao.FlagDAO;
 import com.revature.dao.HighScoreDAO;
 import com.revature.dao.QuestionDAO;
 import com.revature.dao.QuizDAO;
@@ -34,8 +37,8 @@ public class TestDriver {
 //		highScoreDao.getByQuizId(1);
 		
 		//-----------------------------------------------------------------
-		
-		QuizDAO quizDao = new QuizDAO();
+//		
+//		QuizDAO quizDao = new QuizDAO();
 //		quizDao.getAll();
 //		quizDao.getByDifficulty(1);
 //		quizDao.getByDefaultStatus(1);
@@ -43,13 +46,33 @@ public class TestDriver {
 //		Quiz quiz = new Quiz(0, "Rah", "akhsdg", "iasdgh", 1, 1);
 //		quizDao.add(quiz);
 		
-		quizDao.getByAuthorId(1);
+//		quizDao.getByAuthorId(1);
+		
+//		quizDao.getByCategory(1);
 		
 		//-------------------------------------------------------------------
 		
 //		QuestionDAO questionDao = new QuestionDAO();
 //		questionDao.getAll();
-
+//		questionDao.getByQuizId(1);
 		
+		//----------------------------------------------------------------------
+		
+//		CategoryDAO categoryDao = new CategoryDAO();
+//		categoryDao.getAll();
+//		categoryDao.getById(1);
+		
+		//--------------------------------------------------------------------
+		
+//		AnswerDAO answerDao = new AnswerDAO();
+//		
+//		answerDao.getByQuestionId(1);
+		
+		//--------------------------------------------------------------------
+		
+		FlagDAO flagDao = new FlagDAO();
+		
+		flagDao.getByQuestionId(1);
 	}
 }
+
