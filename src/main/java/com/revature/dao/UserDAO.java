@@ -29,9 +29,9 @@ public class UserDAO implements DAO<User>{
 				.addAnnotatedClass(HighScore.class)
 				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
+//				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
+//				.addAnnotatedClass(Flag.class)
 
 				.buildSessionFactory();
 		
@@ -195,9 +195,9 @@ public class UserDAO implements DAO<User>{
 				.addAnnotatedClass(HighScore.class)
 				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
+//				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
+//				.addAnnotatedClass(Flag.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();

@@ -28,7 +28,7 @@ public class Answer {
 	@Column(name="answer")
 	private String answer;
 	
-	@OneToOne
+//	@OneToOne
 	@Column(name="answer_value")
 	private boolean answerValue;
 	
