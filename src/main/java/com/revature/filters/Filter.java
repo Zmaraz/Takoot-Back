@@ -37,7 +37,9 @@ public class Filter extends HttpFilter {
 			return;
 		}
 		// 3. Get the token
+	
 		String token = header.replaceAll(JwtConfig.PREFIX, "");
+		
 		
 		try {
 			
