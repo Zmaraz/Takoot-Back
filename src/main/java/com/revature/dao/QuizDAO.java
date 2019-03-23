@@ -99,6 +99,45 @@ public class QuizDAO implements DAO<Quiz>{
 		}
 	}
 	
+	public List<Quiz> getByCategory(int categoryId) {
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Category category = session.get(Category.class, categoryId);
+			System.out.println(category);
+			
+			List<Quiz> quizzes = category.getQuizzes();
+			for(Quiz quiz : quizzes) System.out.println("\t" + quiz);
+			
+			session.getTransaction().commit();
+			
+			return quizzes;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
+	}
+	
 	public List<Quiz> getByDifficulty(int difficultyId){
 		
 		SessionFactory factory = new Configuration()

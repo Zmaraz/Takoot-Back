@@ -2,6 +2,8 @@ package com.revature.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -14,131 +16,97 @@ import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 
-
-public class AnswerDAO implements DAO<Answer>{
+public class CategoryDAO implements DAO<Category>{
 	
-	public List<Answer> getAll(){
+	public List<Category> getAll(){
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Query categoryQuery = session.getNamedQuery("getAllCateogories");
+			
+			List<Category> categories = categoryQuery.getResultList();
+			
+			for(Category c: categories) {
+				System.out.println(c);
+			}
+			
+			return categories;
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
+	}
+	
+	public List<Category> getById(int id){
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Query categoryQuery = session.getNamedQuery("getCategoryById");
+			
+			categoryQuery.setParameter("category_id", id);
+			
+			List<Category> category = categoryQuery.getResultList();
+			
+			for(Category c: category) {
+				System.out.println(c);
+			}
+			
+			return category;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
+	}
+	
+	public Category add(Category newCategory) {
 		return null;
 	}
 	
-	public List<Answer> getById(int id){
+	public Category update(Category updatedCategory) {
 		return null;
-	}
-	
-	public List<Answer> getByQuestionId(int questionId){
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			Question question = session.get(Question.class, questionId);
-			System.out.println(question);
-			
-			List<Answer> answers = question.getAnswers();
-			for(Answer answer : answers) System.out.println("\t" + answer);
-			
-			session.getTransaction().commit();
-			
-			return answers;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-	}
-	
-	public Answer add(Answer newAnswer) {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			session.save(newAnswer);
-			
-			session.getTransaction().commit();
-			
-			return newAnswer;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-	}
-	
-	public Answer update(Answer updatedAnswer) {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			int answerId = updatedAnswer.getAnswerId();
-			
-			Answer myAnswer = session.get(Answer.class, answerId);
-			
-			myAnswer.setQuestion(updatedAnswer.getQuestion());
-			
-			session.getTransaction().commit();
-			
-			return updatedAnswer;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
 	}
 	
 	public boolean delete(int id) {
 		return false;
 	}
+
 }

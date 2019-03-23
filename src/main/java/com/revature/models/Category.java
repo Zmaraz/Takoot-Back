@@ -6,8 +6,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
+@NamedQueries({
+	@NamedQuery(name="getAllCateogories", query="from Category"),
+	@NamedQuery(name="getCategoryById", query="from Category c where c.categoryId = :category_id")
+})
 
 @Entity
 @Table(name="CATEGORIES")

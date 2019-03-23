@@ -14,18 +14,17 @@ import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 
-
-public class AnswerDAO implements DAO<Answer>{
+public class FlagDAO implements DAO<Flag>{
 	
-	public List<Answer> getAll(){
+	public List<Flag> getAll(){
 		return null;
 	}
 	
-	public List<Answer> getById(int id){
+	public List<Flag> getById(int id){
 		return null;
 	}
 	
-	public List<Answer> getByQuestionId(int questionId){
+	public List<Flag> getByQuestionId(int questionId){
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -47,12 +46,12 @@ public class AnswerDAO implements DAO<Answer>{
 			Question question = session.get(Question.class, questionId);
 			System.out.println(question);
 			
-			List<Answer> answers = question.getAnswers();
-			for(Answer answer : answers) System.out.println("\t" + answer);
+			List<Flag> flags = question.getFlags();
+			for(Flag flag : flags) System.out.println("\t" + flag);
 			
 			session.getTransaction().commit();
 			
-			return answers;
+			return flags;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -64,7 +63,7 @@ public class AnswerDAO implements DAO<Answer>{
 		}
 	}
 	
-	public Answer add(Answer newAnswer) {
+	public Flag add(Flag newFlag) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -83,11 +82,11 @@ public class AnswerDAO implements DAO<Answer>{
 			
 			session.beginTransaction();
 			
-			session.save(newAnswer);
+			session.save(newFlag);
 			
 			session.getTransaction().commit();
 			
-			return newAnswer;
+			return newFlag;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -99,43 +98,8 @@ public class AnswerDAO implements DAO<Answer>{
 		}
 	}
 	
-	public Answer update(Answer updatedAnswer) {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			int answerId = updatedAnswer.getAnswerId();
-			
-			Answer myAnswer = session.get(Answer.class, answerId);
-			
-			myAnswer.setQuestion(updatedAnswer.getQuestion());
-			
-			session.getTransaction().commit();
-			
-			return updatedAnswer;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
+	public Flag update(Flag updatedFlag) {
+		return null;
 	}
 	
 	public boolean delete(int id) {
