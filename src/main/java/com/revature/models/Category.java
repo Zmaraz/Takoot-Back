@@ -26,7 +26,7 @@ import javax.persistence.Table;
 public class Category {
 	
 	@Id
-	@JoinColumn(name="CATEGORY_ID")
+	@Column(name="category_id")
 	private int categoryId;
 	
 	@Column(name="quiz_category")
