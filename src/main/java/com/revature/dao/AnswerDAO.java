@@ -2,8 +2,6 @@ package com.revature.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,93 +14,18 @@ import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 
-public class QuestionDAO implements DAO<Question>{
 
+public class AnswerDAO implements DAO<Answer>{
 	
-	public List<Question> getAll() {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-
-		try {
-			
-			session.beginTransaction();
-			
-			Query questionQuery = session.getNamedQuery("getAllQuestions");
-			
-			List<Question> questions = questionQuery.getResultList();
-			
-			for(Question q: questions) {
-				System.out.println(q);
-			}
-			
-			return questions;
-
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-	}
-	
-	public List<Question> getByQuizId(int quizId) {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			Quiz quiz = session.get(Quiz.class, quizId);
-			System.out.println(quiz);
-			
-			List<Question> questions = quiz.getQuestions();
-			for(Question question : questions) System.out.println("\t" + question);
-			
-			session.getTransaction().commit();
-			
-			return questions;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-	}
-	
-	public List<Question> getById(int id){
+	public List<Answer> getAll(){
 		return null;
 	}
 	
-	public Question add(Question newQuestion) {
+	public List<Answer> getById(int id){
+		return null;
+	}
+	
+	public List<Answer> getByQuestionId(int questionId){
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -121,11 +44,15 @@ public class QuestionDAO implements DAO<Question>{
 			
 			session.beginTransaction();
 			
-			session.save(newQuestion);
+			Question question = session.get(Question.class, questionId);
+			System.out.println(question);
+			
+			List<Answer> answers = question.getAnswers();
+			for(Answer answer : answers) System.out.println("\t" + answer);
 			
 			session.getTransaction().commit();
 			
-			return newQuestion;
+			return answers;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -137,7 +64,7 @@ public class QuestionDAO implements DAO<Question>{
 		}
 	}
 	
-	public Question update(Question updatedQuestion) {
+	public Answer add(Answer newAnswer) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -156,15 +83,50 @@ public class QuestionDAO implements DAO<Question>{
 			
 			session.beginTransaction();
 			
-			int questionId = updatedQuestion.getQuestionId();
-			
-			Question myQuestion = session.get(Question.class, questionId);
-			
-			myQuestion.setQuestion(updatedQuestion.getQuestion());
+			session.save(newAnswer);
 			
 			session.getTransaction().commit();
 			
-			return updatedQuestion;
+			return newAnswer;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
+	}
+	
+	public Answer update(Answer updatedAnswer) {
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			int answerId = updatedAnswer.getAnswerId();
+			
+			Answer myAnswer = session.get(Answer.class, answerId);
+			
+			myAnswer.setQuestion(updatedAnswer.getQuestion());
+			
+			session.getTransaction().commit();
+			
+			return updatedAnswer;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -179,5 +141,4 @@ public class QuestionDAO implements DAO<Question>{
 	public boolean delete(int id) {
 		return false;
 	}
-
 }
