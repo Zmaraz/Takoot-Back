@@ -26,10 +26,18 @@ public class QuizService {
 	public Quiz addQuiz(Quiz newQuiz) {
 
 		System.out.println("inside of addQuiz() in QuizService");
-		if (newQuiz != null)
-			return quizDao.add(newQuiz);
+		if (newQuiz.getDefaultId() != 0 ||
+				newQuiz.getTitle().equals("") ||
+				newQuiz.getCategory().equals("") ||
+				newQuiz.getDefaultId() != 0 ||
+				newQuiz.getDateCreated().equals("") ||
+				newQuiz.getDateLastUpdated().equals("") ||
+				newQuiz.getDifficultyId() != 0 ||
+				newQuiz.getQuestions().equals("") ||
+				newQuiz.getUser().equals(""))
+			return null;
 		
-		return null;
+		return quizDao.add(newQuiz);
 		
 	}
 	
@@ -38,7 +46,7 @@ public class QuizService {
 	public List<Quiz> getQuizById(int quizId) {
 		
 		System.out.println("inside of getQuizById() in QuizService");
-		if (quizId > 0)
+		if (quizDao.getById(quizId) != null)
 			return quizDao.getById(quizId);
 		
 		return null;
@@ -50,10 +58,18 @@ public class QuizService {
 	public Quiz updateQuiz(Quiz updatedQuiz) {
 		
 		System.out.println("inside of updateQuiz() in QuizService");
-		if (updatedQuiz != null)
-			return quizDao.update(updatedQuiz);
+		if (updatedQuiz.getDefaultId() != 0 ||
+				updatedQuiz.getTitle().equals("") ||
+				updatedQuiz.getCategory().equals("") ||
+				updatedQuiz.getDefaultId() != 0 ||
+				updatedQuiz.getDateCreated().equals("") ||
+				updatedQuiz.getDateLastUpdated().equals("") ||
+				updatedQuiz.getDifficultyId() != 0 ||
+				updatedQuiz.getQuestions().equals("") ||
+				updatedQuiz.getUser().equals(""))
+			return null;
 	
-		return null;
+		return quizDao.update(updatedQuiz);
 		
 	}
 	
@@ -62,7 +78,7 @@ public class QuizService {
 	public boolean deleteUser (int quizId) {
 		
 		System.out.println("inside of deleteUser() in UserService");
-		if (quizId > 0)
+		if (quizDao.getById(quizId) != null)
 			return quizDao.delete(quizId);
 	
 		return false;

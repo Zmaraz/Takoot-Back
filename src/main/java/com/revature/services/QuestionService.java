@@ -3,11 +3,13 @@ package com.revature.services;
 import java.util.List;
 
 import com.revature.dao.QuestionDAO;
+import com.revature.dao.QuizDAO;
 import com.revature.models.Question;
 
 public class QuestionService {
 
 	private QuestionDAO questDao = new QuestionDAO();
+	private QuizDAO quizDao = new QuizDAO();
 	
 	
 	// get all the questions
@@ -23,7 +25,7 @@ public class QuestionService {
 	public List<Question> getAllQuestionsByQuizId(int quizId) {
 		
 		System.out.println("inside of getAllQuestionsByQuizId() in QuestionService");
-		if (quizId > 0) 
+		if (quizDao.getById(quizId) != null) 
 			return questDao.getByQuizId(quizId);
 		
 		return null;
@@ -35,10 +37,12 @@ public class QuestionService {
 	public Question addQuestion(Question newQuestion) {
 		
 		System.out.println("inside of addQuestion() in QuestionService");
-		if (!newQuestion.getQuestion().equals(""))
-			return questDao.add(newQuestion);
+		if (newQuestion.getQuestion().equals("") ||
+				newQuestion.getQuiz().equals("") ||
+				newQuestion.getAnswers().equals(""))
+			return null;
 		
-		return null;
+		return questDao.add(newQuestion);
 		
 	}
 	
@@ -47,10 +51,12 @@ public class QuestionService {
 	public Question updateQuestion(Question updateQuestion) {
 		
 		System.out.println("inside of updateQuestion() in QuestionService");
-		if (updateQuestion != null) 
-			return questDao.update(updateQuestion);
+		if (updateQuestion.getQuestion().equals("") ||
+				updateQuestion.getQuiz().equals("") ||
+				updateQuestion.getAnswers().equals("")) 
+			return null;
 		
-		return null;
+		return questDao.update(updateQuestion);
 		
 	}
 	
