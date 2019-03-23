@@ -30,10 +30,20 @@ public class QuizService {
 		
 	}
 	
-	public List<Quiz> getQuizById(int id) {
-		return quizDao.getById(id);
+	
+	// get a quiz by the given quizId
+	public List<Quiz> getQuizById(int quizId) {
+		
+		System.out.println("inside of getQuizById() in QuizService");
+		if (quizId > 0)
+			return quizDao.getById(quizId);
+		
+		return null;
+		
 	}
 	
+	
+	// update a quiz given a quiz
 	public Quiz updateQuiz(Quiz updatedQuiz) {
 		return quizDao.update(updatedQuiz);
 	}
