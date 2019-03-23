@@ -12,15 +12,31 @@ public class UserService {
 	
 	private UserDAO userDao = new UserDAO();
 	
+	// Get all users
 	public List<User> getAllUsers() {
+		
+		System.out.println("inside of getAllUsers() in UserService");
 		return userDao.getAll();
+		
 	}
 	
+	
+	// get users by Id
 	public List<User> getUserById (int id) {
-		return userDao.getById(id);
+		
+		System.out.println("inside of getUserById() in UserService");
+		if (id > 0) 
+			return userDao.getById(id);
+		
+		return null;
+		
 	}
 	
+	
+	// add new user
 	public User addUser(User newUser) {
+		
+		System.out.println("inside of addUser() in UserService");
 		User oldUser = new User();
 		
 		String oldUsername = oldUser.getUsername();
@@ -39,26 +55,52 @@ public class UserService {
 		
 		return userDao.add(newUser);
 	}
+	
 		
+	// update user that is passed in
 	public User updateUser(User updatedUser) {
-		return userDao.update(updatedUser);
+		
+		System.out.println("inside of updateUser() in UserService");
+		if (updatedUser != null)
+			return userDao.update(updatedUser);
+		
+		return null;
 	}
 	
-	public boolean deleteUser (int id) {
-		return userDao.delete(id);
+	
+	// delete user thats passed in
+	public boolean deleteUser (int userId) {
+		
+		System.out.println("inside of deleteUser() in UserService");
+		if ( userId > 0)
+			return userDao.delete(userId);
+		
+		return false;
+		
 	}
 	
+	
+	// get user by username and password
 	public List<User> getUserByCredentials(String username, String password) {
-		if (!username.equals("") && !password.equals("")) {
+		
+		System.out.println("inside of getUserByCredentials() in UserService");
+		if (!username.equals("") && !password.equals("")) 
 			return userDao.getByCredentials(username, password);
-		}
+		
 		return null;
+		
 	}
 	
+	
+	// get user by username
 	public List<User> getUserByUsername(String username) {
-		if (!username.equals("")) {
+		
+		System.out.println("inside of getUserByUsername() in UserService");
+		if (!username.equals("")) 
 			return userDao.getByUsername(username);
-		}
+		
 		return null;
+		
 	}
+	
 }
