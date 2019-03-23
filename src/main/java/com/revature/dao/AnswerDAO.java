@@ -2,8 +2,6 @@ package com.revature.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,17 +14,18 @@ import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 
-public class HighScoreDAO implements DAO<HighScore>{
+
+public class AnswerDAO implements DAO<Answer>{
 	
-	public List<HighScore> getAll() {
+	public List<Answer> getAll(){
 		return null;
 	}
 	
-	public List<HighScore> getById(int id) {
+	public List<Answer> getById(int id){
 		return null;
 	}
 	
-	public List<HighScore> getByUserId(int userId) {
+	public List<Answer> getByQuestionId(int questionId){
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -45,15 +44,15 @@ public class HighScoreDAO implements DAO<HighScore>{
 			
 			session.beginTransaction();
 			
-			User user = session.get(User.class, userId);
-			System.out.println(user);
+			Question question = session.get(Question.class, questionId);
+			System.out.println(question);
 			
-			List<HighScore> highScores = user.getHighScores();
-			for(HighScore highScore : highScores) System.out.println("\t" + highScore);
+			List<Answer> answers = question.getAnswers();
+			for(Answer answer : answers) System.out.println("\t" + answer);
 			
 			session.getTransaction().commit();
 			
-			return highScores;
+			return answers;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -65,8 +64,7 @@ public class HighScoreDAO implements DAO<HighScore>{
 		}
 	}
 	
-	public List<HighScore> getByQuizId(int quizId) {
-
+	public Answer add(Answer newAnswer) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -85,15 +83,11 @@ public class HighScoreDAO implements DAO<HighScore>{
 			
 			session.beginTransaction();
 			
-			Quiz quiz = session.get(Quiz.class, quizId);
-			System.out.println(quiz);
-			
-			List<HighScore> highScores = quiz.getHighScores();
-			for(HighScore highScore : highScores) System.out.println("\t" + highScore);
+			session.save(newAnswer);
 			
 			session.getTransaction().commit();
 			
-			return highScores;
+			return newAnswer;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -103,14 +97,12 @@ public class HighScoreDAO implements DAO<HighScore>{
 		} finally {
 			factory.close();
 		}
-
 	}
 	
-	public HighScore add(HighScore newHighScore) {
+	public Answer update(Answer updatedAnswer) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
-
 				.addAnnotatedClass(User.class)
 				.addAnnotatedClass(HighScore.class)
 				.addAnnotatedClass(Quiz.class)
@@ -118,7 +110,6 @@ public class HighScoreDAO implements DAO<HighScore>{
 				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Category.class)
 				.addAnnotatedClass(Flag.class)
-
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -127,11 +118,15 @@ public class HighScoreDAO implements DAO<HighScore>{
 			
 			session.beginTransaction();
 			
-			session.save(newHighScore);
+			int answerId = updatedAnswer.getAnswerId();
+			
+			Answer myAnswer = session.get(Answer.class, answerId);
+			
+			myAnswer.setQuestion(updatedAnswer.getQuestion());
 			
 			session.getTransaction().commit();
 			
-			return newHighScore;
+			return updatedAnswer;
 			
 		} catch (Exception e) {
 			// If an exception occurs, rollback the transaction
@@ -141,14 +136,9 @@ public class HighScoreDAO implements DAO<HighScore>{
 		} finally {
 			factory.close();
 		}
-	}
-	
-	public HighScore update(HighScore updatedHighScore) {
-		return null;
 	}
 	
 	public boolean delete(int id) {
 		return false;
 	}
-	
 }

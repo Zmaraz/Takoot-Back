@@ -16,139 +16,97 @@ import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 
-public class HighScoreDAO implements DAO<HighScore>{
+public class CategoryDAO implements DAO<Category>{
 	
-	public List<HighScore> getAll() {
+	public List<Category> getAll(){
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Query categoryQuery = session.getNamedQuery("getAllCateogories");
+			
+			List<Category> categories = categoryQuery.getResultList();
+			
+			for(Category c: categories) {
+				System.out.println(c);
+			}
+			
+			return categories;
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
+	}
+	
+	public List<Category> getById(int id){
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Query categoryQuery = session.getNamedQuery("getCategoryById");
+			
+			categoryQuery.setParameter("category_id", id);
+			
+			List<Category> category = categoryQuery.getResultList();
+			
+			for(Category c: category) {
+				System.out.println(c);
+			}
+			
+			return category;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
+	}
+	
+	public Category add(Category newCategory) {
 		return null;
 	}
 	
-	public List<HighScore> getById(int id) {
-		return null;
-	}
-	
-	public List<HighScore> getByUserId(int userId) {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			User user = session.get(User.class, userId);
-			System.out.println(user);
-			
-			List<HighScore> highScores = user.getHighScores();
-			for(HighScore highScore : highScores) System.out.println("\t" + highScore);
-			
-			session.getTransaction().commit();
-			
-			return highScores;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-	}
-	
-	public List<HighScore> getByQuizId(int quizId) {
-
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			Quiz quiz = session.get(Quiz.class, quizId);
-			System.out.println(quiz);
-			
-			List<HighScore> highScores = quiz.getHighScores();
-			for(HighScore highScore : highScores) System.out.println("\t" + highScore);
-			
-			session.getTransaction().commit();
-			
-			return highScores;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-
-	}
-	
-	public HighScore add(HighScore newHighScore) {
-		
-		SessionFactory factory = new Configuration()
-				.configure("hibernate.cfg.xml")
-
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(HighScore.class)
-				.addAnnotatedClass(Quiz.class)
-				.addAnnotatedClass(Question.class)
-				.addAnnotatedClass(Answer.class)
-				.addAnnotatedClass(Category.class)
-				.addAnnotatedClass(Flag.class)
-
-				.buildSessionFactory();
-		
-		Session session = factory.getCurrentSession();
-		
-		try {
-			
-			session.beginTransaction();
-			
-			session.save(newHighScore);
-			
-			session.getTransaction().commit();
-			
-			return newHighScore;
-			
-		} catch (Exception e) {
-			// If an exception occurs, rollback the transaction
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			factory.close();
-		}
-	}
-	
-	public HighScore update(HighScore updatedHighScore) {
+	public Category update(Category updatedCategory) {
 		return null;
 	}
 	
 	public boolean delete(int id) {
 		return false;
 	}
-	
+
 }

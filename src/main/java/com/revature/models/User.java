@@ -191,10 +191,4 @@ public class User {
 				+ username + ", password=" + password + ", email=" + email + "]";
 	}
 
-	
-	
-	
-	
-	
-
 }

@@ -8,8 +8,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+
+import com.revature.models.Answer;
+import com.revature.models.Category;
+import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Question;
 import com.revature.models.Quiz;
+
 import com.revature.models.User;
 
 public class UserDAO implements DAO<User>{
@@ -19,8 +25,16 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
+
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+
+				.addAnnotatedClass(Flag.class)
+
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -53,8 +67,15 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+
+				.addAnnotatedClass(Flag.class)
+
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -90,8 +111,13 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -121,8 +147,13 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -165,8 +196,12 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();
@@ -204,8 +239,13 @@ public class UserDAO implements DAO<User>{
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Quiz.class)
 				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+				.addAnnotatedClass(Flag.class)
+
 				.buildSessionFactory();
 		
 		Session session = factory.getCurrentSession();

@@ -1,24 +1,52 @@
 package com.revature.models;
 
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 
+
+@NamedQueries({
+	@NamedQuery(name="getAllCateogories", query="from Category"),
+	@NamedQuery(name="getCategoryById", query="from Category c where c.categoryId = :category_id")
+})
+
 @Entity
-@Table(name="categories")
+@Table(name="CATEGORIES")
 public class Category {
 	
 	@Id
-	@JoinColumn(name="CATEGORY_ID")
+	@Column(name="category_id")
 	private int categoryId;
 	
 	@Column(name="quiz_category")
 	private String category;
-	//l
+
+	
+	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+	private List<Quiz> quizzes;
+	
+
 	public Category() {
 		super();
+	}
+
+
+	public Category(int categoryId, String category, List<Quiz> quizzes) {
+		super();
+		this.categoryId = categoryId;
+		this.category = category;
+		this.quizzes = quizzes;
 	}
 
 	public int getCategoryId() {
@@ -37,12 +65,25 @@ public class Category {
 		this.category = category;
 	}
 
+
+	public List<Quiz> getQuizzes() {
+		return quizzes;
+	}
+
+	public void setQuizzes(List<Quiz> quizzes) {
+		this.quizzes = quizzes;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + categoryId;
+
+		result = prime * result + ((quizzes == null) ? 0 : quizzes.hashCode());
+
 		return result;
 	}
 
@@ -62,11 +103,18 @@ public class Category {
 			return false;
 		if (categoryId != other.categoryId)
 			return false;
+
+		if (quizzes == null) {
+			if (other.quizzes != null)
+				return false;
+		} else if (!quizzes.equals(other.quizzes))
+			return false;
+
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", category=" + category + "]";
+		return "Category [categoryId=" + categoryId + ", category=" + category + ", quizzes=" + quizzes + "]";
 	}
 }
