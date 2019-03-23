@@ -35,7 +35,7 @@ public class QuizService {
 	public List<Quiz> getQuizById(int quizId) {
 		
 		System.out.println("inside of getQuizById() in QuizService");
-		if (quizId > 0)
+		if (quizDao.getById(quizId) != null)
 			return quizDao.getById(quizId);
 		
 		return null;
@@ -59,7 +59,7 @@ public class QuizService {
 	public boolean deleteUser (int quizId) {
 		
 		System.out.println("inside of deleteUser() in UserService");
-		if (quizId > 0)
+		if (quizDao.getById(quizId) != null)
 			return quizDao.delete(quizId);
 	
 		return false;

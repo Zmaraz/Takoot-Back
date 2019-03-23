@@ -22,11 +22,11 @@ public class UserService {
 	
 	
 	// get users by Id
-	public List<User> getUserById (int id) {
+	public List<User> getUserById (int userId) {
 		
 		System.out.println("inside of getUserById() in UserService");
-		if (id > 0) 
-			return userDao.getById(id);
+		if (userDao.getById(userId) != null) 
+			return userDao.getById(userId);
 		
 		return null;
 		
@@ -72,7 +72,7 @@ public class UserService {
 	public boolean deleteUser (int userId) {
 		
 		System.out.println("inside of deleteUser() in UserService");
-		if ( userId > 0)
+		if (userDao.getById(userId) != null)
 			return userDao.delete(userId);
 		
 		return false;
