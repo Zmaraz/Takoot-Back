@@ -8,12 +8,15 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+
 import com.revature.models.Principal;
 import com.revature.util.JwtConfig;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+@Controller
 public class Filter extends HttpFilter {
 
 	private static final long serialVersionUID = 1L;
