@@ -3,6 +3,8 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,20 +31,19 @@ public class AuthController {
 	}
 	
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public User getUserByCredentials(@RequestBody User credentials) {
+	public User getUserByCredentials(@RequestBody User credentials, HttpServletResponse resp) {
 		
 		System.out.println("in Auth Controller post method.");
 		String username = credentials.getUsername();
 		String password = credentials.getPassword();
 	
-		HttpHeaders responseHeaders = new HttpHeaders();
 		
 		List<User> users = uService.getUserByCredentials(username, password);
 		
 		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
 		if(user.isPresent()){
 			
-			responseHeaders.set(JwtConfig.HEADER, JwtConfig.PREFIX + JwtGenerator.createJwt(user.get()));
+			resp.addHeader(JwtConfig.HEADER, JwtConfig.PREFIX + JwtGenerator.createJwt(user.get()));
 			return user.get();
 			}
 		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");

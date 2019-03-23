@@ -57,7 +57,7 @@ public class User {
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
 //	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	@JsonIgnore
+//	@JsonIgnore
 	private List<Quiz> quizzes; 
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
