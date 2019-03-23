@@ -46,8 +46,10 @@ public class UserController {
 	}
 	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+
 	public User getUserById(@PathVariable int id, @RequestAttribute("principal") Principal principal) {
 		
+
 		List<User> users = uService.getUserById(id);
 		Optional<User> user = users.stream().filter(u -> u.getUser_id() == id).findFirst();
 		if(user.isPresent()){

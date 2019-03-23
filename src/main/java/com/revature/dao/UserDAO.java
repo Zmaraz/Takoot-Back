@@ -31,7 +31,9 @@ public class UserDAO implements DAO<User>{
 				.addAnnotatedClass(Question.class)
 //				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Category.class)
+
 //				.addAnnotatedClass(Flag.class)
+
 
 				.buildSessionFactory();
 		
@@ -70,7 +72,9 @@ public class UserDAO implements DAO<User>{
 //				.addAnnotatedClass(Question.class)
 //				.addAnnotatedClass(Answer.class)
 				.addAnnotatedClass(Category.class)
+
 //				.addAnnotatedClass(Flag.class)
+
 
 				.buildSessionFactory();
 		
