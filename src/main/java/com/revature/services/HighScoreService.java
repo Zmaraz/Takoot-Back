@@ -3,11 +3,15 @@ package com.revature.services;
 import java.util.List;
 
 import com.revature.dao.HighScoreDAO;
+import com.revature.dao.QuizDAO;
+import com.revature.dao.UserDAO;
 import com.revature.models.HighScore;
 
 public class HighScoreService {
 	
 	private HighScoreDAO scoreDao = new HighScoreDAO();
+	private QuizDAO quizDao = new QuizDAO();
+	private UserDAO userDao = new UserDAO();
 	
 	
 	// get all highscores
@@ -23,7 +27,7 @@ public class HighScoreService {
 	public List<HighScore> getScoresByUserId(int userId) {
 		
 		System.out.println("inside of getScoresByUserId() in HighScoreService");
-		if (userId > 0)
+		if (userDao.getById(userId) != null)
 			return scoreDao.getByUserId(userId);
 		
 		return null;
@@ -35,13 +39,49 @@ public class HighScoreService {
 	public List<HighScore> getScoresByQuizId(int quizId) {
 		
 		System.out.println("inside of getScoresByQuizId() in HighScoreService");
-		if (quizId > 0) 
+		if (quizDao.getById(quizId) != null) 
 			return scoreDao.getByQuizId(quizId);
 		
 		return null;
 		
 	}
+	
+	
+	// add a new highscore
+	public HighScore addHighScore(HighScore newScore) {
+		
+		System.out.println("in addHighScore inside of the HighScoreService");
+		if (newScore.getQuiz().equals("") ||
+				newScore.getScore() != 0 ||
+				newScore.getUser().equals(""))
+			return null;
+			
+		return scoreDao.add(newScore);
+		
+	}
 
 	
+	// updating a new highscore
+	public HighScore updateHighScore(HighScore updateHighScore) {
+		
+		System.out.println("in updateHighScore() in ");
+		if (updateHighScore != null)
+			return scoreDao.update(updateHighScore);
+		
+		return null;
+		
+	}
+	
+	
+	// delete a highscore
+	public boolean deleteHighScore(int scoreId) {
+		
+		System.out.println("in deleteHighScore() inside of HighScoreService");
+		if (scoreDao.getById(scoreId) != null) 
+			return scoreDao.delete(scoreId);
+		
+		return false;
+		
+	}
 	
 }
