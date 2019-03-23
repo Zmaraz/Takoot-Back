@@ -15,7 +15,7 @@ public class TestDriver {
 
 	public static void main(String[] args) {
 		
-//		UserDAO userDao = new UserDAO();
+		UserDAO userDao = new UserDAO();
 //		userDao.getAll();
 //		userDao.getById(2);
 //		userDao.getByUsername("poorjon");
