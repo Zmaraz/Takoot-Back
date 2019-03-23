@@ -35,7 +35,7 @@ public class QuestionService {
 	public Question addQuestion(Question newQuestion) {
 		
 		System.out.println("inside of addQuestion() in QuestionService");
-		if (!newQuestion.getQuestion().equals("") || !newQuestion.getQuizId().equals(""))
+		if (!newQuestion.getQuestion().equals(""))
 			return questDao.add(newQuestion);
 		
 		return null;
