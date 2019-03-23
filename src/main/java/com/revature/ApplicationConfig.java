@@ -14,6 +14,10 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
+import com.revature.filters.Filter;
+
+
 @EnableWebMvc
 @ComponentScan
 @Configuration
@@ -32,6 +36,10 @@ public class ApplicationConfig implements WebMvcConfigurer, WebApplicationInitia
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
 		
+
+		servletContext.addFilter("filter", Filter.class).addMappingForServletNames(null, false, "DispatcherServlet");
+		
+
 	}
 
 	

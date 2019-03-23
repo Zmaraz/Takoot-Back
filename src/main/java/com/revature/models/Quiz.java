@@ -49,7 +49,6 @@ public class Quiz {
 	})
 	@JoinColumn(name="category_id")
 	private Category category;
-
 	
 	@Column(name="DIFFICULTY_ID")
 	private int difficultyId;
@@ -67,22 +66,26 @@ public class Quiz {
 	@JoinColumn(name="author_id")
 	private User user;
 	
+	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL)
+	private List<Question> questions;
+	
 	public Quiz() {
 		super();
 	}
 
-	public Quiz(int quizId, String title, String dateCreated, String dateLastUpdated, int categoryId, int difficultyId,
-			int defaultId, List<HighScore> highScores, User user) {
+	public Quiz(int quizId, String title, String dateCreated, String dateLastUpdated, Category category,
+			int difficultyId, int defaultId, List<HighScore> highScores, User user, List<Question> questions) {
 		super();
 		this.quizId = quizId;
 		this.title = title;
 		this.dateCreated = dateCreated;
 		this.dateLastUpdated = dateLastUpdated;
-		this.categoryId = categoryId;
+		this.category = category;
 		this.difficultyId = difficultyId;
 		this.defaultId = defaultId;
 		this.highScores = highScores;
 		this.user = user;
+		this.questions = questions;
 	}
 
 	public Quiz(int quizId, String title, String dateCreated, String dateLastUpdated, int difficultyId, int defaultId) {
@@ -127,12 +130,12 @@ public class Quiz {
 		this.dateLastUpdated = dateLastUpdated;
 	}
 
-	public int getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public int getDifficultyId() {
@@ -167,16 +170,25 @@ public class Quiz {
 		this.user = user;
 	}
 
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + categoryId;
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result + ((dateLastUpdated == null) ? 0 : dateLastUpdated.hashCode());
 		result = prime * result + defaultId;
 		result = prime * result + difficultyId;
 		result = prime * result + ((highScores == null) ? 0 : highScores.hashCode());
+		result = prime * result + ((questions == null) ? 0 : questions.hashCode());
 		result = prime * result + quizId;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
@@ -192,7 +204,10 @@ public class Quiz {
 		if (getClass() != obj.getClass())
 			return false;
 		Quiz other = (Quiz) obj;
-		if (categoryId != other.categoryId)
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
 			return false;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
@@ -213,6 +228,11 @@ public class Quiz {
 				return false;
 		} else if (!highScores.equals(other.highScores))
 			return false;
+		if (questions == null) {
+			if (other.questions != null)
+				return false;
+		} else if (!questions.equals(other.questions))
+			return false;
 		if (quizId != other.quizId)
 			return false;
 		if (title == null) {
@@ -231,12 +251,10 @@ public class Quiz {
 	@Override
 	public String toString() {
 		return "Quiz [quizId=" + quizId + ", title=" + title + ", dateCreated=" + dateCreated + ", dateLastUpdated="
-
 				+ dateLastUpdated + ", difficultyId=" + difficultyId + ", defaultId=" + defaultId + ", user=" + user
 				+ "]";
 	}
 
 	
 }
-
 
