@@ -1,10 +1,13 @@
 package com.revature.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -25,8 +28,23 @@ public class Flag {
 	@Column(name="FLAG_DESCRIPTION")
 	private String description;
 	
+	@ManyToOne(cascade={
+			CascadeType.PERSIST, CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.REFRESH
+	})
+	@JoinColumn(name="question_id")
+	private Question question;
+	
 	public Flag() {
 		super();
+	}
+
+	public Flag(int flag_id, int question_id, String description, Question question) {
+		super();
+		this.flag_id = flag_id;
+		this.question_id = question_id;
+		this.description = description;
+		this.question = question;
 	}
 
 	public Flag(int flag_id, int question_id, String description) {
@@ -60,12 +78,21 @@ public class Flag {
 		this.description = description;
 	}
 
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + flag_id;
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		result = prime * result + question_id;
 		return result;
 	}
@@ -86,6 +113,11 @@ public class Flag {
 			return false;
 		if (flag_id != other.flag_id)
 			return false;
+		if (question == null) {
+			if (other.question != null)
+				return false;
+		} else if (!question.equals(other.question))
+			return false;
 		if (question_id != other.question_id)
 			return false;
 		return true;
@@ -93,9 +125,8 @@ public class Flag {
 
 	@Override
 	public String toString() {
-		return "Flag [flag_id=" + flag_id + ", question_id=" + question_id + ", description=" + description + "]";
+		return "Flag [flag_id=" + flag_id + ", question_id=" + question_id + ", description=" + description
+				+ ", question=" + question + "]";
 	}
-	
-	
-
 }
+
