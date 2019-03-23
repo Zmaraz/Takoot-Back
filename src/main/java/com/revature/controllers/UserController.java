@@ -61,20 +61,6 @@ public class UserController {
 		else throw new UserNotFoundException("No username: " + username + " found");
 	}
 	
-	@PostMapping(value="/creds", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public User getUserByCredentials(@RequestBody User credentials) {
-		
-		String username = credentials.getUsername();
-		String password = credentials.getPassword();
-	
-		List<User> users = uService.getUserByCredentials(username, password);
-		
-		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
-		if(user.isPresent()){
-			return user.get();
-			}
-		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");
-	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
