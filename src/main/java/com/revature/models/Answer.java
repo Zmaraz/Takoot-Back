@@ -1,6 +1,5 @@
 package com.revature.models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,35 +21,19 @@ public class Answer {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
 	private int answerId;
 	
-	@ManyToOne(cascade={
-			CascadeType.PERSIST, CascadeType.DETACH,
-			CascadeType.MERGE, CascadeType.REFRESH
-	})
+	@ManyToOne
 	@JoinColumn(name="question_id")
-	private Question question;
+	private int questionId;
 	
 	@Column(name="answer")
 	private String answer;
 	
+//	@OneToOne
 	@Column(name="answer_value")
-	private int answerValue;
+	private boolean answerValue;
 	
 	public Answer() {
 		super();
-	}
-
-	public Answer(int answerId, int answerValue) {
-		super();
-		this.answerId = answerId;
-		this.answerValue = answerValue;
-	}
-
-	public Answer(int answerId, Question question, String answer, int answerValue) {
-		super();
-		this.answerId = answerId;
-		this.question = question;
-		this.answer = answer;
-		this.answerValue = answerValue;
 	}
 
 	public int getAnswerId() {
@@ -60,12 +44,12 @@ public class Answer {
 		this.answerId = answerId;
 	}
 
-	public Question getQuestion() {
-		return question;
+	public int getQuestionId() {
+		return questionId;
 	}
 
-	public void setQuestion(Question question) {
-		this.question = question;
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
 	}
 
 	public String getAnswer() {
@@ -76,11 +60,11 @@ public class Answer {
 		this.answer = answer;
 	}
 
-	public int getAnswerValue() {
+	public boolean isAnswerValue() {
 		return answerValue;
 	}
 
-	public void setAnswerValue(int answerValue) {
+	public void setAnswerValue(boolean answerValue) {
 		this.answerValue = answerValue;
 	}
 
@@ -90,8 +74,8 @@ public class Answer {
 		int result = 1;
 		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
 		result = prime * result + answerId;
-		result = prime * result + answerValue;
-		result = prime * result + ((question == null) ? 0 : question.hashCode());
+		result = prime * result + (answerValue ? 1231 : 1237);
+		result = prime * result + questionId;
 		return result;
 	}
 
@@ -113,21 +97,21 @@ public class Answer {
 			return false;
 		if (answerValue != other.answerValue)
 			return false;
-		if (question == null) {
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
+		if (questionId != other.questionId)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Answer [answerId=" + answerId + ", question=" + question + ", answer=" + answer + ", answerValue="
+		return "Answer [answerId=" + answerId + ", questionId=" + questionId + ", answer=" + answer + ", answerValue="
 				+ answerValue + "]";
 	}
 
 	
 
+
 }	
 
+
+	

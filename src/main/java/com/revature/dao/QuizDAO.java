@@ -19,6 +19,7 @@ import com.revature.models.User;
 public class QuizDAO implements DAO<Quiz>{
 
 	public List<Quiz> getAll() {
+
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -54,6 +55,7 @@ public class QuizDAO implements DAO<Quiz>{
 		} finally {
 			factory.close();
 		}
+
 	}
 
 	public List<Quiz> getById(int id) {
@@ -297,4 +299,5 @@ public class QuizDAO implements DAO<Quiz>{
 		
 		return false;
 	}
+
 }
