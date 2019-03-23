@@ -27,10 +27,12 @@ public class AnswerService {
 	public Answer addAnswer(Answer newAnswer) {
 		
 		System.out.println("in addAnswer() inside AnswerService");
-		if (newAnswer != null) 
-			return ansDao.add(newAnswer);
+		if (newAnswer.getAnswer().equals("") ||
+				newAnswer.getAnswerValue() != 0 ||
+				newAnswer.getQuestion().equals("")) 
+			return null;
 		
-		return null;
+		return ansDao.add(newAnswer);
 		
 	}
 	
@@ -39,10 +41,12 @@ public class AnswerService {
 	public Answer updateAnswer(Answer updateAnswer) {
 		
 		System.out.println("in updateAnswer() inside AnswerService");
-		if (updateAnswer != null)
-			return ansDao.update(updateAnswer);
+		if (updateAnswer.getAnswer().equals("") ||
+				updateAnswer.getAnswerValue() != 0 ||
+				updateAnswer.getQuestion().equals(""))
+			return null;
 		
-		return null;
+		return ansDao.update(updateAnswer);
 		
 	}
 

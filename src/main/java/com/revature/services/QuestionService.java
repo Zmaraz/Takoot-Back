@@ -37,10 +37,12 @@ public class QuestionService {
 	public Question addQuestion(Question newQuestion) {
 		
 		System.out.println("inside of addQuestion() in QuestionService");
-		if (!newQuestion.getQuestion().equals(""))
-			return questDao.add(newQuestion);
+		if (newQuestion.getQuestion().equals("") ||
+				newQuestion.getQuiz().equals("") ||
+				newQuestion.getAnswers().equals(""))
+			return null;
 		
-		return null;
+		return questDao.add(newQuestion);
 		
 	}
 	
@@ -49,10 +51,12 @@ public class QuestionService {
 	public Question updateQuestion(Question updateQuestion) {
 		
 		System.out.println("inside of updateQuestion() in QuestionService");
-		if (updateQuestion != null) 
-			return questDao.update(updateQuestion);
+		if (updateQuestion.getQuestion().equals("") ||
+				updateQuestion.getQuiz().equals("") ||
+				updateQuestion.getAnswers().equals("")) 
+			return null;
 		
-		return null;
+		return questDao.update(updateQuestion);
 		
 	}
 	

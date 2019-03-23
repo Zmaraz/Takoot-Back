@@ -61,10 +61,14 @@ public class UserService {
 	public User updateUser(User updatedUser) {
 		
 		System.out.println("inside of updateUser() in UserService");
-		if (updatedUser != null)
-			return userDao.update(updatedUser);
+		if (updatedUser.getUsername().equals("") || 
+				updatedUser.getPassword().equals("") || 
+				updatedUser.getFirst_name().equals("") || 
+				updatedUser.getLast_name().equals("") ||
+				updatedUser.getEmail().equals(""))
+			return null;
 		
-		return null;
+		return userDao.update(updatedUser);
 	}
 	
 	
@@ -84,10 +88,10 @@ public class UserService {
 	public List<User> getUserByCredentials(String username, String password) {
 		
 		System.out.println("inside of getUserByCredentials() in UserService");
-		if (!username.equals("") && !password.equals("")) 
-			return userDao.getByCredentials(username, password);
+		if (username.equals("") || password.equals("")) 
+			return null;
 		
-		return null;
+		return userDao.getByCredentials(username, password);
 		
 	}
 	
@@ -96,10 +100,10 @@ public class UserService {
 	public List<User> getUserByUsername(String username) {
 		
 		System.out.println("inside of getUserByUsername() in UserService");
-		if (!username.equals("")) 
-			return userDao.getByUsername(username);
+		if (username.equals("")) 
+			return null;
 		
-		return null;
+		return userDao.getByUsername(username);
 		
 	}
 	

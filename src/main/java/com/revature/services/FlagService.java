@@ -28,10 +28,12 @@ public class FlagService {
 	public Flag addFlag(Flag newFlag) {
 		
 		System.out.println("in addFlag() inside FlagService");
-		if (newFlag != null)
-			return flagDao.add(newFlag);
+		if (newFlag.getDescription().equals("") ||
+				newFlag.getQuestion().equals("") ||
+				newFlag.getQuestion_id() != 0)
+			return null;
 		
-		return null;
+		return flagDao.add(newFlag);
 		
 	}
 

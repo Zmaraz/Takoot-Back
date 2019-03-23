@@ -51,10 +51,12 @@ public class HighScoreService {
 	public HighScore addHighScore(HighScore newScore) {
 		
 		System.out.println("in addHighScore inside of the HighScoreService");
-		if (newScore != null)
-			return scoreDao.add(newScore);
-		
-		return null;
+		if (newScore.getQuiz().equals("") ||
+				newScore.getScore() != 0 ||
+				newScore.getUser().equals(""))
+			return null;
+			
+		return scoreDao.add(newScore);
 		
 	}
 
