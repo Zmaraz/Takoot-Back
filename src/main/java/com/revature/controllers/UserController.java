@@ -1,9 +1,8 @@
 package com.revature.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,19 @@ public class UserController {
 	public List<User> getAllUsers(@RequestAttribute("principal") Principal principal){
 		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
 		
-		return uService.getAllUsers();
+		List<User> responseUser = new ArrayList<>();
+		List<User> allUsers = uService.getAllUsers();
+		for(User u : allUsers) {
+			User user = new User();
+			user.setFirst_name(u.getFirst_name());
+			user.setLast_name(u.getLast_name());
+			user.setUsername(u.getUsername());
+			user.setPassword(u.getPassword());
+			user.setEmail(u.getEmail());
+			
+			responseUser.add(user);
+		}
+		return responseUser;
 	}
 	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
