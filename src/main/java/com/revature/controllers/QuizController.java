@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,7 +42,7 @@ public class QuizController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Quiz> getAllQuizzes(HttpServletRequest req) {
 		Principal principal = (Principal) req.getAttribute("principal");
-		System.out.println("Principal in user controller: " + principal); // able to get principal object from request
+		System.out.println("Principal in quiz controller: " + principal); // able to get principal object from request
 																			// header.
 
 		List<Quiz> initialQuizzes = quizService.getAllQuizzes();
@@ -81,7 +80,17 @@ public class QuizController {
 		Optional<Quiz> quiz = quizzes.stream().filter(qz -> qz.getQuizId() == id).findFirst();
 		if (quiz.isPresent()) {
 			System.out.println(quiz);
-			return quiz.get();
+			
+			Quiz respQuiz = quiz.get();
+			User user = new User(respQuiz.getUser().getUser_id(), respQuiz.getUser().getFirst_name(), respQuiz.getUser().getLast_name(),
+					respQuiz.getUser().getUsername(), "***", respQuiz.getUser().getEmail());
+			
+			respQuiz.setCategory(null);
+			respQuiz.setUser(user);
+			respQuiz.setHighScores(null);
+			respQuiz.setQuestions(null);
+			
+			return respQuiz;
 		} else
 			throw new ObjectNotFoundException("No quiz with id: " + id + " found");
 	}
@@ -89,17 +98,36 @@ public class QuizController {
 	@PatchMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Quiz> updateQuiz(@RequestBody Quiz updatedQuiz) {
 		Quiz newQuiz = quizService.updateQuiz(updatedQuiz);
-
+		
+		
 		if (newQuiz == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else
+		else {
+			User user = new User(newQuiz.getUser().getUser_id(), newQuiz.getUser().getFirst_name(), newQuiz.getUser().getLast_name(),
+			newQuiz.getUser().getUsername(), "***", newQuiz.getUser().getEmail());
+			
+			newQuiz.setCategory(null);
+			newQuiz.setUser(user);
+			newQuiz.setHighScores(null);
+			newQuiz.setQuestions(null);
+		}
 			return new ResponseEntity<>(newQuiz, HttpStatus.OK);
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Quiz addQuiz(@RequestBody Quiz newQuiz) {
-		return quizService.addQuiz(newQuiz);
+	public Quiz addQuiz(@RequestBody Quiz Quiz) {
+		Quiz newQuiz = quizService.addQuiz(Quiz);
+		
+		User user = new User(newQuiz.getUser().getUser_id(), newQuiz.getUser().getFirst_name(), newQuiz.getUser().getLast_name(),
+				newQuiz.getUser().getUsername(), "***", newQuiz.getUser().getEmail());
+				
+				newQuiz.setCategory(null);
+				newQuiz.setUser(user);
+				newQuiz.setHighScores(null);
+				newQuiz.setQuestions(null);
+				
+		return newQuiz;
 	}
 
 	@ExceptionHandler
