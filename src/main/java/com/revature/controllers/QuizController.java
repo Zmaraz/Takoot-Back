@@ -1,7 +1,10 @@
 package com.revature.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,7 @@ import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.Principal;
 import com.revature.models.Quiz;
+import com.revature.models.User;
 import com.revature.services.QuizService;
 
 @RestController
@@ -29,45 +33,75 @@ import com.revature.services.QuizService;
 public class QuizController {
 
 	private QuizService quizService;
-	
+
 	@Autowired
 	public QuizController(QuizService qzService) {
 		quizService = qzService;
 	}
+
 	
-	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Quiz> getAllUsers(@RequestAttribute("principal") Principal principal){
-		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Quiz> getAllQuizzes(HttpServletRequest req) {
+		Principal principal = (Principal) req.getAttribute("principal");
+		System.out.println("Principal in user controller: " + principal); // able to get principal object from request
+																			// header.
+
+		List<Quiz> initialQuizzes = quizService.getAllQuizzes();
+		List<Quiz> defaultQuizzes = new ArrayList<>();
+
+		for (Quiz qz : initialQuizzes) {
+
+			qz.setCategory(null);
+			qz.setUser(new User(qz.getUser().getUser_id(), qz.getUser().getFirst_name(), qz.getUser().getLast_name(),
+			qz.getUser().getUsername(), "***", qz.getUser().getEmail()));
+			qz.setHighScores(null);
+			qz.setQuestions(null);
+
+		}
+				
+		defaultQuizzes.forEach(System.out::println);
+				
+		System.out.println("initial Quizzes.");
+		initialQuizzes.forEach(System.out::println);
 		
-		return quizService.getAllQuizzes();
+		if (principal == null) {
+			initialQuizzes.stream().filter(qz -> qz.getDefaultId() == 1).forEach(defaultQuizzes::add);
+			System.out.println("About to print defaultQuizzes: " + "or is it empty: " + defaultQuizzes.isEmpty());
+			System.out.println(initialQuizzes + "or is it empty: " + initialQuizzes.isEmpty());
+			return defaultQuizzes;
+			}
+
+		return initialQuizzes;
 	}
-	
-	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public Quiz getUserById(@PathVariable int id, @RequestAttribute("principal") Principal principal) {
-		
+
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Quiz getQuizById(@PathVariable int id) {
+
 		List<Quiz> quizzes = quizService.getQuizById(id);
 		Optional<Quiz> quiz = quizzes.stream().filter(qz -> qz.getQuizId() == id).findFirst();
-		if(quiz.isPresent()){
+		if (quiz.isPresent()) {
 			System.out.println(quiz);
 			return quiz.get();
-			}
-		else throw new ObjectNotFoundException("No quiz with id: " + id + " found");
+		} else
+			throw new ObjectNotFoundException("No quiz with id: " + id + " found");
 	}
-	
-	@PatchMapping(consumes="application/json", produces="application/json")
-	public ResponseEntity<Quiz> updateQuiz(@RequestBody Quiz updatedQuiz){
+
+	@PatchMapping(consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Quiz> updateQuiz(@RequestBody Quiz updatedQuiz) {
 		Quiz newQuiz = quizService.updateQuiz(updatedQuiz);
-		
-		if(newQuiz == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else return new ResponseEntity<>(newQuiz, HttpStatus.OK);
+
+		if (newQuiz == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>(newQuiz, HttpStatus.OK);
 	}
-	
+
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Quiz addQuiz(@RequestBody Quiz newQuiz) {
 		return quizService.addQuiz(newQuiz);
 	}
-	
+
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ObjectErrorResponse handleException(ObjectNotFoundException e) {
@@ -77,5 +111,5 @@ public class QuizController {
 		error.setTimestamp(System.currentTimeMillis());
 		return error;
 	}
-	
+
 }
