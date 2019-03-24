@@ -1,9 +1,8 @@
 package com.revature.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,61 +41,75 @@ public class UserController {
 	public List<User> getAllUsers(@RequestAttribute("principal") Principal principal){
 		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
 		
-		return uService.getAllUsers();
+		List<User> responseUser = new ArrayList<>();
+		List<User> allUsers = uService.getAllUsers();
+		for(User u : allUsers) {
+			
+			User user = new User(u.getUser_id(), u.getFirst_name(), u.getLast_name(), u.getUsername(), "***", u.getEmail());
+			
+			responseUser.add(user);
+		}
+		return responseUser;
 	}
 	
+	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-
 	public User getUserById(@PathVariable int id, @RequestAttribute("principal") Principal principal) {
 		
-
+		if(principal.getId() != id) throw new UserNotFoundException("Unauthorized");
+		
 		List<User> users = uService.getUserById(id);
 		Optional<User> user = users.stream().filter(u -> u.getUser_id() == id).findFirst();
 		if(user.isPresent()){
 			System.out.println(user);
-			return user.get();
+			
+			User responseUser = new User(user.get().getUser_id(), user.get().getFirst_name(), user.get().getLast_name(), user.get().getUsername(), "***", user.get().getEmail());
+			
+			return responseUser;
+			
 			}
 		else throw new UserNotFoundException("No user with id: " + id + " found");
 	}
 	
 	@GetMapping(value="/uname/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public User getUserByUsername(@PathVariable String username) {
+	public User getUserByUsername(@PathVariable String username, @RequestAttribute("principal") Principal principal ) {
+		
+		if(!principal.getUsername().equalsIgnoreCase(username)) throw new UserNotFoundException("Unauthorized");
+		
 		List<User> users = uService.getUserByUsername(username);
 		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
 		if(user.isPresent()){
 			System.out.println(user);
-			return user.get();
+			
+			User responseUser = new User(user.get().getUser_id(), user.get().getFirst_name(), user.get().getLast_name(), user.get().getUsername(), "***", user.get().getEmail());
+			
+			return responseUser;
 			}
 		else throw new UserNotFoundException("No username: " + username + " found");
 	}
 	
-	@PostMapping(value="/creds", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public User getUserByCredentials(@RequestBody User credentials) {
-		
-		String username = credentials.getUsername();
-		String password = credentials.getPassword();
-	
-		List<User> users = uService.getUserByCredentials(username, password);
-		
-		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
-		if(user.isPresent()){
-			return user.get();
-			}
-		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");
-	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public User addUser(@RequestBody User newUser) {
-		return uService.addUser(newUser);
+		User addedUser = uService.addUser(newUser);
+		User responseUser = new User(addedUser.getUser_id(), addedUser.getFirst_name(), addedUser.getLast_name(), addedUser.getUsername(), "***", addedUser.getEmail());
+		return responseUser;
 	}
 	
 	@PatchMapping(consumes="application/json", produces="application/json")
-	public ResponseEntity<User> updateUser(@RequestBody User updatedUser){
+	public ResponseEntity<User> updateUser(@RequestBody User updatedUser, @RequestAttribute("principal") Principal principal){
+		
 		User newUser = uService.updateUser(updatedUser);
 		
 		if(newUser == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else return new ResponseEntity<>(newUser, HttpStatus.OK);
+		
+		else {
+		
+			User responseUser = new User(newUser.getUser_id(), newUser.getFirst_name(), newUser.getLast_name(), newUser.getUsername(), "***", newUser.getEmail());
+		
+			return new ResponseEntity<>(responseUser, HttpStatus.OK);
+		}
 	}
 	
 	@DeleteMapping(value="/{Id}")
