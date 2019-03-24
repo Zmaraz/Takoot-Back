@@ -39,13 +39,22 @@ public class AuthController {
 	
 		
 		List<User> users = uService.getUserByCredentials(username, password);
+		User responseUser = new User();
 		
 		Optional<User> user = users.stream().filter(u -> u.getUsername().equals(username)).findFirst();
 		if(user.isPresent()){
 			
 			resp.addHeader(JwtConfig.HEADER, JwtConfig.PREFIX + JwtGenerator.createJwt(user.get()));
-			return user.get();
+			
+			responseUser.setFirst_name(user.get().getFirst_name());
+			
+			responseUser.setLast_name(user.get().getLast_name());
+			responseUser.setUsername(user.get().getUsername());
+			responseUser.setPassword(user.get().getPassword());
+			responseUser.setEmail(user.get().getEmail());
+			return responseUser;
 			}
+		
 		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");
 	}
 }
