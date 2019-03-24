@@ -15,82 +15,71 @@ public class QuizService {
 	
 	// get all quizzes
 	public List<Quiz> getAllQuizzes() {
-		
-		System.out.println("inside of getAllQuizzes() in QuizService");
 		return quizDao.getAll();
-		
 	}
-	
 	
 	// add a new quiz
 	public Quiz addQuiz(Quiz newQuiz) {
 
-		System.out.println("inside of addQuiz() in QuizService");
-		if (newQuiz.getDefaultId() != 0 ||
-				newQuiz.getTitle().equals("") ||
-				newQuiz.getCategory().equals("") ||
-				newQuiz.getDefaultId() != 0 ||
+		if (newQuiz.getTitle().equals("") ||
 				newQuiz.getDateCreated().equals("") ||
 				newQuiz.getDateLastUpdated().equals("") ||
-				newQuiz.getDifficultyId() != 0 ||
-				newQuiz.getQuestions().equals("") ||
-				newQuiz.getUser().equals(""))
+				newQuiz.getDifficultyId() == 0)
 			return null;
 		
-		return quizDao.add(newQuiz);
+		if (newQuiz.getDefaultId() == 1 || newQuiz.getDefaultId() == 2) {
+			quizDao.add(newQuiz);
+		}
 		
+		return newQuiz;
 	}
-	
 	
 	// get a quiz by the given quizId
 	public List<Quiz> getQuizById(int quizId) {
 		
-		System.out.println("inside of getQuizById() in QuizService");
-		if (quizDao.getById(quizId) != null)
-			return quizDao.getById(quizId);
+		List<Quiz> quizzes = quizDao.getById(quizId);
+		
+		if (quizzes != null)
+			return quizzes;
 		
 		return null;
-		
 	}
 	
+	public List<Quiz> getByAuthorId(int authorId) {
+		return quizDao.getByAuthorId(authorId);
+	}
+	
+	public List<Quiz> getByCategory(int categoryId) {
+		return quizDao.getByCategory(categoryId);
+	}
+	
+	public List<Quiz> getByDifficulty(int difficultyId) {
+		return quizDao.getByDifficulty(difficultyId);
+	}
+	
+	public List<Quiz> getByDefaultStatus(int defaultId) {
+		return quizDao.getByDefaultStatus(defaultId);
+	}
 	
 	// update a quiz given a quiz
 	public Quiz updateQuiz(Quiz updatedQuiz) {
 		
-		System.out.println("inside of updateQuiz() in QuizService");
-		if (updatedQuiz.getDefaultId() != 0 ||
-				updatedQuiz.getTitle().equals("") ||
-				updatedQuiz.getCategory().equals("") ||
-				updatedQuiz.getDefaultId() != 0 ||
+		if (updatedQuiz.getTitle().equals("") ||
 				updatedQuiz.getDateCreated().equals("") ||
 				updatedQuiz.getDateLastUpdated().equals("") ||
-				updatedQuiz.getDifficultyId() != 0 ||
-				updatedQuiz.getQuestions().equals("") ||
-				updatedQuiz.getUser().equals(""))
+				updatedQuiz.getDifficultyId() == 0)
 			return null;
-	
-		return quizDao.update(updatedQuiz);
 		
+		if (updatedQuiz.getDefaultId() == 1 || updatedQuiz.getDefaultId() == 2) {
+			quizDao.update(updatedQuiz);
+		}
+		
+		return updatedQuiz;
 	}
 	
 	
 	// delete a quiz given its quiz id
 	public boolean deleteUser (int quizId) {
-		
-		System.out.println("inside of deleteUser() in UserService");
-		if (quizDao.getById(quizId) != null)
-			return quizDao.delete(quizId);
-	
 		return false;
-		
 	}
-	
-	// getGuestQuiz
-	
-	// getQuizLeaderboard
-	
-	// addToLeaderboard
-	
-	// addFlagToQuiz
-
 }

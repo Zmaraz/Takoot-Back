@@ -10,11 +10,16 @@ import com.revature.dao.UserDAO;
 import com.revature.models.Answer;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 import com.revature.services.AnswerService;
 import com.revature.services.CategoryService;
 import com.revature.services.FlagService;
+import com.revature.services.HighScoreService;
+import com.revature.services.QuestionService;
+import com.revature.services.QuizService;
+import com.revature.services.UserService;
 
 public class TestDriver {
 
@@ -97,11 +102,52 @@ public class TestDriver {
 		
 		//----------------------------------------------------------------
 		
-		FlagService fS = new FlagService();
-		fS.getFlagByQuestionId(1);
-		Flag flag = new Flag(2, "Blah");
-		fS.addFlag(flag);
+//		FlagService fS = new FlagService();
+//		fS.getFlagByQuestionId(1);
+//		Flag flag = new Flag(2, "Blah");
+//		fS.addFlag(flag);
 		
+		//----------------------------------------------------------------
+		
+//		HighScoreService hSS = new HighScoreService();
+//		hSS.getScoresByUserId(1);
+//		HighScore myhighScore = new HighScore(2, 98);
+//		hSS.addHighScore(myhighScore);
+		
+		//----------------------------------------------------------------
+		
+//		QuestionService qS = new QuestionService();
+//		qS.getAllQuestions();
+//		qS.getAllQuestionsByQuizId(1);
+//		Question question = new Question(2, "Another question");
+//		qS.addQuestion(question);
+//		question.setQuestion("Updated question");
+//		qS.updateQuestion(question);
+		
+		//----------------------------------------------------------------
+		
+//		QuizService quizService = new QuizService();
+//		quizService.getAllQuizzes();
+//		quizService.getByAuthorId(1);
+//		quizService.getByCategory(3);
+//		quizService.getByDifficulty(1);
+//		quizService.getByDefaultStatus(1);
+//		Quiz myQuiz = new Quiz(2, "Quiz Title", "5/4/2019", "5/5/2019", 1, 2);
+//		quizService.addQuiz(myQuiz);
+//		myQuiz.setTitle("Updated Quiz Title");
+//		quizService.updateQuiz(myQuiz);
+		
+		//----------------------------------------------------------------
+		
+		UserService uS = new UserService();
+//		uS.getAllUsers();
+//		uS.getUserById(4);
+//		uS.getUserByUsername("Shake");
+//		uS.getUserByCredentials("Shake", "password");
+//		User user = new User(0, "Kyle", "Peterson", "kp88888", "password", "kpeterson@gmail.com");
+//		uS.addUser(user);
+//		user.setFirst_name("Jimmy");
+//		uS.updateUser(user);
 		
 	}
 }
