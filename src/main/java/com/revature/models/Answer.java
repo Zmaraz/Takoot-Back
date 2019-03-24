@@ -38,9 +38,10 @@ public class Answer {
 		super();
 	}
 
-	public Answer(int answerId, int answerValue) {
+	public Answer(int answerId, String answer, int answerValue) {
 		super();
 		this.answerId = answerId;
+		this.answer = answer;
 		this.answerValue = answerValue;
 	}
 

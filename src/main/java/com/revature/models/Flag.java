@@ -22,9 +22,6 @@ public class Flag {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="flags_seq")
 	private int flag_id;
 	
-	@Column(name="QUESTION_ID")
-	private int question_id;
-	
 	@Column(name="FLAG_DESCRIPTION")
 	private String description;
 	
@@ -39,18 +36,16 @@ public class Flag {
 		super();
 	}
 
-	public Flag(int flag_id, int question_id, String description, Question question) {
+	public Flag(int flag_id, String description, Question question) {
 		super();
 		this.flag_id = flag_id;
-		this.question_id = question_id;
 		this.description = description;
 		this.question = question;
 	}
 
-	public Flag(int flag_id, int question_id, String description) {
+	public Flag(int flag_id, String description) {
 		super();
 		this.flag_id = flag_id;
-		this.question_id = question_id;
 		this.description = description;
 	}
 
@@ -60,14 +55,6 @@ public class Flag {
 
 	public void setFlag_id(int flag_id) {
 		this.flag_id = flag_id;
-	}
-
-	public int getQuestion_id() {
-		return question_id;
-	}
-
-	public void setQuestion_id(int question_id) {
-		this.question_id = question_id;
 	}
 
 	public String getDescription() {
@@ -93,7 +80,6 @@ public class Flag {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + flag_id;
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
-		result = prime * result + question_id;
 		return result;
 	}
 
@@ -118,15 +104,12 @@ public class Flag {
 				return false;
 		} else if (!question.equals(other.question))
 			return false;
-		if (question_id != other.question_id)
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Flag [flag_id=" + flag_id + ", question_id=" + question_id + ", description=" + description
-				+ ", question=" + question + "]";
+		return "Flag [flag_id=" + flag_id + ", description=" + description + ", question=" + question + "]";
 	}
 }
 
