@@ -122,7 +122,7 @@ public class AnswerDAO implements DAO<Answer>{
 			
 			Answer myAnswer = session.get(Answer.class, answerId);
 			
-			myAnswer.setQuestion(updatedAnswer.getQuestion());
+			myAnswer.setAnswer(updatedAnswer.getAnswer());
 			
 			session.getTransaction().commit();
 			

@@ -52,6 +52,13 @@ public class HighScore {
 		this.user = user;
 		this.quiz = quiz;
 	}
+	
+
+	public HighScore(int scoreId, int score) {
+		super();
+		this.scoreId = scoreId;
+		this.score = score;
+	}
 
 
 	public int getScoreId() {
