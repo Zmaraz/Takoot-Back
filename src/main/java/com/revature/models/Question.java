@@ -61,6 +61,12 @@ public class Question {
 		this.flags = flags;
 	}
 
+	public Question(int questionId, String question) {
+		super();
+		this.questionId = questionId;
+		this.question = question;
+	}
+
 	public int getQuestionId() {
 		return questionId;
 	}
