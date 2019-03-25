@@ -36,7 +36,7 @@ public class FlagController {
 
 		List<Flag> flags = flagServ.getFlagByQuestionId(id);
 		
-		Optional<Flag> flag = flags.stream().filter(fl -> fl.getQuestion_id() == id).findFirst();
+		Optional<Flag> flag = flags.stream().filter(fl -> fl.getQuestion().getQuestionId() == id).findFirst();
 		
 		if (flag.isPresent()) {
 			System.out.println(flag);

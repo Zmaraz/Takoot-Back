@@ -47,7 +47,7 @@ public class HighScoreController {
 		return scores;
 	}
 	
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getScoresByUserId(@PathVariable int id) {
 
 		List<HighScore> scores = highService.getScoresByUserId(id);
@@ -64,8 +64,8 @@ public class HighScoreController {
 		return scores;
 	}
 	
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<HighScore> getScoresByQuizId(@PathVariable int id) {
+	@GetMapping(value = "/quiz/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<HighScore> getHighScoresByQuizId(@PathVariable int id) {
 
 		List<HighScore> scores = highService.getScoresByQuizId(id);
 		

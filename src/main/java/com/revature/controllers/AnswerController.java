@@ -22,7 +22,7 @@ import com.revature.models.Answer;
 import com.revature.services.AnswerService;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/answer")
 public class AnswerController {
 
 	private AnswerService ansService;
@@ -32,8 +32,8 @@ public class AnswerController {
 		ansService = aService;
 	}
 	
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Answer> getAnswerByQuestionId(@PathVariable int id) {
+	@GetMapping(value = "/ques/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Answer> getAnsByQuesId(@PathVariable int id) {
 
 		List<Answer> answers = ansService.getAnswerByQuestionId(id);
 		

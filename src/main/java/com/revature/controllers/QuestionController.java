@@ -48,8 +48,8 @@ public class QuestionController {
 		return initialQuestions;
 	}
 
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Question> getQuestionByQuizId(@PathVariable int id) {
+	@GetMapping(value = "/quiz/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Question> getQuesByQuizId(@PathVariable int id) {
 
 		List<Question> questions = quesService.getAllQuestionsByQuizId(id);
 		
