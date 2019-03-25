@@ -15,5 +15,4 @@ artifacts:
   files:
     - target/Takoot-Back-1.0-SNAPSHOT.war
     - .ebextensions/**/*
-    discard-paths: yes
     
