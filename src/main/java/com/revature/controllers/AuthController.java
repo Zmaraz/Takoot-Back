@@ -6,13 +6,16 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.exceptions.UserErrorResponse;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 import com.revature.services.UserService;
@@ -56,5 +59,15 @@ public class AuthController {
 			}
 		
 		else throw new UserNotFoundException("No user: " + username + "found with provided credentials.");
+	}
+	
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public UserErrorResponse handleException(UserNotFoundException e) {
+		UserErrorResponse error = new UserErrorResponse();
+		error.setStatus(HttpStatus.NOT_FOUND.value());
+		error.setMessage(e.getMessage());
+		error.setTimestamp(System.currentTimeMillis());
+		return error;
 	}
 }
