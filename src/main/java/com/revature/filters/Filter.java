@@ -54,7 +54,7 @@ public class Filter extends HttpFilter {
 			System.out.println("Request originates from an unauthenticated origin");
 			
 			// 2.1: If there is no header, or one that we provided, then go to the next step in the filter chain (target servlet)
-			System.out.println("lit lit lit:  " + req);
+			System.out.println("lit lit lit:  " + req.toString());
 			
 			
 			return;
