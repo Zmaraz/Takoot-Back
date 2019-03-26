@@ -39,7 +39,7 @@ public class UserService {
 			return null;
 		}
 		
-		return userDao.add(newUser);
+		return userDao.addUser(newUser);
 	}
 	
 	// update user that is passed in

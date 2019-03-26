@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -116,8 +117,8 @@ public class QuizController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Quiz addQuiz(@RequestBody Quiz Quiz) {
-		Quiz newQuiz = quizService.addQuiz(Quiz);
+	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal) {
+		Quiz newQuiz = quizService.addQuiz(Quiz, principal);
 		
 		User user = new User(newQuiz.getUser().getUser_id(), newQuiz.getUser().getFirst_name(), newQuiz.getUser().getLast_name(),
 				newQuiz.getUser().getUsername(), "***", newQuiz.getUser().getEmail());
