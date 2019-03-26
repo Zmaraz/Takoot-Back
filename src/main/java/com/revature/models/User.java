@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.UserView;
+
 @NamedQueries({
 	@NamedQuery(name="getAllUsers", query="from User"),
 	@NamedQuery(name="getUserById", query="from User u where u.user_id = :user_id"),
@@ -27,26 +30,32 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Quiz_Users")
 @SequenceGenerator(name="user_seq", sequenceName="user_sequence", allocationSize=1, initialValue=6)
-
+//@JsonFilter("depth_2")
 public class User {
 	
 	@Id
 	@Column(name="user_id")
+	@JsonView(UserView.Public.class)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
 	private int user_id;
 	
+	@JsonView(UserView.Public.class)
 	@Column(name="first_name")
 	private String first_name;
 	
+	@JsonView(UserView.Public.class)
 	@Column(name="last_name")
 	private String last_name;
 	
+	@JsonView(UserView.Public.class)
 	@Column(name="username")
 	private String username;
 	
+	@JsonView(UserView.Private.class)
 	@Column(name="user_password")
 	private String password;
 	
+	@JsonView(UserView.Public.class)
 	@Column(name="email")
 	private String email;
 	
