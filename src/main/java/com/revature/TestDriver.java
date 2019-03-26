@@ -25,7 +25,7 @@ public class TestDriver {
 
 	public static void main(String[] args) {
 		
-		UserDAO userDao = new UserDAO();
+//		UserDAO userDao = new UserDAO();
 //		userDao.getAll();
 //		userDao.getById(2);
 //		userDao.getByUsername("poorjon");
@@ -139,7 +139,7 @@ public class TestDriver {
 		
 		//----------------------------------------------------------------
 		
-		UserService uS = new UserService();
+//		UserService uS = new UserService();
 //		uS.getAllUsers();
 //		uS.getUserById(4);
 //		uS.getUserByUsername("Shake");

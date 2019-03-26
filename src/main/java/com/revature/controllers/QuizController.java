@@ -117,10 +117,11 @@ public class QuizController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Quiz addQuiz(@RequestBody Quiz Quiz) {
+	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal) {
+		Quiz newQuiz = quizService.addQuiz(Quiz, principal);
+	
 		
-		
-		return quizService.addQuiz(Quiz);
+		return quizService.addQuiz(Quiz, principal);
 	
 	}
 
