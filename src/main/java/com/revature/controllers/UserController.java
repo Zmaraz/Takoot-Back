@@ -1,6 +1,5 @@
 package com.revature.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import com.revature.ApplicationConfig;
+import com.revature.dtos.UserDTO;
 import com.revature.exceptions.UserErrorResponse;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.filters.DepthFilter;
@@ -104,25 +103,24 @@ public class UserController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public User addUser(@RequestBody User newUser) {
-		User addedUser = uService.addUser(newUser);
-		User responseUser = new User(addedUser.getUser_id(), addedUser.getFirst_name(), addedUser.getLast_name(), addedUser.getUsername(), "***", addedUser.getEmail());
-		return responseUser;
+	public User addUser(@RequestBody UserDTO newUser) {
+		User addingUser = new User(0, newUser.getFirstName(), newUser.getLastName(), newUser.getUsername(), newUser.getPassword(), newUser.getEmail());
+		System.out.println(addingUser);
+		User addedUser = uService.addUser(addingUser);
+		System.out.println(addedUser);
+		addedUser.setPassword("***");
+		return addedUser;
 	}
 	
 	@PatchMapping(consumes="application/json", produces="application/json")
-	public ResponseEntity<User> updateUser(@RequestBody User updatedUser, @RequestAttribute("principal") Principal principal){
+	public ResponseEntity<User> updateUser(@RequestBody UserDTO updatedUser, @RequestAttribute("principal") Principal principal){
 		
-		User newUser = uService.updateUser(updatedUser);
+		User updatingUser = new User(principal.getId(), updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getUsername(), updatedUser.getPassword(), updatedUser.getEmail());
+		User newUser = uService.updateUser(updatingUser);
 		
 		if(newUser == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
-		else {
-		
-			User responseUser = new User(newUser.getUser_id(), newUser.getFirst_name(), newUser.getLast_name(), newUser.getUsername(), "***", newUser.getEmail());
-		
-			return new ResponseEntity<>(responseUser, HttpStatus.OK);
-		}
+		else return new ResponseEntity<>(newUser, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value="/{Id}")
