@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.Flag;
+import com.revature.models.Principal;
 import com.revature.services.FlagService;
 
 @RestController
@@ -52,8 +54,8 @@ public class FlagController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Flag addFlag(@RequestBody Flag newFlag) {
-		Flag respFlag = flagServ.addFlag(newFlag);
+	public Flag addFlag(@RequestBody Flag newFlag, @RequestAttribute("principal") Principal principal, @RequestAttribute("quizId") int questionId) {
+		Flag respFlag = flagServ.addFlag(newFlag, principal, questionId);
 				
 		respFlag.setQuestion(null);
 				

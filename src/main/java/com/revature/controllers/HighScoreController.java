@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 import com.revature.services.HighScoreService;
 
 @RestController
@@ -83,8 +85,8 @@ public class HighScoreController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HighScore addScore(@RequestBody HighScore newScore) {
-		HighScore respScore = highService.addHighScore(newScore);
+	public HighScore addScore(@RequestBody HighScore newScore, @RequestAttribute("principal") Principal principal, @RequestAttribute("quizId") int quizId) {
+		HighScore respScore = highService.addHighScore(newScore, principal, quizId);
 				
 		respScore.setQuiz(null);
 		respScore.setUser(null);
