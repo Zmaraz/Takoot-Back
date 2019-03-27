@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.dtos.QuestionDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.Principal;
@@ -39,14 +40,6 @@ public class QuestionController {
 
 		List<Question> initialQuestions = quesService.getAllQuestions();
 
-		for (Question q : initialQuestions) {
-
-			q.setAnswers(null);
-			q.setFlags(null);
-			q.setQuiz(null);
-
-		}
-
 		return initialQuestions;
 	}
 
@@ -56,15 +49,7 @@ public class QuestionController {
 		List<Question> questions = quesService.getAllQuestionsByQuizId(id);
 		
 		if(questions.isEmpty()) throw new ObjectNotFoundException("No question with quiz id: " + id + " found");
-		
-		for (Question q : questions) {
-
-			q.setAnswers(null);
-			q.setFlags(null);
-			q.setQuiz(null);
-
-		}
-		 
+				 
 		return questions;
 	}
 	
@@ -72,26 +57,17 @@ public class QuestionController {
 	public ResponseEntity<Question> updateQuestion(@RequestBody Question updatedQuestion) {
 		Question respQues = quesService.updateQuestion(updatedQuestion);
 		
-		if (respQues == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else {
-			respQues.setAnswers(null);
-			respQues.setFlags(null);
-			respQues.setQuiz(null);
-		}
+		if (respQues == null)return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 			return new ResponseEntity<>(respQues, HttpStatus.OK);
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Question addQuestion(@RequestBody Question newQuestion, @RequestAttribute("principal") Principal principal) {
-		Question respQues = quesService.addQuestion(newQuestion, principal);
+	public Question addQuestion(@RequestBody QuestionDTO newQuestion, @RequestAttribute("principal") Principal principal) {
+		Question addingQues = new Question(0, newQuestion.getQuestion());		
 				
-		respQues.setAnswers(null);
-		respQues.setFlags(null);
-		respQues.setQuiz(null);
-				
-		return respQues;
+		return quesService.addQuestion(addingQues, principal);
 	}
 	
 	@ExceptionHandler

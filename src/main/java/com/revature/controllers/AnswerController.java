@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.dtos.AnswerDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.Answer;
@@ -48,12 +49,11 @@ public class AnswerController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Answer addAnswer(@RequestBody Answer newAnswer, @RequestAttribute("principal") Principal principal) {
-		Answer respAns = ansService.addAnswer(newAnswer, principal);
-				
-		respAns.setQuestion(null);
-				
-		return respAns;
+	public Answer addAnswer(@RequestBody AnswerDTO newAnswer, @RequestAttribute("principal") Principal principal) {
+		
+		Answer addingAns = new Answer(0, newAnswer.getAnswer(), newAnswer.getAnswerId());
+			
+		return ansService.addAnswer(addingAns, principal);
 	}
 	
 	@PatchMapping(consumes = "application/json", produces = "application/json")

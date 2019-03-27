@@ -26,7 +26,6 @@ import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.Principal;
 import com.revature.models.Quiz;
-import com.revature.models.User;
 import com.revature.services.QuizService;
 
 @RestController
@@ -48,13 +47,6 @@ public class QuizController {
 
 		List<Quiz> initialQuizzes = quizService.getAllQuizzes();
 		List<Quiz> defaultQuizzes = new ArrayList<>();
-
-		for (Quiz qz : initialQuizzes) {
-
-			qz.setUser(new User(qz.getUser().getUser_id(), qz.getUser().getFirst_name(), qz.getUser().getLast_name(),
-			qz.getUser().getUsername(), "***", qz.getUser().getEmail()));
-
-		}
 				
 		defaultQuizzes.forEach(System.out::println);
 				
