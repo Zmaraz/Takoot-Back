@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 
 @NamedQueries({
 	@NamedQuery(name="getAllQuizzes", query="from Quiz"),
+	@NamedQuery(name="getQuizById", query="from Quiz q where q.quizId = :quiz_id"),
 	@NamedQuery(name="getQuizzesByDifficulty", query="from Quiz q where q.difficultyId = :difficulty_id"),
 	@NamedQuery(name="getQuizzesByDefaultStatus", query="from Quiz q where q.defaultId = :default_id")
 })
@@ -56,7 +58,7 @@ public class Quiz {
 	@Column(name="DEFAULT_ID")
 	private int defaultId;
 	
-	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<HighScore> highScores;
 	
 	@ManyToOne(cascade={
@@ -66,7 +68,7 @@ public class Quiz {
 	@JoinColumn(name="author_id")
 	private User user;
 	
-	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Question> questions;
 	
 	public Quiz() {

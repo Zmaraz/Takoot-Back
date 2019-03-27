@@ -43,18 +43,18 @@ public class ApplicationConfig implements WebMvcConfigurer, WebApplicationInitia
 		servletContext.addFilter("filter", Filter.class).addMappingForServletNames(null, false, "DispatcherServlet");
 	}
 	
-	@Bean
-	public ObjectMapper objectMapper() {
-		ObjectMapper om = new ObjectMapper().registerModule(new Hibernate5Module());
-		SimpleFilterProvider depthFilters = new SimpleFilterProvider().addFilter("depth_1", new DepthFilter(1))
-	            .addFilter("depth_2", new DepthFilter(2))
-	            .addFilter("depth_3", new DepthFilter(3))
-	            .addFilter("depth_4", new DepthFilter(4))
-	            .addFilter("depth_5", new DepthFilter(5));
-		om.setFilterProvider(depthFilters);
-		
-		return om;
-	}
+//	@Bean
+//	public ObjectMapper objectMapper() {
+//		ObjectMapper om = new ObjectMapper().registerModule(new Hibernate5Module());
+//		SimpleFilterProvider depthFilters = new SimpleFilterProvider().addFilter("depth_1", new DepthFilter(1))
+//	            .addFilter("depth_2", new DepthFilter(2))
+//	            .addFilter("depth_3", new DepthFilter(3))
+//	            .addFilter("depth_4", new DepthFilter(4))
+//	            .addFilter("depth_5", new DepthFilter(5));
+//		om.setFilterProvider(depthFilters);
+//		
+//		return om;
+//	}
 	
 	
 }

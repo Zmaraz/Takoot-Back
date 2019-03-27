@@ -8,6 +8,7 @@ import com.revature.dao.HighScoreDAO;
 import com.revature.dao.QuizDAO;
 import com.revature.dao.UserDAO;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 
 @Service
 public class HighScoreService {
@@ -34,12 +35,12 @@ public class HighScoreService {
 	}
 	
 	// add a new highscore
-	public HighScore addHighScore(HighScore newScore) {
+	public HighScore addHighScore(HighScore newScore, Principal principal, int quizId) {
 		
 		if (newScore.getScore() < 0)
 			return null;
 			
-		return scoreDao.add(newScore);
+		return scoreDao.addScore(newScore, principal, quizId);
 		
 	}
 	

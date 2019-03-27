@@ -10,6 +10,7 @@ import com.revature.models.Answer;
 import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
@@ -64,7 +65,7 @@ public class AnswerDAO implements DAO<Answer>{
 		}
 	}
 	
-	public Answer add(Answer newAnswer) {
+	public Answer add(Answer newAnswer, Principal principal) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -82,6 +83,21 @@ public class AnswerDAO implements DAO<Answer>{
 		try {
 			
 			session.beginTransaction();
+			
+			QuizDAO quizDao = new QuizDAO();
+			Question question = null;
+			
+			List<Quiz> quizzes = quizDao.getByAuthorId(principal.getId());
+			for(Quiz q: quizzes) {
+				List<Question> questions = q.getQuestions(); 
+				for(Question quest: questions) {
+					if(quest.getAnswers().size() != 4) {
+						question = quest;
+					}
+				}
+			}
+			
+			newAnswer.setQuestion(question);
 			
 			session.save(newAnswer);
 			

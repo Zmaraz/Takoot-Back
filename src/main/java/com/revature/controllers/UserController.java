@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.revature.ApplicationConfig;
 import com.revature.exceptions.UserErrorResponse;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.filters.DepthFilter;
 import com.revature.models.Principal;
 import com.revature.models.User;
 import com.revature.services.UserService;
@@ -49,6 +52,13 @@ public class UserController {
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers(@RequestAttribute("principal") Principal principal){
 		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
+		ObjectMapper om = new ObjectMapper().registerModule(new Hibernate5Module());
+		SimpleFilterProvider depthFilters = new SimpleFilterProvider().addFilter("depth_1", new DepthFilter(1))
+	            .addFilter("depth_2", new DepthFilter(2))
+	            .addFilter("depth_3", new DepthFilter(3))
+	            .addFilter("depth_4", new DepthFilter(4))
+	            .addFilter("depth_5", new DepthFilter(5));
+		om.setFilterProvider(depthFilters);
 		List<User> allUsers = uService.getAllUsers();
 		for(User u : allUsers)u.setPassword("***");
 		
