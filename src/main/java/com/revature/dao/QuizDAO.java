@@ -60,7 +60,47 @@ public class QuizDAO implements DAO<Quiz>{
 	}
 
 	public List<Quiz> getById(int id) {
-		return null;
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+
+				.addAnnotatedClass(Flag.class)
+
+
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Query quizQuery = session.getNamedQuery("getQuizById");
+			
+			quizQuery.setParameter("quiz_id", id);
+			
+			List<Quiz> quizzes = quizQuery.getResultList();
+			
+			for(Quiz q: quizzes) {
+				System.out.println(q);
+			}
+			
+			return quizzes;
+			
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
 	}
 	
 	public List<Quiz> getByAuthorId(int authorId) {
@@ -222,6 +262,10 @@ public class QuizDAO implements DAO<Quiz>{
 	}
 	
 	public Quiz add(Quiz newQuiz, Principal principal) {
+		return null;
+	}
+	
+	public Quiz addQuiz(Quiz newQuiz, Principal principal, int categoryId) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -248,7 +292,17 @@ public class QuizDAO implements DAO<Quiz>{
 				user = u;
 			}
 			
+			CategoryDAO categoryDao = new CategoryDAO();
+			Category category = null;
+			
+			List<Category> categories = categoryDao.getById(categoryId);
+			for(Category c: categories) {
+				category = c;
+			}
+			
 			newQuiz.setUser(user);
+			
+			newQuiz.setCategory(category);
 			
 			session.save(newQuiz);
 			

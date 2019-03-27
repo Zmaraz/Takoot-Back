@@ -20,7 +20,7 @@ public class QuizService {
 	}
 	
 	// add a new quiz
-	public Quiz addQuiz(Quiz newQuiz, Principal principal) {
+	public Quiz addQuiz(Quiz newQuiz, Principal principal, int categoryId) {
 
 		if (newQuiz.getTitle().equals("") ||
 				newQuiz.getDateCreated().equals("") ||
@@ -29,7 +29,7 @@ public class QuizService {
 			return null;
 		
 		if (newQuiz.getDefaultId() == 1 || newQuiz.getDefaultId() == 2) {
-			quizDao.add(newQuiz, principal);
+			quizDao.addQuiz(newQuiz, principal, categoryId);
 		}
 		
 		return newQuiz;

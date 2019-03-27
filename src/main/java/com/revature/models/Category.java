@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -33,7 +34,7 @@ public class Category {
 	private String category;
 
 	
-	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="category", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Quiz> quizzes;
 	
 

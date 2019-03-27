@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.dao.QuestionDAO;
 import com.revature.dao.QuizDAO;
+import com.revature.models.Principal;
 import com.revature.models.Question;
 
 @Service
@@ -26,12 +27,12 @@ public class QuestionService {
 	}
 	
 	// add a new question
-	public Question addQuestion(Question newQuestion) {
+	public Question addQuestion(Question newQuestion, Principal principal) {
 		
 		if (newQuestion.getQuestion().equals(""))
 			return null;
 		
-		return questDao.add(newQuestion);	
+		return questDao.add(newQuestion, principal);	
 	}
 	
 	// update a previous exsisting question
