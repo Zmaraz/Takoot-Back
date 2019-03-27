@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
 
 @Entity
 @Table(name="HIGH_SCORES")
@@ -25,6 +28,7 @@ public class HighScore {
 	@Column(name="score")
 	private int score;
 	
+	@JsonBackReference(value="user-hs")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -32,6 +36,7 @@ public class HighScore {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@JsonBackReference(value="quiz-hs")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH

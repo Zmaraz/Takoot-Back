@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.filters.jsonview.UserView;
 
@@ -60,9 +60,11 @@ public class User {
 	@Column(name="email")
 	private String email;
 	
+	@JsonManagedReference(value="user-quiz")
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Quiz> quizzes; 
 	
+	@JsonManagedReference(value="user-hs")
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<HighScore> highScores;
 	
