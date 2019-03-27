@@ -8,13 +8,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @NamedQueries({
@@ -33,7 +32,7 @@ public class Category {
 	@Column(name="quiz_category")
 	private String category;
 
-	
+	@JsonBackReference(value="quiz-cat")
 	@OneToMany(mappedBy="category", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Quiz> quizzes;
 	

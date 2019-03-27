@@ -50,11 +50,11 @@ public class QuizController {
 
 		for (Quiz qz : initialQuizzes) {
 
-			qz.setCategory(null);
+//			qz.setCategory(null);
 			qz.setUser(new User(qz.getUser().getUser_id(), qz.getUser().getFirst_name(), qz.getUser().getLast_name(),
 			qz.getUser().getUsername(), "***", qz.getUser().getEmail()));
-			qz.setHighScores(null);
-			qz.setQuestions(null);
+//			qz.setHighScores(null);
+//			qz.setQuestions(null);
 
 		}
 				
@@ -81,16 +81,16 @@ public class QuizController {
 		if (quiz.isPresent()) {
 			System.out.println(quiz);
 			
-			Quiz respQuiz = quiz.get();
-			User user = new User(respQuiz.getUser().getUser_id(), respQuiz.getUser().getFirst_name(), respQuiz.getUser().getLast_name(),
-					respQuiz.getUser().getUsername(), "***", respQuiz.getUser().getEmail());
+//			Quiz respQuiz = quiz.get();
+//			User user = new User(respQuiz.getUser().getUser_id(), respQuiz.getUser().getFirst_name(), respQuiz.getUser().getLast_name(),
+//					respQuiz.getUser().getUsername(), "***", respQuiz.getUser().getEmail());
 			
-			respQuiz.setCategory(null);
-			respQuiz.setUser(user);
-			respQuiz.setHighScores(null);
-			respQuiz.setQuestions(null);
+//			respQuiz.setCategory(null);
+//			respQuiz.setUser(user);
+//			respQuiz.setHighScores(null);
+//			respQuiz.setQuestions(null);
 			
-			return respQuiz;
+			return quiz.get();
 		} else
 			throw new ObjectNotFoundException("No quiz with id: " + id + " found");
 	}
@@ -103,13 +103,13 @@ public class QuizController {
 		if (newQuiz == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		else {
-			User user = new User(newQuiz.getUser().getUser_id(), newQuiz.getUser().getFirst_name(), newQuiz.getUser().getLast_name(),
-			newQuiz.getUser().getUsername(), "***", newQuiz.getUser().getEmail());
-			
-			newQuiz.setCategory(null);
-			newQuiz.setUser(user);
-			newQuiz.setHighScores(null);
-			newQuiz.setQuestions(null);
+//			User user = new User(newQuiz.getUser().getUser_id(), newQuiz.getUser().getFirst_name(), newQuiz.getUser().getLast_name(),
+//			newQuiz.getUser().getUsername(), "***", newQuiz.getUser().getEmail());
+//			
+//			newQuiz.setCategory(null);
+//			newQuiz.setUser(user);
+//			newQuiz.setHighScores(null);
+//			newQuiz.setQuestions(null);
 		}
 			return new ResponseEntity<>(newQuiz, HttpStatus.OK);
 	}
@@ -117,9 +117,9 @@ public class QuizController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
-	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal, @RequestAttribute("categoryId") int categoryId) {
+	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal) {
 		
-		
+		int categoryId = Quiz.getCategory().getCategoryId();
 		return quizService.addQuiz(Quiz, principal, categoryId);
 	
 	}

@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="ANSWERS")
 @SequenceGenerator(name="answers_seq", sequenceName="answers_seq", allocationSize=1)
@@ -21,6 +23,7 @@ public class Answer {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
 	private int answerId;
 	
+	@JsonBackReference(value="ques-ans")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH

@@ -17,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @NamedQueries({
 	@NamedQuery(name="getAllQuizzes", query="from Quiz"),
 	@NamedQuery(name="getQuizById", query="from Quiz q where q.quizId = :quiz_id"),
@@ -45,6 +48,7 @@ public class Quiz {
 	@Column(name="DATE_LAST_UPDATED")
 	private String dateLastUpdated;
 	
+	@JsonManagedReference(value="quiz-cat")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -58,9 +62,11 @@ public class Quiz {
 	@Column(name="DEFAULT_ID")
 	private int defaultId;
 	
+	@JsonManagedReference(value="quiz-hs")
 	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<HighScore> highScores;
 	
+	@JsonBackReference(value="user-quiz")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -68,6 +74,7 @@ public class Quiz {
 	@JoinColumn(name="author_id")
 	private User user;
 	
+	@JsonManagedReference(value="quiz-ques")
 	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Question> questions;
 	

@@ -17,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @NamedQueries({
 	@NamedQuery(name="getAllQuestions", query="from Question"),
@@ -36,6 +39,7 @@ public class Question {
 	@Column(name="question")
 	private String question;
 	
+	@JsonBackReference(value="quiz-ques")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -43,9 +47,11 @@ public class Question {
 	@JoinColumn(name="quiz_id")
 	private Quiz quiz;
 	
+	@JsonManagedReference(value="ques-ans")
 	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Answer> answers;
 	
+	@JsonManagedReference(value="ques-flags")
 	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Flag> flags;
 	
