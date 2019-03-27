@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.dtos.HighScoreDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.HighScore;
@@ -39,13 +40,6 @@ public class HighScoreController {
 
 		List<HighScore> scores = highService.getAllHighScores();
 
-		for (HighScore hs : scores) {
-
-			hs.setQuiz(null);
-			hs.setUser(null);
-
-		}
-
 		return scores;
 	}
 	
@@ -55,14 +49,7 @@ public class HighScoreController {
 		List<HighScore> scores = highService.getScoresByUserId(id);
 		
 		if(scores.isEmpty()) throw new ObjectNotFoundException("No scores are registered user yet.");
-		
-		for (HighScore hs : scores) {
-
-			hs.setQuiz(null);
-			hs.setUser(null);
-
-		}
-		 
+			 
 		return scores;
 	}
 	
@@ -72,26 +59,17 @@ public class HighScoreController {
 		List<HighScore> scores = highService.getScoresByQuizId(id);
 		
 		if(scores.isEmpty()) throw new ObjectNotFoundException("No scores are this quiz yet.");
-		
-		for (HighScore hs : scores) {
-
-			hs.setQuiz(null);
-			hs.setUser(null);
-
-		}
 		 
 		return scores;
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HighScore addScore(@RequestBody HighScore newScore, @RequestAttribute("principal") Principal principal, @RequestAttribute("quizId") int quizId) {
-		HighScore respScore = highService.addHighScore(newScore, principal, quizId);
+	public HighScore addScore(@RequestBody HighScoreDTO newScore, @RequestAttribute("principal") Principal principal) {
+		
+		HighScore addingScore = new HighScore(0, newScore.getScore());			
 				
-		respScore.setQuiz(null);
-		respScore.setUser(null);
-				
-		return respScore;
+		return highService.addHighScore(addingScore, principal, newScore.getQuizId());
 	}
 	
 	@PatchMapping(consumes = "application/json", produces = "application/json")
@@ -100,10 +78,7 @@ public class HighScoreController {
 		
 		if (respScore == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else {
-			respScore.setQuiz(null);
-			respScore.setUser(null);
-		}
+		
 			return new ResponseEntity<>(respScore, HttpStatus.OK);
 	}
 	

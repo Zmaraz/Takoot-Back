@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.dtos.FlagDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
 import com.revature.models.Flag;
@@ -33,33 +34,25 @@ public class FlagController {
 		flagServ = fServer;
 	}
 	
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/quest/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Flag getFlagByQuestionId(@PathVariable int id) {
 
 		List<Flag> flags = flagServ.getFlagByQuestionId(id);
 		
 		Optional<Flag> flag = flags.stream().filter(fl -> fl.getQuestion().getQuestionId() == id).findFirst();
 		
-		if (flag.isPresent()) {
-			System.out.println(flag);
-			
-			Flag respFlag = flag.get();
-			
-			respFlag.setQuestion(null);
-			
-			return respFlag;
-		} else
+		if (flag.isPresent())			
+			return flag.get();
+		
 			throw new ObjectNotFoundException("No flag with question id: " + id + " found");
 	}
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Flag addFlag(@RequestBody Flag newFlag, @RequestAttribute("principal") Principal principal, @RequestAttribute("quizId") int questionId) {
-		Flag respFlag = flagServ.addFlag(newFlag, principal, questionId);
-				
-		respFlag.setQuestion(null);
-				
-		return respFlag;
+	public Flag addFlag(@RequestBody FlagDTO newFlag, @RequestAttribute("principal") Principal principal) {
+		Flag addingFlag = new Flag(0, newFlag.getDescription()); 
+								
+		return flagServ.addFlag(addingFlag, principal, newFlag.getQuestionId());
 	}
 	
 	@ExceptionHandler
