@@ -12,6 +12,7 @@ import com.revature.models.Answer;
 import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
@@ -220,7 +221,7 @@ public class QuizDAO implements DAO<Quiz>{
 		}
 	}
 	
-	public Quiz add(Quiz newQuiz) {
+	public Quiz add(Quiz newQuiz, Principal principal) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -238,6 +239,16 @@ public class QuizDAO implements DAO<Quiz>{
 		try {
 			
 			session.beginTransaction();
+			
+			UserDAO userDao = new UserDAO();
+			User user = null;
+			
+			List<User> users = userDao.getByCredentials(principal.getUsername(), principal.getPassword());
+			for(User u: users) {
+				user = u;
+			}
+			
+			newQuiz.setUser(user);
 			
 			session.save(newQuiz);
 			

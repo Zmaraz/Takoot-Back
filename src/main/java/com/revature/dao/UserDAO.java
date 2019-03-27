@@ -13,6 +13,7 @@ import com.revature.models.Answer;
 import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 import com.revature.models.Question;
 import com.revature.models.Quiz;
 
@@ -105,8 +106,12 @@ public class UserDAO implements DAO<User>{
 			factory.close();
 		}
 	}
-
-	public User add(User obj) {
+	
+	public User add(User obj, Principal principal) {
+		return null;
+	}
+	
+	public User addUser(User obj) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
