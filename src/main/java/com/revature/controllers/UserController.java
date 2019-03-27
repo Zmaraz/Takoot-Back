@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.ApplicationConfig;
 import com.revature.exceptions.UserErrorResponse;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Principal;
@@ -31,25 +33,26 @@ import com.revature.services.UserService;
 public class UserController {
 	
 	private UserService uService;
+//	private ObjectMapper oMapper;
 	
 	@Autowired
 	public UserController(UserService userService) {
 		uService = userService;
 	}
 	
+//	@Autowired
+//	public void setUserController(ObjectMapper objectMapper) {
+//		oMapper = objectMapper;
+//	}
+	
+	
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers(@RequestAttribute("principal") Principal principal){
 		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
-		
-		List<User> responseUser = new ArrayList<>();
 		List<User> allUsers = uService.getAllUsers();
-		for(User u : allUsers) {
-			
-			User user = new User(u.getUser_id(), u.getFirst_name(), u.getLast_name(), u.getUsername(), "***", u.getEmail());
-			
-			responseUser.add(user);
-		}
-		return responseUser;
+		for(User u : allUsers)u.setPassword("***");
+		
+		return allUsers;
 	}
 	
 	
