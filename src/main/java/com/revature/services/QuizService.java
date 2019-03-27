@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.revature.dao.QuizDAO;
+import com.revature.models.Principal;
 import com.revature.models.Quiz;
 
 @Service
@@ -19,7 +20,7 @@ public class QuizService {
 	}
 	
 	// add a new quiz
-	public Quiz addQuiz(Quiz newQuiz) {
+	public Quiz addQuiz(Quiz newQuiz, Principal principal) {
 
 		if (newQuiz.getTitle().equals("") ||
 				newQuiz.getDateCreated().equals("") ||
@@ -28,7 +29,7 @@ public class QuizService {
 			return null;
 		
 		if (newQuiz.getDefaultId() == 1 || newQuiz.getDefaultId() == 2) {
-			quizDao.add(newQuiz);
+			quizDao.add(newQuiz, principal);
 		}
 		
 		return newQuiz;
