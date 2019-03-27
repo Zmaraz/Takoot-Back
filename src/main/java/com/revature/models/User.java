@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.FlagView;
 import com.revature.filters.jsonview.QuizView;
 import com.revature.filters.jsonview.UserView;
 
@@ -53,7 +54,7 @@ public class User {
 	@Column(name="username")
 	private String username;
 	
-	@JsonView(UserView.Private.class)
+	@JsonView({UserView.Private.class, FlagView.Public.class})
 	@Column(name="user_password")
 	private String password;
 	

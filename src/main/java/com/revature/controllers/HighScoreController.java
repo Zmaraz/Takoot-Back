@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.dtos.HighScoreDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
+import com.revature.filters.jsonview.FlagView;
 import com.revature.models.HighScore;
 import com.revature.models.Principal;
 import com.revature.services.HighScoreService;
@@ -35,6 +37,7 @@ public class HighScoreController {
 		highService = hsServe;
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getAllHighScores() {
 
@@ -43,6 +46,7 @@ public class HighScoreController {
 		return scores;
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getScoresByUserId(@PathVariable int id) {
 
@@ -53,6 +57,7 @@ public class HighScoreController {
 		return scores;
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@GetMapping(value = "/quiz/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getHighScoresByQuizId(@PathVariable int id) {
 
@@ -63,6 +68,7 @@ public class HighScoreController {
 		return scores;
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public HighScore addScore(@RequestBody HighScoreDTO newScore, @RequestAttribute("principal") Principal principal) {
@@ -72,6 +78,7 @@ public class HighScoreController {
 		return highService.addHighScore(addingScore, principal, newScore.getQuizId());
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@PatchMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<HighScore> updateHighScores(@RequestBody HighScore updatedScore) {
 		HighScore respScore = highService.updateHighScore(updatedScore);

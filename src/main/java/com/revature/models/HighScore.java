@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.FlagView;
 import com.revature.filters.jsonview.QuizView;
 import com.revature.filters.jsonview.UserView;
 
@@ -28,7 +29,7 @@ public class HighScore {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="highscore_seq")
 	private int scoreId;
 	
-	@JsonView({UserView.Quiz.class, QuizView.Public.class})
+	@JsonView({UserView.Quiz.class, QuizView.Public.class,FlagView.Public.class})
 	@Column(name="score")
 	private int score;
 	
