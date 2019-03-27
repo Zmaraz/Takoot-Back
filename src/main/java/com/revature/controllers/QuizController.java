@@ -117,8 +117,8 @@ public class QuizController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal) {
-		Quiz newQuiz = quizService.addQuiz(Quiz, principal);
+	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal, @RequestAttribute("categoryId") int categoryId) {
+		Quiz newQuiz = quizService.addQuiz(Quiz, principal, categoryId);
 		
 		User user = new User(newQuiz.getUser().getUser_id(), newQuiz.getUser().getFirst_name(), newQuiz.getUser().getLast_name(),
 				newQuiz.getUser().getUsername(), "***", newQuiz.getUser().getEmail());

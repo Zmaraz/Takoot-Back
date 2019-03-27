@@ -12,6 +12,7 @@ import com.revature.models.Answer;
 import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
@@ -106,7 +107,11 @@ public class HighScoreDAO implements DAO<HighScore>{
 
 	}
 	
-	public HighScore add(HighScore newHighScore) {
+	public HighScore add(HighScore newHighScore, Principal principal) {
+		return null;
+	}
+	
+	public HighScore addScore(HighScore newHighScore, Principal principal, int quizId) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -126,6 +131,26 @@ public class HighScoreDAO implements DAO<HighScore>{
 		try {
 			
 			session.beginTransaction();
+			
+			UserDAO userDao = new UserDAO();
+			User user = null;
+			
+			List<User> users = userDao.getByCredentials(principal.getUsername(), principal.getPassword());
+			for(User u: users) {
+				user = u;
+			}
+			
+			QuizDAO quizDao = new QuizDAO();
+			Quiz quiz = null;
+			
+			List<Quiz> quizzes = quizDao.getById(quizId);
+			for(Quiz q: quizzes) {
+				quiz = q;
+			}
+			
+			newHighScore.setUser(user);
+			
+			newHighScore.setQuiz(quiz);
 			
 			session.save(newHighScore);
 			

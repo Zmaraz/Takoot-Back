@@ -10,6 +10,7 @@ import com.revature.models.Answer;
 import com.revature.models.Category;
 import com.revature.models.Flag;
 import com.revature.models.HighScore;
+import com.revature.models.Principal;
 import com.revature.models.Question;
 import com.revature.models.Quiz;
 import com.revature.models.User;
@@ -63,7 +64,11 @@ public class FlagDAO implements DAO<Flag>{
 		}
 	}
 	
-	public Flag add(Flag newFlag) {
+	public Flag add(Flag newFlag, Principal principal) {
+		return null;
+	}
+	
+	public Flag addFlag(Flag newFlag, Principal principal, int questionId) {
 		
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
@@ -81,6 +86,16 @@ public class FlagDAO implements DAO<Flag>{
 		try {
 			
 			session.beginTransaction();
+			
+			QuestionDAO questDao = new QuestionDAO();
+			Question question = null;
+			
+			List<Question> questions = questDao.getById(questionId);
+			for(Question q: questions) {
+				question = q;
+			}
+			
+			newFlag.setQuestion(question);
 			
 			session.save(newFlag);
 			

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.revature.dao.AnswerDAO;
 import com.revature.dao.QuestionDAO;
 import com.revature.models.Answer;
+import com.revature.models.Principal;
 
 @Service
 public class AnswerService {
@@ -21,13 +22,13 @@ public class AnswerService {
 	
 	
 	// add a new Answer
-	public Answer addAnswer(Answer newAnswer) {
+	public Answer addAnswer(Answer newAnswer, Principal principal) {
 		
 		if (newAnswer.getAnswer().equals(""))
 			return null;
 		
 		if (newAnswer.getAnswerValue() == 0 || newAnswer.getAnswerValue() ==1 ) {
-			ansDao.add(newAnswer);
+			ansDao.add(newAnswer, principal);
 		}
 		return newAnswer;
 	}
