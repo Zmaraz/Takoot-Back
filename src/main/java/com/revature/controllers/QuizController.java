@@ -27,7 +27,6 @@ import com.revature.models.Principal;
 import com.revature.models.Quiz;
 import com.revature.models.User;
 import com.revature.services.QuizService;
-import com.revature.services.UserService;
 
 @RestController
 @RequestMapping("/quiz")
@@ -118,8 +117,6 @@ public class QuizController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Quiz addQuiz(@RequestBody Quiz Quiz, @RequestAttribute("principal") Principal principal) {
-		Quiz newQuiz = quizService.addQuiz(Quiz, principal);
-	
 		
 		return quizService.addQuiz(Quiz, principal);
 	

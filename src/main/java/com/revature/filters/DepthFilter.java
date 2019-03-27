@@ -1,11 +1,14 @@
 package com.revature.filters;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonStreamContext;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 
+//@Component
 public class DepthFilter extends SimpleBeanPropertyFilter{
 	private final int maxDepth;
 
