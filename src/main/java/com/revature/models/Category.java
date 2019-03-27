@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.QuizView;
+import com.revature.filters.jsonview.UserView;
 
 
 @NamedQueries({
@@ -27,9 +30,11 @@ public class Category {
 	
 	@Id
 	@Column(name="category_id")
+	@JsonView(UserView.Quiz.class)
 	private int categoryId;
 	
 	@Column(name="quiz_category")
+	@JsonView({UserView.Quiz.class, QuizView.Public.class})
 	private String category;
 
 	@JsonBackReference(value="quiz-cat")

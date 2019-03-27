@@ -17,8 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.QuizView;
+import com.revature.filters.jsonview.UserView;
 
 @NamedQueries({
 	@NamedQuery(name="getAllQuizzes", query="from Quiz"),
@@ -36,19 +38,24 @@ public class Quiz {
 	
 	@Id
 	@Column(name="QUIZ_ID")
+	@JsonView(UserView.Quiz.class)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="quiz_seq")
 	private int quizId;
 	
+	
+	@JsonView({UserView.Quiz.class,QuizView.Public.class})
 	@Column(name="TITLE")
 	private String title;
 	
+	@JsonView(QuizView.Public.class)
 	@Column(name="DATE_CREATED")
 	private String dateCreated;
 	
+	@JsonView(QuizView.Public.class)
 	@Column(name="DATE_LAST_UPDATED")
 	private String dateLastUpdated;
 	
-	@JsonManagedReference(value="quiz-cat")
+	@JsonView({UserView.Quiz.class, QuizView.Public.class})
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -56,17 +63,19 @@ public class Quiz {
 	@JoinColumn(name="category_id")
 	private Category category;
 	
+	@JsonView(QuizView.Public.class)
 	@Column(name="DIFFICULTY_ID")
 	private int difficultyId;
 	
+	@JsonView(QuizView.Public.class)
 	@Column(name="DEFAULT_ID")
 	private int defaultId;
 	
-	@JsonManagedReference(value="quiz-hs")
+	@JsonView(QuizView.Public.class)
 	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<HighScore> highScores;
 	
-	@JsonBackReference(value="user-quiz")
+	@JsonView(QuizView.Public.class)
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -74,7 +83,7 @@ public class Quiz {
 	@JoinColumn(name="author_id")
 	private User user;
 	
-	@JsonManagedReference(value="quiz-ques")
+	@JsonView(QuizView.Public.class)
 	@OneToMany(mappedBy="quiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Question> questions;
 	

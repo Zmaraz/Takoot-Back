@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.QuizView;
 import com.revature.filters.jsonview.UserView;
 
 @NamedQueries({
@@ -48,7 +49,7 @@ public class User {
 	@Column(name="last_name")
 	private String last_name;
 	
-	@JsonView(UserView.Public.class)
+	@JsonView({UserView.Public.class, QuizView.Public.class})
 	@Column(name="username")
 	private String username;
 	
@@ -60,11 +61,11 @@ public class User {
 	@Column(name="email")
 	private String email;
 	
-	@JsonManagedReference(value="user-quiz")
+	@JsonView({UserView.Quiz.class, UserView.Public.class})
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Quiz> quizzes; 
 	
-	@JsonManagedReference(value="user-hs")
+	@JsonView(UserView.Quiz.class)
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<HighScore> highScores;
 	
