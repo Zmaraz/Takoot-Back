@@ -31,7 +31,7 @@ import com.revature.filters.jsonview.UserView;
 @Entity
 @Table(name="Quiz_Users")
 @SequenceGenerator(name="user_seq", sequenceName="user_sequence", allocationSize=1, initialValue=6)
-@JsonFilter("depth_2")
+//@JsonFilter("depth_2")
 public class User {
 	
 	@Id

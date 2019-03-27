@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 
-@Component
+//@Component
 public class DepthFilter extends SimpleBeanPropertyFilter{
 	private final int maxDepth;
 
