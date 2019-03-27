@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="FLAGS")
 @SequenceGenerator(name="flags_seq", sequenceName="flags_seq", allocationSize=1)
@@ -25,6 +27,7 @@ public class Flag {
 	@Column(name="FLAG_DESCRIPTION")
 	private String description;
 	
+	@JsonBackReference(value="ques-flags")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
