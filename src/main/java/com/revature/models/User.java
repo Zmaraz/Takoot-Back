@@ -15,9 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.filters.jsonview.FlagView;
+import com.revature.filters.jsonview.HighScoreView;
 import com.revature.filters.jsonview.QuizView;
 import com.revature.filters.jsonview.UserView;
 
@@ -50,7 +51,7 @@ public class User {
 	@Column(name="last_name")
 	private String last_name;
 	
-	@JsonView({UserView.Public.class, QuizView.Public.class})
+	@JsonView({UserView.Public.class, QuizView.Public.class, HighScoreView.Public.class})
 	@Column(name="username")
 	private String username;
 	

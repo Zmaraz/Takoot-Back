@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.dtos.HighScoreDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
-import com.revature.filters.jsonview.FlagView;
+import com.revature.filters.jsonview.HighScoreView;
 import com.revature.models.HighScore;
 import com.revature.models.Principal;
 import com.revature.services.HighScoreService;
@@ -37,16 +37,15 @@ public class HighScoreController {
 		highService = hsServe;
 	}
 	
-	@JsonView(FlagView.Public.class)
+	@JsonView(HighScoreView.Public.class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getAllHighScores() {
+		System.out.println("in get all hs");
 
-		List<HighScore> scores = highService.getAllHighScores();
-
-		return scores;
+		return highService.getAllHighScores();
 	}
 	
-	@JsonView(FlagView.Public.class)
+	@JsonView(HighScoreView.Public.class)
 	@GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getScoresByUserId(@PathVariable int id) {
 
@@ -57,7 +56,7 @@ public class HighScoreController {
 		return scores;
 	}
 	
-	@JsonView(FlagView.Public.class)
+	@JsonView(HighScoreView.Public.class)
 	@GetMapping(value = "/quiz/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<HighScore> getHighScoresByQuizId(@PathVariable int id) {
 
@@ -68,7 +67,7 @@ public class HighScoreController {
 		return scores;
 	}
 	
-	@JsonView(FlagView.Public.class)
+	@JsonView(HighScoreView.Public.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public HighScore addScore(@RequestBody HighScoreDTO newScore, @RequestAttribute("principal") Principal principal) {
@@ -78,7 +77,7 @@ public class HighScoreController {
 		return highService.addHighScore(addingScore, principal, newScore.getQuizId());
 	}
 	
-	@JsonView(FlagView.Public.class)
+	@JsonView(HighScoreView.Public.class)
 	@PatchMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<HighScore> updateHighScores(@RequestBody HighScore updatedScore) {
 		HighScore respScore = highService.updateHighScore(updatedScore);

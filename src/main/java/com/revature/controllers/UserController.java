@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,7 +107,7 @@ public class UserController {
 	}
 	
 	@JsonView(UserView.Private.class)
-	@PatchMapping(consumes="application/json", produces="application/json")
+	@PutMapping(consumes="application/json", produces="application/json")
 	public ResponseEntity<User> updateUser(@RequestBody UserDTO updatedUser, @RequestAttribute("principal") Principal principal){
 		
 		User updatingUser = new User(principal.getId(), updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getUsername(), updatedUser.getPassword(), updatedUser.getEmail());
