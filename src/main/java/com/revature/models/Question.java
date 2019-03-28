@@ -17,8 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.FlagView;
+import com.revature.filters.jsonview.QuestionView;
+import com.revature.filters.jsonview.QuizView;
 
 
 @NamedQueries({
@@ -33,13 +35,14 @@ public class Question {
 	
 	@Id
 	@Column(name="question_id")
+	@JsonView({QuizView.Public.class,QuizView.Public.class, FlagView.Public.class})
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="question_seq")
 	private int questionId;
 	
 	@Column(name="question")
+	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class})
 	private String question;
 	
-	@JsonBackReference(value="quiz-ques")
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -47,11 +50,11 @@ public class Question {
 	@JoinColumn(name="quiz_id")
 	private Quiz quiz;
 	
-	@JsonManagedReference(value="ques-ans")
+	@JsonView({QuizView.Public.class,QuestionView.Public.class})
 	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Answer> answers;
 	
-	@JsonManagedReference(value="ques-flags")
+	@JsonView(QuestionView.Public.class)
 	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Flag> flags;
 	

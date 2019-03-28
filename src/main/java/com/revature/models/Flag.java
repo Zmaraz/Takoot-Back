@@ -11,7 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.FlagView;
+import com.revature.filters.jsonview.QuestionView;
 
 @Entity
 @Table(name="FLAGS")
@@ -21,13 +23,15 @@ public class Flag {
 
 	@Id
 	@Column(name="FLAG_ID")
+	@JsonView({QuestionView.Public.class, FlagView.Public.class})
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="flags_seq")
 	private int flag_id;
 	
+	@JsonView({QuestionView.Public.class, FlagView.Public.class})
 	@Column(name="FLAG_DESCRIPTION")
 	private String description;
 	
-	@JsonBackReference(value="ques-flags")
+	@JsonView(FlagView.Public.class)
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
