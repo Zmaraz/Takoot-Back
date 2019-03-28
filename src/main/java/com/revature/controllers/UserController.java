@@ -1,8 +1,9 @@
 package com.revature.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,52 +21,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import com.revature.ApplicationConfig;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.dtos.UserDTO;
 import com.revature.exceptions.UserErrorResponse;
 import com.revature.exceptions.UserNotFoundException;
-import com.revature.filters.DepthFilter;
+import com.revature.filters.jsonview.UserView;
 import com.revature.models.Principal;
 import com.revature.models.User;
 import com.revature.services.UserService;
+import com.revature.util.JwtConfig;
+import com.revature.util.JwtGenerator;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 	
 	private UserService uService;
-//	private ObjectMapper oMapper;
+
 	
 	@Autowired
 	public UserController(UserService userService) {
 		uService = userService;
 	}
+		
 	
-//	@Autowired
-//	public void setUserController(ObjectMapper objectMapper) {
-//		oMapper = objectMapper;
-//	}
-	
-	
+	@JsonView(UserView.Quiz.class)
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers(@RequestAttribute("principal") Principal principal){
 		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
-		ObjectMapper om = new ObjectMapper().registerModule(new Hibernate5Module());
-		SimpleFilterProvider depthFilters = new SimpleFilterProvider().addFilter("depth_1", new DepthFilter(1))
-	            .addFilter("depth_2", new DepthFilter(2))
-	            .addFilter("depth_3", new DepthFilter(3))
-	            .addFilter("depth_4", new DepthFilter(4))
-	            .addFilter("depth_5", new DepthFilter(5));
-		om.setFilterProvider(depthFilters);
+
 		List<User> allUsers = uService.getAllUsers();
 		for(User u : allUsers)u.setPassword("***");
 		
 		return allUsers;
 	}
 	
-	
+	@JsonView(UserView.Quiz.class)
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public User getUserById(@PathVariable int id, @RequestAttribute("principal") Principal principal) {
 		
@@ -84,6 +75,7 @@ public class UserController {
 		else throw new UserNotFoundException("No user with id: " + id + " found");
 	}
 	
+	@JsonView(UserView.Quiz.class)
 	@GetMapping(value="/uname/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public User getUserByUsername(@PathVariable String username, @RequestAttribute("principal") Principal principal ) {
 		
@@ -101,28 +93,28 @@ public class UserController {
 		else throw new UserNotFoundException("No username: " + username + " found");
 	}
 	
-	
+	@JsonView(UserView.Private.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public User addUser(@RequestBody User newUser) {
-		User addedUser = uService.addUser(newUser);
-		User responseUser = new User(addedUser.getUser_id(), addedUser.getFirst_name(), addedUser.getLast_name(), addedUser.getUsername(), "***", addedUser.getEmail());
-		return responseUser;
+	public User addUser(@RequestBody UserDTO newUser, HttpServletResponse resp) {
+		User addingUser = new User(0, newUser.getFirstName(), newUser.getLastName(), newUser.getUsername(), newUser.getPassword(), newUser.getEmail());
+		System.out.println(addingUser);
+		User addedUser = uService.addUser(addingUser);
+		System.out.println(addedUser);
+		resp.addHeader(JwtConfig.HEADER, JwtConfig.PREFIX + JwtGenerator.createJwt(addedUser));
+		return addedUser;
 	}
 	
+	@JsonView(UserView.Private.class)
 	@PatchMapping(consumes="application/json", produces="application/json")
-	public ResponseEntity<User> updateUser(@RequestBody User updatedUser, @RequestAttribute("principal") Principal principal){
+	public ResponseEntity<User> updateUser(@RequestBody UserDTO updatedUser, @RequestAttribute("principal") Principal principal){
 		
-		User newUser = uService.updateUser(updatedUser);
+		User updatingUser = new User(principal.getId(), updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getUsername(), updatedUser.getPassword(), updatedUser.getEmail());
+		User newUser = uService.updateUser(updatingUser);
 		
 		if(newUser == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
-		else {
-		
-			User responseUser = new User(newUser.getUser_id(), newUser.getFirst_name(), newUser.getLast_name(), newUser.getUsername(), "***", newUser.getEmail());
-		
-			return new ResponseEntity<>(responseUser, HttpStatus.OK);
-		}
+		else return new ResponseEntity<>(newUser, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value="/{Id}")

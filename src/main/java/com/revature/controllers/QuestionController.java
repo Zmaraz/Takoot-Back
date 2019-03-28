@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.dtos.QuestionDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
+import com.revature.filters.jsonview.QuestionView;
 import com.revature.models.Principal;
 import com.revature.models.Question;
 import com.revature.services.QuestionService;
@@ -34,64 +37,43 @@ public class QuestionController {
 		quesService = qService;
 	}
 
+	@JsonView(QuestionView.Public.class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Question> getAllQuestions() {
 
 		List<Question> initialQuestions = quesService.getAllQuestions();
 
-		for (Question q : initialQuestions) {
-
-			q.setAnswers(null);
-			q.setFlags(null);
-			q.setQuiz(null);
-
-		}
-
 		return initialQuestions;
 	}
 
+	@JsonView(QuestionView.Public.class)
 	@GetMapping(value = "/quiz/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Question> getQuesByQuizId(@PathVariable int id) {
 
 		List<Question> questions = quesService.getAllQuestionsByQuizId(id);
 		
 		if(questions.isEmpty()) throw new ObjectNotFoundException("No question with quiz id: " + id + " found");
-		
-		for (Question q : questions) {
-
-			q.setAnswers(null);
-			q.setFlags(null);
-			q.setQuiz(null);
-
-		}
-		 
+				 
 		return questions;
 	}
 	
+	@JsonView(QuestionView.Public.class)
 	@PatchMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Question> updateQuestion(@RequestBody Question updatedQuestion) {
 		Question respQues = quesService.updateQuestion(updatedQuestion);
 		
-		if (respQues == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else {
-			respQues.setAnswers(null);
-			respQues.setFlags(null);
-			respQues.setQuiz(null);
-		}
+		if (respQues == null)return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 			return new ResponseEntity<>(respQues, HttpStatus.OK);
 	}
 	
+	@JsonView(QuestionView.Public.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Question addQuestion(@RequestBody Question newQuestion, @RequestAttribute("principal") Principal principal) {
-		Question respQues = quesService.addQuestion(newQuestion, principal);
+	public Question addQuestion(@RequestBody QuestionDTO newQuestion, @RequestAttribute("principal") Principal principal) {
+		Question addingQues = new Question(0, newQuestion.getQuestion());		
 				
-		respQues.setAnswers(null);
-		respQues.setFlags(null);
-		respQues.setQuiz(null);
-				
-		return respQues;
+		return quesService.addQuestion(addingQues, principal);
 	}
 	
 	@ExceptionHandler
