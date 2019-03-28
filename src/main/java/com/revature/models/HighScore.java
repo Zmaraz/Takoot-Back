@@ -11,9 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonView;
-import com.revature.filters.jsonview.FlagView;
+import com.revature.filters.jsonview.HighScoreView;
 import com.revature.filters.jsonview.QuizView;
 import com.revature.filters.jsonview.UserView;
 
@@ -29,11 +29,11 @@ public class HighScore {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="highscore_seq")
 	private int scoreId;
 	
-	@JsonView({UserView.Quiz.class, QuizView.Public.class,FlagView.Public.class})
+	@JsonView({UserView.Quiz.class, QuizView.Public.class,HighScoreView.Public.class})
 	@Column(name="score")
 	private int score;
 	
-	@JsonBackReference(value="user-hs")
+	@JsonView(HighScoreView.Public.class)
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -41,6 +41,7 @@ public class HighScore {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@JsonView(HighScoreView.Public.class)
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
