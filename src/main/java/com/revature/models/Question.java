@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.AnswerView;
 import com.revature.filters.jsonview.FlagView;
 import com.revature.filters.jsonview.QuestionView;
 import com.revature.filters.jsonview.QuizView;
@@ -40,7 +41,7 @@ public class Question {
 	private int questionId;
 	
 	@Column(name="question")
-	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class})
+	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class, AnswerView.Public.class})
 	private String question;
 	
 	@ManyToOne(cascade={

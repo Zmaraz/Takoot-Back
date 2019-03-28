@@ -12,6 +12,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revature.filters.jsonview.AnswerView;
+import com.revature.filters.jsonview.FlagView;
+import com.revature.filters.jsonview.QuestionView;
 import com.revature.filters.jsonview.QuizView;
 
 @Entity
@@ -24,6 +27,7 @@ public class Answer {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answers_seq")
 	private int answerId;
 	
+	@JsonView(AnswerView.Public.class)
 	@ManyToOne(cascade={
 			CascadeType.PERSIST, CascadeType.DETACH,
 			CascadeType.MERGE, CascadeType.REFRESH
@@ -32,11 +36,11 @@ public class Answer {
 	private Question question;
 	
 	@Column(name="answer")
-	@JsonView(QuizView.Public.class)
+	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class, AnswerView.Public.class})
 	private String answer;
 	
 	@Column(name="answer_value")
-	@JsonView(QuizView.Public.class)
+	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class, AnswerView.Public.class})
 	private int answerValue;
 	
 	public Answer() {
