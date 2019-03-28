@@ -127,7 +127,7 @@ public class QuestionDAO implements DAO<Question>{
 			
 			List<Quiz> quizzes = quizDao.getByAuthorId(principal.getId());
 			for(Quiz q: quizzes) {
-				if(q.getQuestions().size() != 10) {
+				if(q.getQuestions().size() != 5) {
 					quiz = q;
 				}
 			}
