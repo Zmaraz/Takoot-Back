@@ -95,7 +95,7 @@ public class UserController {
 	
 	@JsonView(UserView.Private.class)
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@PatchMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public User addUser(@RequestBody UserDTO newUser, HttpServletResponse resp) {
 		User addingUser = new User(0, newUser.getFirstName(), newUser.getLastName(), newUser.getUsername(), newUser.getPassword(), newUser.getEmail());
 		System.out.println(addingUser);
