@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.dtos.AnswerDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
+import com.revature.filters.jsonview.QuestionView;
 import com.revature.models.Answer;
 import com.revature.models.Principal;
 import com.revature.services.AnswerService;
@@ -35,6 +37,7 @@ public class AnswerController {
 		ansService = aService;
 	}
 	
+	@JsonView(QuestionView.Public.class)
 	@GetMapping(value = "/ques/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Answer> getAnsByQuesId(@PathVariable int id) {
 
@@ -47,6 +50,7 @@ public class AnswerController {
 		return answers;
 	}
 	
+	@JsonView(QuestionView.Public.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Answer addAnswer(@RequestBody AnswerDTO newAnswer, @RequestAttribute("principal") Principal principal) {
