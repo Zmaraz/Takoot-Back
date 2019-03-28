@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.dtos.FlagDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
+import com.revature.filters.jsonview.FlagView;
 import com.revature.models.Flag;
 import com.revature.models.Principal;
 import com.revature.services.FlagService;
@@ -34,6 +36,7 @@ public class FlagController {
 		flagServ = fServer;
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@GetMapping(value = "/quest/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Flag getFlagByQuestionId(@PathVariable int id) {
 
@@ -47,6 +50,7 @@ public class FlagController {
 			throw new ObjectNotFoundException("No flag with question id: " + id + " found");
 	}
 	
+	@JsonView(FlagView.Public.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Flag addFlag(@RequestBody FlagDTO newFlag, @RequestAttribute("principal") Principal principal) {

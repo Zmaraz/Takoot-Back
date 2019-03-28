@@ -3,6 +3,8 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.dtos.UserDTO;
 import com.revature.exceptions.UserErrorResponse;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.filters.jsonview.UserView;
 import com.revature.models.Principal;
 import com.revature.models.User;
 import com.revature.services.UserService;
+import com.revature.util.JwtConfig;
+import com.revature.util.JwtGenerator;
 
 @RestController
 @RequestMapping("/users")
@@ -39,6 +45,7 @@ public class UserController {
 	}
 		
 	
+	@JsonView(UserView.Quiz.class)
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> getAllUsers(@RequestAttribute("principal") Principal principal){
 		System.out.println("Principal in user controller: " + principal); //able to get principal object from request header.
@@ -49,7 +56,7 @@ public class UserController {
 		return allUsers;
 	}
 	
-	
+	@JsonView(UserView.Quiz.class)
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public User getUserById(@PathVariable int id, @RequestAttribute("principal") Principal principal) {
 		
@@ -68,6 +75,7 @@ public class UserController {
 		else throw new UserNotFoundException("No user with id: " + id + " found");
 	}
 	
+	@JsonView(UserView.Quiz.class)
 	@GetMapping(value="/uname/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public User getUserByUsername(@PathVariable String username, @RequestAttribute("principal") Principal principal ) {
 		
@@ -85,18 +93,19 @@ public class UserController {
 		else throw new UserNotFoundException("No username: " + username + " found");
 	}
 	
-	
+	@JsonView(UserView.Private.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public User addUser(@RequestBody UserDTO newUser) {
+	public User addUser(@RequestBody UserDTO newUser, HttpServletResponse resp) {
 		User addingUser = new User(0, newUser.getFirstName(), newUser.getLastName(), newUser.getUsername(), newUser.getPassword(), newUser.getEmail());
 		System.out.println(addingUser);
 		User addedUser = uService.addUser(addingUser);
 		System.out.println(addedUser);
-		addedUser.setPassword("***");
+		resp.addHeader(JwtConfig.HEADER, JwtConfig.PREFIX + JwtGenerator.createJwt(addedUser));
 		return addedUser;
 	}
 	
+	@JsonView(UserView.Private.class)
 	@PatchMapping(consumes="application/json", produces="application/json")
 	public ResponseEntity<User> updateUser(@RequestBody UserDTO updatedUser, @RequestAttribute("principal") Principal principal){
 		

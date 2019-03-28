@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revature.dtos.QuizDTO;
 import com.revature.exceptions.ObjectErrorResponse;
 import com.revature.exceptions.ObjectNotFoundException;
+import com.revature.filters.jsonview.QuizView;
 import com.revature.models.Principal;
 import com.revature.models.Quiz;
 import com.revature.services.QuizService;
@@ -38,7 +40,8 @@ public class QuizController {
 	public QuizController(QuizService qzService) {
 		quizService = qzService;
 	}
-		
+	
+	@JsonView(QuizView.Public.class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Quiz> getAllQuizzes(HttpServletRequest req) {
 		Principal principal = (Principal) req.getAttribute("principal");
@@ -63,6 +66,7 @@ public class QuizController {
 		return initialQuizzes;
 	}
 
+	@JsonView(QuizView.Public.class)
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Quiz getQuizById(@PathVariable int id) {
 
@@ -76,6 +80,7 @@ public class QuizController {
 			throw new ObjectNotFoundException("No quiz with id: " + id + " found");
 	}
 
+	@JsonView(QuizView.Public.class)
 	@PatchMapping(consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Quiz> updateQuiz(@RequestBody QuizDTO updatedQuiz) {
 		
@@ -90,6 +95,7 @@ public class QuizController {
 			return new ResponseEntity<>(newQuiz, HttpStatus.OK);
 	}
 
+	@JsonView(QuizView.Public.class)
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
