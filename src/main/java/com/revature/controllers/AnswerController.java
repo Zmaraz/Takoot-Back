@@ -51,7 +51,7 @@ public class AnswerController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Answer addAnswer(@RequestBody AnswerDTO newAnswer, @RequestAttribute("principal") Principal principal) {
 		
-		Answer addingAns = new Answer(0, newAnswer.getAnswer(), newAnswer.getAnswerId());
+		Answer addingAns = new Answer(0, newAnswer.getAnswer(), newAnswer.getAnswerValue());
 			
 		return ansService.addAnswer(addingAns, principal);
 	}
