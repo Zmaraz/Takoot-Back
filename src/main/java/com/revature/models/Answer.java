@@ -36,11 +36,11 @@ public class Answer {
 	private Question question;
 	
 	@Column(name="answer")
-	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class})
+	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class, AnswerView.Public.class})
 	private String answer;
 	
 	@Column(name="answer_value")
-	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class})
+	@JsonView({QuizView.Public.class,QuestionView.Public.class, FlagView.Public.class, AnswerView.Public.class})
 	private int answerValue;
 	
 	public Answer() {
