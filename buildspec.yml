@@ -10,12 +10,9 @@ phases:
     commands:
       - echo Build completed on `date`
       - mvn clean package
-      - cd target
-      - ls
-      - cd ..
-      - mv target/takoot-back-1.0-SNAPSHOT.war takoot-back-1.0-SNAPSHOT.war
+      - mv target/Takoot-Back-1.0-SNAPSHOT.war Takoot-Back-1.0-SNAPSHOT.war
       
 artifacts:
   files:
-    - takoot-back-1.0-SNAPSHOT.war
+    - Takoot-Back-1.0-SNAPSHOT.war
     - .ebextensions/**/*
