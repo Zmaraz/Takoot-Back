@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,7 +19,9 @@ import com.revature.filters.jsonview.HighScoreView;
 import com.revature.filters.jsonview.QuizView;
 import com.revature.filters.jsonview.UserView;
 
-
+@NamedQueries({
+	@NamedQuery(name="getAllHighScores", query="from HighScore"),
+})
 
 @Entity
 @Table(name="HIGH_SCORES")
