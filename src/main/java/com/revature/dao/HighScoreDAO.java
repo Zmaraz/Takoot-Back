@@ -20,7 +20,45 @@ import com.revature.models.User;
 public class HighScoreDAO implements DAO<HighScore>{
 	
 	public List<HighScore> getAll() {
-		return null;
+		
+		SessionFactory factory = new Configuration()
+				.configure("hibernate.cfg.xml")
+				.addAnnotatedClass(User.class)
+
+				.addAnnotatedClass(HighScore.class)
+				.addAnnotatedClass(Quiz.class)
+				.addAnnotatedClass(Question.class)
+				.addAnnotatedClass(Answer.class)
+				.addAnnotatedClass(Category.class)
+
+				.addAnnotatedClass(Flag.class)
+
+
+				.buildSessionFactory();
+		
+		Session session = factory.getCurrentSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			Query scoreQuery = session.getNamedQuery("getAllHighScores");
+			
+			List<HighScore> highScores = scoreQuery.getResultList();
+			
+			for(HighScore h: highScores) {
+				System.out.println(h);
+			}
+			
+			return highScores;
+		} catch (Exception e) {
+			// If an exception occurs, rollback the transaction
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		} finally {
+			factory.close();
+		}
 	}
 	
 	public List<HighScore> getById(int id) {
