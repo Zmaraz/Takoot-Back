@@ -8,8 +8,8 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@java-spark.c2k1o2de1lve.us-east-2.rds.amazonaws.com:1521:ORCL</property>
-        <property name="hibernate.connection.username">alexj4564</property>
-        <property name="hibernate.connection.password">johnson4564</property>
+        <property name="hibernate.connection.username">placeholder</property>
+        <property name="hibernate.connection.password">placeholder</property>
         
         <property name="connection.pool_size">1</property>
         
